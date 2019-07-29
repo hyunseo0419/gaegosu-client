@@ -1,23 +1,12 @@
 import React, { Component } from 'react';
-// import { ApolloProvider } from 'react-apollo';
-// import Header from '../Share/Headbar';
-import { Layout, Menu } from 'antd'; //, Breadcrumb
+import ReactDOM from 'react-dom';
+import 'antd/dist/antd.css';
+import './logo.css';
+import { Layout, Menu, Breadcrumb } from 'antd';
 
-const { Header, Footer } = Layout; //, Content
-// import styled from "styled-components";
-// import { Query } from "react-apollo";
-// import { HOME_PAGE } from "./queries";
-// import { Link } from "react-router-dom";
-// import Movie from "./Movie";
+const { Header, Content, Footer } = Layout;
 
-// const Container = styled.div`
-//   display: grid;
-//   grid-template-columns: repeat(3, 0.7fr);
-//   flex-wrap: wrap;
-//   justify-items: center;
-// `;
-
-class Main extends Component {
+class Headbar extends Component {
   render() {
     return (
       <Layout>
@@ -50,4 +39,4 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default Headbar;
