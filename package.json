@@ -9,6 +9,7 @@
     "@types/react-router-dom": "^4.3.4",
     "antd": "^3.20.7",
     "apollo-boost": "^0.4.3",
+    "apollo-client": "^2.6.3",
     "eslint-config-airbnb-base": "^13.2.0",
     "graphql": "^14.4.2",
     "graphql-tag": "^2.10.1",
