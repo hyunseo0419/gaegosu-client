@@ -15,7 +15,6 @@ class App extends Component {
             <Route exact={true} path={'/'} component={Main} />
             <Route exact={true} path={'/login'} component={Login} />
             <Route exact={true} path={'/mypage'} component={Mypage} />
-            {/* <Route path={'/details/:movieId'} component={Detail} /> */}
           </React.Fragment>
         </Router>
       </ApolloProvider>

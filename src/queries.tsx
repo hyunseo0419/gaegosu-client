@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import { ApolloError } from 'apollo-client';
 
 export const MAIN_PAGE = gql`
   {
@@ -12,7 +13,7 @@ export const MAIN_PAGE = gql`
 `;
 
 export const LOGIN_BUTTON = gql`
-  query clickLoginBtn($email: String!, $password: String!) {
+  mutation clickLoginBtn($email: String!, $password: String!) {
     localLogin(email: $email, password: $password) {
       isLogin
       user {
@@ -25,3 +26,22 @@ export const LOGIN_BUTTON = gql`
     }
   }
 `;
+
+export interface IUserProps {
+  id: number;
+  nickName: string;
+  email: string;
+}
+
+export interface ILocalLoginProps {
+  isLogin: boolean;
+  user: IUserProps;
+  err: string;
+  token: string;
+}
+
+export interface ILocalLoginBtnProps {
+  data: ILocalLoginProps[];
+  error?: ApolloError;
+  loading: boolean;
+}
