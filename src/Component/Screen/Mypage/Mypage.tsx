@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Headbar from '../Share/Headbar';
 import Footbar from '../Share/Footbar';
