@@ -1,0 +1,12 @@
+.userinfo{
+    position:"absolute";
+    margin-left: 10%;
+    margin-right: 10%;
+    text-align: center;
+    background-color: wh
+  }
+
+  .labeltext{
+      font-weight: bolder;
+      color:white
+  }
