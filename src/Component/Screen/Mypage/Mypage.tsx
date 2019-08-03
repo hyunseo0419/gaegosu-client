@@ -1,7 +1,7 @@
 import React from 'react';
 import Headbar from '../Share/Headbar';
 import Footbar from '../Share/Footbar';
-import { Layout } from 'antd';
+import { Layout, Avatar, Breadcrumb, Row, Col, Divider, Button } from 'antd';
 import { MY_PROFILE } from './queries';
 import { Query } from 'react-apollo';
 import { Loading, Err } from '../Share/loading';
@@ -9,9 +9,10 @@ import { ApolloError } from 'apollo-client';
 
 interface Data {
   getMe: {
+    isMe: boolean;
     user: {
       nickName: string;
-      profile: string;
+      profileImage: string;
       email: string;
       provider: string;
       pets: {
@@ -24,40 +25,19 @@ interface Data {
   };
 }
 
-interface res {
-  loading: boolean;
-  error: ApolloError;
-  data: Data;
-}
-
-// interface IPet {
-//   name: string;
-//   animal: string;
-//   breeds: string;
-//   profileImage: string;
-// }
-
-// interface IInfo{
-//   nickName: string;
-//   profile: string;
-//   email: string;
-//   provider: string;
-//   pets: IPet[]
-// }
-
-// interface IUser{
-//   user: IInfo
-// }
-
-// interface IGetMe{
-//   getMe: IUser
-// }
-
-// interface IRes {
+// interface res {
 //   loading: boolean;
 //   error: ApolloError;
-//   data: IGetMe;
+//   data: Data;
 // }
+const storage = {
+  token: true,
+};
+
+const props = {
+  id: 15,
+  nickName: 'hshs',
+};
 
 interface Variables {
   id: number;
@@ -87,16 +67,97 @@ export const Mypage = () => (
     query={MY_PROFILE}
     variables={{ id: 15, nickName: 'hshs' }}
   >
-    {({ loading, error, data }) => {
+    {({ loading, error, data }: any) => {
       if (loading) return <Loading />;
       if (error) return <Err />;
 
-      console.log(data);
+      const profile = data.getMe.user;
       return (
         <Layout>
           <Headbar />
           <Layout>
-            <Content style={{ padding: '0 50px', marginTop: 64 }}></Content>
+            <Breadcrumb style={{ margin: '30px 0' }} />
+            <Content
+              style={{
+                padding: '0 50px',
+                marginTop: 64,
+                backgroundColor: 'white',
+                marginLeft: '20%',
+                marginRight: '20%',
+              }}
+            >
+              <div style={{ margin: '10%' }}>
+                <Row>
+                  <Col span={18} push={10}>
+                    <Avatar
+                      size={250}
+                      icon="user"
+                      // src={fakeData.fakeimg}
+                      style={{ margin: '10%' }}
+                    />
+                  </Col>
+                  <Col span={6} pull={18}>
+                    <div
+                      style={{
+                        marginTop: '20%',
+                        marginBottom: '20%',
+                        fontSize: 20,
+                      }}
+                    >
+                      <div>NickName : </div>
+                      <div>{profile.nickName}</div>
+                      <br />
+                      <br />
+                      <div>E-mail : </div>
+                      <div>{profile.email}</div>
+                      <br />
+                      <br />
+                      <div>Provider : </div>
+                      <div>{profile.provider}</div>
+
+                      <div style={{ marginTop: '20%' }}>
+                        <Button type="default" size="large">
+                          edit
+                        </Button>
+                      </div>
+                    </div>
+                  </Col>
+                </Row>
+                <br />
+                <Divider>Pet</Divider>
+                <br />
+                <Row>
+                  <Col span={18} push={10}>
+                    <Avatar
+                      size={250}
+                      icon="user"
+                      src={fakeData.fakePet.profileImage}
+                      style={{ margin: '10%' }}
+                    />
+                  </Col>
+                  <Col span={6} pull={18}>
+                    <div
+                      style={{
+                        marginTop: '20%',
+                        marginBottom: '20%',
+                        fontSize: 20,
+                      }}
+                    >
+                      <div>Pet's Name : </div>
+                      <div>{fakeData.fakePet.name}</div>
+                      <br />
+                      <br />
+                      <div>Animal : </div>
+                      <div>{fakeData.fakePet.animal}</div>
+                      <br />
+                      <br />
+                      <div>Breeds : </div>
+                      <div>{fakeData.fakePet.breeds}</div>
+                    </div>
+                  </Col>
+                </Row>
+              </div>
+            </Content>
           </Layout>
           <Footbar />
         </Layout>
