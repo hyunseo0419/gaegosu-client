@@ -4,7 +4,7 @@ import { ApolloProvider } from 'react-apollo';
 import client from './apolloClient';
 import CommmonSignup from './Component/Screen/Signup/Common-Signup';
 import Main from './Component/Screen/Main/Main';
-import Login from './Component/Screen/Login/Login';
+import Signin from './Component/Screen/Signin/Signin';
 import { Mypage } from './Component/Screen/Mypage/Mypage';
 
 class App extends Component {
@@ -15,7 +15,7 @@ class App extends Component {
           <React.Fragment>
             <Route exact={true} path={'/signup'} component={CommmonSignup} />
             <Route exact={true} path={'/'} component={Main} />
-            <Route exact={true} path={'/login'} component={Login} />
+            <Route exact={true} path={'/login'} component={Signin} />
             <Route exact={true} path={'/mypage'} component={Mypage} />
           </React.Fragment>
         </Router>

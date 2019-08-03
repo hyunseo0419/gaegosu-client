@@ -1,10 +1,10 @@
 import React from 'react';
-import Headbar from '../Share/Headbar';
-import Footbar from '../Share/Footbar';
+import Headbar from '../../Shared/Headbar';
+import Footbar from '../../Shared/Footbar';
 import { Layout, Avatar, Breadcrumb, Row, Col, Divider, Button } from 'antd';
 import { MY_PROFILE } from './queries';
 import { Query } from 'react-apollo';
-import { Loading, Err } from '../Share/loading';
+import { Loading, Err } from '../../Shared/loading';
 import { ApolloError } from 'apollo-client';
 
 interface Data {

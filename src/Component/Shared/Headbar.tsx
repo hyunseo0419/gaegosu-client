@@ -44,10 +44,6 @@ class Headbar extends Component {
           style={{ position: 'fixed', right: 0, lineHeight: '64px' }}
         >
           {/* <Menu.Item key="1">empty</Menu.Item> */}
-          {isLogin !== false ? 
-            <Menu.Item key="1">logout</Menu.Item>
-            <Menu.Item key="2">MyPage</Menu.Item>
-               : 'login'}
           <Menu.Item key="1">logout</Menu.Item>
           <Menu.Item key="2">
             {isLogin !== false ? 'Mypage' : 'login'}
