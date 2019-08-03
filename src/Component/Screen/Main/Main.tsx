@@ -7,8 +7,8 @@ import React, { Component } from 'react';
 // import ReactDOM from 'react-dom';
 // import { ApolloProvider } from 'react-apollo';
 import { Layout, Breadcrumb, Tabs } from 'antd';
-import Headbar from '../Share/Headbar';
-import Footbar from '../Share/Footbar';
+import Headbar from '../../Shared/Headbar';
+import Footbar from '../../Shared/Footbar';
 import './main.css';
 
 const { Content } = Layout;

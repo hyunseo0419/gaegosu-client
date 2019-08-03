@@ -3,7 +3,7 @@ import { HashRouter as Router, Route } from 'react-router-dom';
 import { ApolloProvider } from 'react-apollo';
 import client from './apolloClient';
 import Main from './Component/Screen/Main/Main';
-import Login from './Component/Screen/Login/Login';
+import Login from './Component/Screen/Signin/Login';
 
 class App extends Component {
   render() {
@@ -13,7 +13,6 @@ class App extends Component {
           <React.Fragment>
             <Route exact={true} path={'/'} component={Main} />
             <Route exact={true} path={'/login'} component={Login} />
-            {/* <Route path={'/details/:movieId'} component={Detail} /> */}
           </React.Fragment>
         </Router>
       </ApolloProvider>
