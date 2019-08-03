@@ -10,6 +10,7 @@ import { Layout, Breadcrumb, Tabs } from 'antd';
 import Headbar from '../Share/Headbar';
 import Footbar from '../Share/Footbar';
 import './main.css';
+import Album from '../Album/Album';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -26,32 +27,31 @@ class Main extends Component {
     return (
       <Layout>
         <Headbar />
-        <Content style={{ padding: '0 50px', marginTop: 64 }}>
-          <Breadcrumb style={{ margin: '50px 0' }} />
-          <div className="card-container">
-            <Tabs type="card">
-              <TabPane tab="Report" key="1">
-                {/* Report form page 
+        <Layout>
+          <Content style={{ padding: '0 50px', marginTop: 64 }}>
+            <Breadcrumb style={{ margin: '50px 0' }} />
+            <div className="card-container">
+              <Tabs type="card">
+                <TabPane tab="Report" key="1">
+                  {/* Report form page 
                 <component /> */}
-                <p>Content of Tab Pane 1</p>
-                <p>Content of Tab Pane 1</p>
-                <p>Content of Tab Pane 1</p>
-              </TabPane>
-              <TabPane tab="Album" key="2">
-                {/* <Container>
-                  {/* 게시판 형식 들어갈 자리 
-                  <Query query={MAIN_PAGE}></Query>
-                </Container> */}
-              </TabPane>
-              <TabPane tab="Info" key="3">
-                {/* Use map API and show near shops */}
-                <p>Content of Tab Pane 3</p>
-                <p>Content of Tab Pane 3</p>
-                <p>Content of Tab Pane 3</p>
-              </TabPane>
-            </Tabs>
-          </div>
-        </Content>
+                  <p>Content of Tab Pane 1</p>
+                  <p>Content of Tab Pane 1</p>
+                  <p>Content of Tab Pane 1</p>
+                </TabPane>
+                <TabPane tab="Album" key="2">
+                  <Album />
+                </TabPane>
+                <TabPane tab="Info" key="3">
+                  {/* Use map API and show near shops */}
+                  <p>Content of Tab Pane 3</p>
+                  <p>Content of Tab Pane 3</p>
+                  <p>Content of Tab Pane 3</p>
+                </TabPane>
+              </Tabs>
+            </div>
+          </Content>
+        </Layout>
         <Footbar />
       </Layout>
     );
