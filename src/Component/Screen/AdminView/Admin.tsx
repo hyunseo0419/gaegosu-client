@@ -1,3 +1,7 @@
-import { ReactComponent } from '*.svg';
+import React, { Component } from 'react';
 
-ReactComponent;
+export default class Admin extends Component {
+  render() {
+    return <div></div>;
+  }
+}

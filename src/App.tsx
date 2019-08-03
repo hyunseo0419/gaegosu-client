@@ -10,9 +10,7 @@ class App extends Component {
       <ApolloProvider client={client}>
         <Router>
           <React.Fragment>
-            <Route exact={true} path={'/'} component={CommmonSignup} />
-            {/* <Route exact={true} path={"/"} component={Home} />
-            <Route path={"/details/:movieId"} component={Detail} /> */}
+            <Route exact={true} path={'/signup'} component={CommmonSignup} />
           </React.Fragment>
         </Router>
       </ApolloProvider>

@@ -12,14 +12,14 @@ import {
   Layout,
   Breadcrumb,
   Divider,
+  Modal,
 } from 'antd';
-//import { RouteComponentProps } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import { FormComponentProps } from 'antd/lib/form';
 import { Mutation } from 'react-apollo';
 import { MU_SIGNUP, Data, MVariables } from './Mutation/SignupMutation';
 import { MU_EMAILSEND, MuemailVariables } from './Mutation/EmailSendMutation';
 import { MU_EMAILAUTH, Muemailauth } from './Mutation/EmailAuthMutation';
-import { async } from 'q';
 
 const { Content } = Layout;
 let id = 0;
@@ -44,6 +44,15 @@ class Signup extends Component<{} & FormComponentProps> {
       profileImage: '',
       pets: [],
     },
+    send: false,
+    auth: false,
+  };
+
+  errorSignup = () => {
+    Modal.error({
+      title: '회원가입 실패했습니다.',
+      content: '회원가입 정보를 다시 한번 확인해주세요',
+    });
   };
 
   handleSubmit = (e: any, localsignUp: any) => {
@@ -70,8 +79,12 @@ class Signup extends Component<{} & FormComponentProps> {
             values: values,
           },
           async () => {
-            const response = await localsignUp();
-            console.log('response---->', response);
+            if (this.state.auth && this.state.send) {
+              const response = await localsignUp();
+              console.log('response---->', response);
+            } else {
+              this.errorSignup();
+            }
           }
         );
       }
@@ -143,14 +156,58 @@ class Signup extends Component<{} & FormComponentProps> {
     callback();
   };
 
+  successMail = () => {
+    Modal.success({
+      title: '등록한 이메일로 인증번호를 발송했습니다',
+      content: '이메일에서 인증번호 확인 후 기입해주세요',
+    });
+  };
+
+  errorMail = () => {
+    Modal.error({
+      title: '이미 가입된 이메일 입니다',
+      content: '다른 이메일로 가입해주세요',
+    });
+  };
+
+  successAuth = () => {
+    Modal.success({
+      title: '이메일이 인증 되었습니다.',
+      content: '회원가입 절차를 계속 진행해주세요',
+    });
+  };
+
+  errorAuth = () => {
+    Modal.error({
+      title: '이메일 인증이 실패되었습니다.',
+      content: '인증번호 확인 후 기입해주세요',
+    });
+  };
+
   checkEmail = async (e: any, emailSend: any) => {
     const rescheckData = await emailSend();
-    console.log('rescheckData--->', rescheckData);
+    console.log('rescheckData--->', rescheckData.data.emailSend);
+    this.setState({
+      send: rescheckData.data.emailSend,
+    });
+    if (rescheckData.data.emailSend === true) {
+      return this.successMail();
+    } else {
+      return this.errorMail();
+    }
   };
 
   authSend = async (e: any, emailAuth: any) => {
     const resauthData = await emailAuth();
     console.log('resauthData---->', resauthData.data.emailAuth);
+    this.setState({
+      auth: resauthData.data.emailAuth,
+    });
+    if (resauthData.data.emailAuth === true) {
+      return this.successAuth();
+    } else {
+      return this.errorAuth();
+    }
   };
 
   render() {
