@@ -21,6 +21,7 @@ const { TabPane } = Tabs;
 //   flex-wrap: wrap;
 //   justify-items: center;
 // `;
+const userStorage = localStorage.getItem('userInfo');
 
 class Main extends Component {
   render() {
