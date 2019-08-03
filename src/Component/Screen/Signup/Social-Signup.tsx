@@ -223,7 +223,7 @@ class SocialSignup extends Component<{} & FormComponentProps> {
                 valuePropName: 'checked',
               })(
                 <Checkbox>
-                  I have read the <a href="">agreement</a>
+                  I have read the <a href="1">agreement</a>
                 </Checkbox>
               )}
             </Form.Item>

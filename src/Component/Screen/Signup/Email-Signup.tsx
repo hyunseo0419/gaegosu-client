@@ -16,7 +16,10 @@ import {
 //import { RouteComponentProps } from 'react-router-dom';
 import { FormComponentProps } from 'antd/lib/form';
 import { Mutation } from 'react-apollo';
-import { MU_SIGNUP, Data, MVariables } from '../../../Mutation/SignupMutation';
+import { MU_SIGNUP, Data, MVariables } from './Mutation/SignupMutation';
+import { MU_EMAILSEND, MuemailVariables } from './Mutation/EmailSendMutation';
+import { MU_EMAILAUTH, Muemailauth } from './Mutation/EmailAuthMutation';
+import { async } from 'q';
 
 const { Content } = Layout;
 let id = 0;
@@ -28,6 +31,7 @@ interface IMutation {}
 class Signup extends Component<{} & FormComponentProps> {
   state = {
     val: '',
+    authWord: '',
     cofirmEmail: false,
     confirmDirty: false,
     autoCompleteResult: [],
@@ -44,14 +48,14 @@ class Signup extends Component<{} & FormComponentProps> {
 
   handleSubmit = (e: any, localsignUp: any) => {
     e.preventDefault();
-
+    console.log('handelSubmit');
     this.props.form.validateFieldsAndScroll((err, values) => {
+      console.log(err);
       if (!err) {
         console.log('Received values of form: ', values);
 
         values.pets = [];
         for (var i = 0; i < values.keys.length; i++) {
-          console.log('포문도냐?');
           values.pets[i] = {};
           values.pets[i].name = values.petname[i];
           values.pets[i].animal = values.pettype[i];
@@ -65,8 +69,9 @@ class Signup extends Component<{} & FormComponentProps> {
           {
             values: values,
           },
-          () => {
-            localsignUp();
+          async () => {
+            const response = await localsignUp();
+            console.log('response---->', response);
           }
         );
       }
@@ -124,21 +129,34 @@ class Signup extends Component<{} & FormComponentProps> {
 
   emailVal = (rule: any, value: any, callback: any) => {
     const { form } = this.props;
-    console.log('value찾았다--->', value);
     this.setState({
       val: value,
     });
+    callback();
   };
 
-  checkEmail = () => {
-    console.log();
+  authNum = (rule: any, value: any, callback: any) => {
+    const { form } = this.props;
+    this.setState({
+      authWord: value,
+    });
+    callback();
+  };
+
+  checkEmail = async (e: any, emailSend: any) => {
+    const rescheckData = await emailSend();
+    console.log('rescheckData--->', rescheckData);
+  };
+
+  authSend = async (e: any, emailAuth: any) => {
+    const resauthData = await emailAuth();
+    console.log('resauthData---->', resauthData.data.emailAuth);
   };
 
   render() {
-    console.log('-------->', this.state);
+    const { values, val, authWord } = this.state;
     const { getFieldDecorator, getFieldValue } = this.props.form;
-    const { values } = this.state;
-    console.log('values', values);
+
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -170,7 +188,6 @@ class Signup extends Component<{} & FormComponentProps> {
 
     getFieldDecorator('keys', { initialValue: [] });
     const keys = getFieldValue('keys');
-    console.log('keys--->', keys);
     const formItems = keys.map((k: any, index: any) => (
       <Form.Item
         {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
@@ -277,12 +294,24 @@ class Signup extends Component<{} & FormComponentProps> {
                         })(<Input />)}
                       </Col>
                       <Col span={12}>
-                        <Button onClick={this.checkEmail}>
-                          본인이메일 확인
-                        </Button>
+                        <Mutation<Boolean, MuemailVariables>
+                          mutation={MU_EMAILSEND}
+                          variables={{ email: val }}
+                        >
+                          {emailSend => (
+                            <Button
+                              onClick={e => {
+                                this.checkEmail(e, emailSend);
+                              }}
+                            >
+                              본인이메일 확인
+                            </Button>
+                          )}
+                        </Mutation>
                       </Col>
                     </Row>
                   </Form.Item>
+
                   <Form.Item
                     label="인증번호"
                     extra="본인이메일로 가서 인증번호를 확인해주세요"
@@ -295,11 +324,27 @@ class Signup extends Component<{} & FormComponentProps> {
                               required: true,
                               message: '이메일인증번호를 입력해주세요',
                             },
+                            {
+                              validator: this.authNum,
+                            },
                           ],
                         })(<Input />)}
                       </Col>
                       <Col span={12}>
-                        <Button>이메일인증 확인</Button>
+                        <Mutation<Boolean, Muemailauth>
+                          mutation={MU_EMAILAUTH}
+                          variables={{ email: val, randomWord: authWord }}
+                        >
+                          {emailauth => (
+                            <Button
+                              onClick={e => {
+                                this.authSend(e, emailauth);
+                              }}
+                            >
+                              이메일인증 확인
+                            </Button>
+                          )}
+                        </Mutation>
                       </Col>
                     </Row>
                   </Form.Item>
