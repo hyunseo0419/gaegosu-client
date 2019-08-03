@@ -9,16 +9,15 @@ import { Layout, Menu, Button } from 'antd';
 const { Header } = Layout;
 
 // const isLogin = false;
-const isLogin: any = localStorage.getItem('userInfo' || '{}')
-  ? JSON.parse(localStorage.getItem('userInfo') || '{}').isLogin
-  : false;
-
+const Storage: any = localStorage.getItem('userInfo');
+const userStorage: any = JSON.parse(Storage);
 class Headbar extends Component {
   logoClick = () => {
     // <Link to={`/`} />;
   };
 
   render() {
+    console.log(userStorage.isLogin);
     return (
       <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
         <div className="logo">
@@ -45,10 +44,17 @@ class Headbar extends Component {
         >
           {/* <Menu.Item key="1">empty</Menu.Item> */}
           <Menu.Item key="1">logout</Menu.Item>
-          <Menu.Item key="2">
-            {isLogin !== false ? 'Mypage' : 'login'}
-            <Link to={`/login`} />
-          </Menu.Item>
+          {userStorage.isLogin === true ? (
+            <Menu.Item key="2">
+              mypage
+              <Link to={`/mypage`} />
+            </Menu.Item>
+          ) : (
+            <Menu.Item key="2">
+              Login
+              <Link to={`/login`} />
+            </Menu.Item>
+          )}
         </Menu>
       </Header>
     );

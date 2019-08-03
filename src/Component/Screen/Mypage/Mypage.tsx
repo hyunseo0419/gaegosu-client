@@ -6,6 +6,7 @@ import { MY_PROFILE } from './queries';
 import { Query } from 'react-apollo';
 import { Loading, Err } from '../../Shared/loading';
 import { ApolloError } from 'apollo-client';
+import { userInfo } from 'os';
 
 interface Data {
   getMe: {
@@ -68,6 +69,7 @@ export const Mypage = () => (
     variables={{ id: 15, nickName: 'hshs' }}
   >
     {({ loading, error, data }: any) => {
+      //console.log(localStorage.getItem('userInfo'));
       if (loading) return <Loading />;
       if (error) return <Err />;
 
