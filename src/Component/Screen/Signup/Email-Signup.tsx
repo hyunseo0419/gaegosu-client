@@ -141,7 +141,7 @@ class Signup extends Component<{} & FormComponentProps> {
   };
 
   emailVal = (rule: any, value: any, callback: any) => {
-    const { form } = this.props;
+    //const { form } = this.props;
     this.setState({
       val: value,
     });
@@ -149,7 +149,7 @@ class Signup extends Component<{} & FormComponentProps> {
   };
 
   authNum = (rule: any, value: any, callback: any) => {
-    const { form } = this.props;
+    //const { form } = this.props;
     this.setState({
       authWord: value,
     });

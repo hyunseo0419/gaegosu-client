@@ -33,7 +33,7 @@ class SocialSignup extends Component<{} & FormComponentProps> {
 
   petInfo = (value: any): any => {
     //const { form } = this.props;
-    const v: any = value;
+    //  const v: any = value;
   };
 
   remove = (k: any) => {
