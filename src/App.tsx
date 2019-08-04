@@ -5,7 +5,7 @@ import client from './apolloClient';
 import CommmonSignup from './Component/Screen/Signup/Common-Signup';
 import Main from './Component/Screen/Main/Main';
 import Signin from './Component/Screen/Signin/Signin';
-import { Mypage } from './Component/Screen/Mypage/Mypage';
+import Mypage from './Component/Screen/Mypage/Mypage';
 
 class App extends Component {
   render() {
