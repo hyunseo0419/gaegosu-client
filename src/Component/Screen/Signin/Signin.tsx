@@ -137,6 +137,7 @@ class Signin extends React.Component<{} & FormComponentProps> {
                       <a className="login-form-forgot" href="/">
                         Forgot password
                       </a>
+
                       <Button
                         type="primary"
                         htmlType="submit"
@@ -144,6 +145,7 @@ class Signin extends React.Component<{} & FormComponentProps> {
                       >
                         Log in
                       </Button>
+
                       <a href="http://localhost:4000/kakao">
                         <Button
                           type="default"
