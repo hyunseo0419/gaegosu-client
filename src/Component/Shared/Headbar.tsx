@@ -17,7 +17,7 @@ class Headbar extends Component {
   };
 
   render() {
-    console.log(userStorage.isLogin);
+    //console.log(userStorage.isLogin);
     return (
       <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
         <div className="logo">
