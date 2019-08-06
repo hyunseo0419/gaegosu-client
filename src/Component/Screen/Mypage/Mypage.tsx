@@ -19,7 +19,7 @@ import { Query, Mutation } from 'react-apollo';
 import { Loading, Err } from '../../Shared/loading';
 
 interface Data {
-  getMe: {
+  getUser: {
     isMe: boolean;
     user: {
       nickName: string;
@@ -32,6 +32,14 @@ interface Data {
         breeds: string;
         profileImage: string;
       };
+    };
+  };
+}
+
+interface MyProps {
+  match: {
+    params: {
+      id: string;
     };
   };
 }
@@ -57,8 +65,7 @@ interface postPassNew {
 }
 
 interface Variables {
-  id: number;
-  nickName: string;
+  id: any;
 }
 
 // interface res {
@@ -67,37 +74,23 @@ interface Variables {
 //   data: Data;
 // }
 
-const props = {
-  id: 15,
-  nickName: 'hshs',
-};
-
 const { Content } = Layout;
 
 //console.log(token);
 
-const fakeData = {
-  fakeName: '현서',
-  fakeimg:
-    'http://img.etoday.co.kr/pto_db/2018/10/600/20181026091134_1263675_664_906.jpg',
-  fakeMail: 'wewe@naver.com',
-  fakeProv: 'local',
-  fakePet: {
-    name: 'gucci',
-    animal: 'cat',
-    breeds: '샴',
-    profileImage:
-      'https://previews.123rf.com/images/da161/da1611612/da161161200003/69890854-%EC%A7%91%EC%97%90%EC%84%9C-%EC%86%8C%ED%8C%8C%EC%97%90-%EC%83%B4-%EA%B3%A0%EC%96%91%EC%9D%B4%EC%9D%98-%EC%B4%88%EC%83%81%ED%99%94-.jpg',
-  },
-};
-//let token;
+class Mypage extends Component<MyProps> {
+  constructor(props: any) {
+    super(props);
+    console.log('this is props!!!!!!!!!', props.match.params.id);
+    console.log('this is props!!!!!!!!!', props);
+  }
 
-class Mypage extends Component {
   state = {
     editModal: false,
     newNN: '',
     newPW: '',
   };
+
   // modals =======================================
   showModal = () => {
     this.setState({
@@ -148,17 +141,16 @@ class Mypage extends Component {
   };
 
   render() {
+    console.log(Number(this.props.match.params.id));
+    const personalId = Number(this.props.match.params.id);
     return (
-      <Query<Data, Variables>
-        query={MY_PROFILE}
-        variables={{ id: props.id, nickName: props.nickName }}
-      >
+      <Query<Data, Variables> query={MY_PROFILE} variables={{ id: personalId }}>
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) return <Err />;
           console.log(data);
 
-          const profile = data.getMe.user;
+          const profile = data.getUser.user;
 
           return (
             <Layout>
@@ -174,15 +166,33 @@ class Mypage extends Component {
                     marginRight: '20%',
                   }}
                 >
-                  <div style={{ margin: '10%' }}>
+                  <div
+                    style={{
+                      marginLeft: '10%',
+                      marginRight: '10%',
+                      marginBottom: '10%',
+                    }}
+                  >
                     <Row>
                       <Col span={18} push={10}>
-                        <Avatar
-                          size={250}
-                          icon="user"
-                          // src={fakeData.fakeimg}
-                          style={{ margin: '10%' }}
-                        />
+                        <div>
+                          <Avatar
+                            size={250}
+                            icon="user"
+                            src={profile.profileImage}
+                            style={{ margin: '10%' }}
+                          />
+                        </div>
+                        <Button
+                          type="default"
+                          size="large"
+                          onClick={this.showModal}
+                          style={{
+                            marginLeft: '21%',
+                          }}
+                        >
+                          upload / change
+                        </Button>
                       </Col>
                       <Col span={6} pull={18}>
                         <div
@@ -202,18 +212,27 @@ class Mypage extends Component {
                           <br />
                           <div>Provider : </div>
                           <div>{profile.provider}</div>
-                          {data.getMe.isMe === true ? (
+                          {data.getUser.isMe === true ? (
                             // token 실어서 보내면 true 일 때가 된다! 토큰 헤더에서 실어서 요청해야함.
 
                             <div style={{ marginTop: '20%' }}>
-                              <Button
-                                type="default"
-                                size="large"
-                                onClick={this.showModal}
-                              >
-                                edit
-                              </Button>
-                              <Button></Button>
+                              <div>
+                                <Button
+                                  type="default"
+                                  size="large"
+                                  onClick={this.showModal}
+                                >
+                                  edit
+                                </Button>
+
+                                <Button
+                                  type="default"
+                                  size="large"
+                                  // onClick={this.showModal}
+                                >
+                                  exit
+                                </Button>
+                              </div>
                               <Modal
                                 title="Change info"
                                 visible={this.state.editModal}
@@ -288,12 +307,24 @@ class Mypage extends Component {
                     <br />
                     <Row>
                       <Col span={18} push={10}>
-                        <Avatar
-                          size={250}
-                          icon="user"
-                          src={fakeData.fakePet.profileImage}
-                          style={{ margin: '10%' }}
-                        />
+                        <div>
+                          <Avatar
+                            size={250}
+                            icon="user"
+                            src={profile.pets[0].profileImage}
+                            style={{ margin: '10%' }}
+                          />
+                        </div>
+                        <Button
+                          type="default"
+                          size="large"
+                          onClick={this.showModal}
+                          style={{
+                            marginLeft: '21%',
+                          }}
+                        >
+                          upload / change
+                        </Button>
                       </Col>
                       <Col span={6} pull={18}>
                         <div
@@ -304,15 +335,15 @@ class Mypage extends Component {
                           }}
                         >
                           <div>Pet's Name : </div>
-                          <div>{fakeData.fakePet.name}</div>
+                          <div>{profile.pets[0].name}</div>
                           <br />
                           <br />
                           <div>Animal : </div>
-                          <div>{fakeData.fakePet.animal}</div>
+                          <div>{profile.pets[0].animal}</div>
                           <br />
                           <br />
                           <div>Breeds : </div>
-                          <div>{fakeData.fakePet.breeds}</div>
+                          <div>{profile.pets[0].breeds}</div>
                         </div>
                       </Col>
                     </Row>

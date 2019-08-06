@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
 export const MY_PROFILE = gql`
-  query getMyProfile($id: Int!, $nickName: String!) {
-    getMe(id: $id, nickName: $nickName) {
+  query getMyProfile($id: Int!) {
+    getUser(id: $id) {
       isMe
       user {
         nickName
