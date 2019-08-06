@@ -41,8 +41,8 @@ interface Data {
 // }
 
 const props = {
-  id: 15,
-  nickName: 'hshs',
+  id: 1,
+  nickName: 'gaego',
 };
 
 interface Variables {
@@ -56,7 +56,7 @@ const fakeData = {
   fakeName: '현서',
   fakeimg:
     'http://img.etoday.co.kr/pto_db/2018/10/600/20181026091134_1263675_664_906.jpg',
-  fakeMail: 'wewe@naver.com',
+  fakeMail: 'sjy920404@naver.com',
   fakeProv: 'local',
   fakePet: {
     name: 'gucci',

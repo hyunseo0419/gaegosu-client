@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import './logo.css';
 import { Layout, Menu, Button } from 'antd';
-import { async } from 'q';
 // import Mypage from '../Screen/Mypage/Mypage';
 
 const { Header } = Layout;
