@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import { Input, List, Icon, Avatar, Button } from 'antd';
-import './Info.css';
 //import { Link } from 'react-router-dom';
 import InfoDetail from './InfoDetail';
 //import { RouteComponentProps } from 'react-router';
@@ -56,7 +55,7 @@ class Info extends Component<{}> {
     detail: {},
   };
 
-  changeView = (e: any, item: any) => {
+  changeDetailView = (e: any, item: any) => {
     console.log('item---->', item);
     this.setState({
       mode: 'infoDetail',
@@ -64,11 +63,20 @@ class Info extends Component<{}> {
     });
   };
 
+  backInfoView = (e: any) => {
+    this.setState({
+      mode: 'info',
+    });
+  };
+
   render() {
     return (
       <>
         {this.state.mode === 'infoDetail' ? (
-          <InfoDetail item={this.state.detail} />
+          <InfoDetail
+            item={this.state.detail}
+            back={this.backInfoView.bind(this)}
+          />
         ) : (
           <div>
             <div>
@@ -92,7 +100,7 @@ class Info extends Component<{}> {
                       title={
                         <Button
                           onClick={e => {
-                            this.changeView(e, item);
+                            this.changeDetailView(e, item);
                           }}
                         >
                           {item.title}
