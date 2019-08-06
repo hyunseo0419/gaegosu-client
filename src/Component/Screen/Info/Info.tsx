@@ -9,25 +9,32 @@ const { Search } = Input;
 
 const data = [
   {
-    title: '한아름동물병원',
-    roadAddress: '서울특별시 마포구 독막로 100',
+    title: '압구정웰동물병원',
+    roadAddress: '서울특별시 강남구 압구정로 108 (신사동, 덕산빌딩 203호)',
     phone: '02-000-0000',
-    locationX: 132.01923,
-    locationY: 32.0123,
+    locationX: 127.02060004625373,
+    locationY: 37.522888920194404,
   },
   {
-    title: '소풍동물병원',
-    roadAddress: '서울특별시 강남구 행복로 100',
-    phone: '02-000-1100',
-    locationX: 132.03923,
-    locationY: 32.0123,
+    title: '헬릭스동물메디컬센터',
+    roadAddress: '서울특별시 서초구 신반포로 162 (반포동, 르본시티 2층)',
+    phone: '02-2135-9119',
+    locationX: 127.00228077997669,
+    locationY: 37.50498992817702,
   },
   {
-    title: '천사동물병원',
-    roadAddress: '서울특별시 서초구 강남대로 100',
+    title: '은빛동물병원',
+    roadAddress: '서울특별시 노원구 동일로 1649 (상계동, 윤일빌딩)',
     phone: '02-300-1100',
-    locationX: 132.03923,
-    locationY: 32.0123,
+    locationX: 127.05504239129915,
+    locationY: 37.675669568927106,
+  },
+  {
+    title: '민트동물병원',
+    roadAddress: '서울특별시 용산구 원효로 51, 119호 (산천동, 삼성테마트)',
+    phone: '02-707-2235',
+    locationX: 126.95007055620239,
+    locationY: 37.533863338059774,
   },
 ];
 
@@ -115,6 +122,9 @@ class Info extends Component<{}> {
             </div>
           </div>
         )}
+        <div>
+          <Button>더보기</Button>
+        </div>
       </>
     );
   }

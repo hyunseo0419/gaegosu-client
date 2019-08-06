@@ -28,7 +28,7 @@ class Headbar extends Component {
     console.log('헤드바가 렌더 됩니다');
     console.log(userStorage);
     return (
-      <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+      <Header style={{ position: 'fixed', zIndex: 5, width: '100%' }}>
         <div className="logo">
           <a href="/">
             <Button

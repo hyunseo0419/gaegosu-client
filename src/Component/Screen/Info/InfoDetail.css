@@ -17,13 +17,13 @@
   text-align: center;
   background-size: 140px 44px;
 }
-.maparea{
+/* .maparea{
   border: 0px;
   width: 350px;
   height: 300px;
   position: relative;
   overflow: hidden;
-}
+} */
 
 ul {
   display: block;

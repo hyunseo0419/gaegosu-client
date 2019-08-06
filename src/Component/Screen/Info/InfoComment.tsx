@@ -7,7 +7,6 @@ const { TextArea } = Input;
 
 const data = [
   {
-    actions: [<span>Reply to</span>],
     author: '로만',
     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
     content: <p>여기 완전짱이예요</p>,
@@ -26,7 +25,6 @@ const data = [
     ),
   },
   {
-    actions: [<span>Reply to</span>],
     author: '만수르',
     avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
     content: <p>원장님이 진짜 친절해요</p>,
@@ -47,6 +45,11 @@ const data = [
 ];
 
 export default class InfoComment extends Component {
+  replydelete = (e: any) => {
+    //id를 비교 후 삭제
+    console.log('reply onclick e---->', e);
+  };
+
   render() {
     return (
       <>
@@ -59,12 +62,19 @@ export default class InfoComment extends Component {
             renderItem={item => (
               <li>
                 <Comment
-                  actions={item.actions}
                   author={item.author}
                   avatar={item.avatar}
                   content={item.content}
                   datetime={item.datetime}
                 />
+                <Button
+                  style={{}}
+                  onClick={(e: any) => {
+                    this.replydelete(e);
+                  }}
+                >
+                  delete
+                </Button>
               </li>
             )}
           />
