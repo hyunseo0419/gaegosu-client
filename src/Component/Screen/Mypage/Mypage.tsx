@@ -41,8 +41,8 @@ interface Data {
 // }
 
 const props = {
-  id: 5,
-  nickName: '한국인',
+  id: 6,
+  nickName: 'test001',
 };
 
 interface Variables {
