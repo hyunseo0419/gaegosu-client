@@ -12,8 +12,10 @@ import {
   Modal,
   Input,
 } from 'antd';
-import { MY_PROFILE } from './queries';
-import { Query } from 'react-apollo';
+import { MY_PROFILE } from './Query/QueriesMypage';
+import { CHANGE_NICKNAME } from './Mutation/MutationMypage';
+import { CHANGE_PASSWORD } from './Mutation/MutationMypage';
+import { Query, Mutation } from 'react-apollo';
 import { Loading, Err } from '../../Shared/loading';
 
 interface Data {
@@ -34,6 +36,31 @@ interface Data {
   };
 }
 
+interface getNickNew {
+  success: boolean;
+  err: string;
+  isLogin: boolean;
+}
+
+interface postNickNew {
+  newNickName: string;
+}
+
+interface getPassNew {
+  success: boolean;
+  err: string;
+  isLogin: boolean;
+}
+
+interface postPassNew {
+  password: string;
+}
+
+interface Variables {
+  id: number;
+  nickName: string;
+}
+
 // interface res {
 //   loading: boolean;
 //   error: ApolloError;
@@ -45,12 +72,9 @@ const props = {
   nickName: 'hshs',
 };
 
-interface Variables {
-  id: number;
-  nickName: string;
-}
-
 const { Content } = Layout;
+
+//console.log(token);
 
 const fakeData = {
   fakeName: '현서',
@@ -71,32 +95,56 @@ const fakeData = {
 class Mypage extends Component {
   state = {
     editModal: false,
+    newNN: '',
+    newPW: '',
   };
-
+  // modals =======================================
   showModal = () => {
     this.setState({
       editModal: true,
     });
   };
-
   handleOk = (e: any) => {
     this.setState({
       editModal: false,
     });
   };
-
   handleCancel = (e: any) => {
     this.setState({
       editModal: false,
     });
   };
-
-  changePassword = () => {
-    console.log('pw');
+  // change info ==================================
+  onchangeNewPassWord = async (e: any) => {
+    await this.setState({
+      newPW: e.target.value,
+    });
+    console.log("!!'", this.state.newPW);
   };
 
-  changeNickName = () => {
-    console.log('nn');
+  updatePassword = async (e: any, mufn: any) => {
+    let result: any = await mufn();
+
+    console.log(result);
+    if (result.data.changePassWord.success) {
+      return alert('비밀번호 변경이 완료되었습니다.');
+    }
+    return alert(result.data.changePassWord.err);
+  };
+
+  onchangeNewNickName = async (e: any) => {
+    await this.setState({
+      newNN: e.target.value,
+    });
+    console.log(this.state.newNN);
+  };
+
+  updateNickName = async (e: any, mufn: any) => {
+    let result = await mufn();
+    if (result.data.changeNickName.success) {
+      return alert('닉네임 변경이 완료되었습니다.');
+    }
+    return alert(result.data.changeNickName.err);
   };
 
   render() {
@@ -106,11 +154,12 @@ class Mypage extends Component {
         variables={{ id: props.id, nickName: props.nickName }}
       >
         {({ loading, error, data }: any) => {
-          //console.log(localStorage.getItem('userInfo'));
           if (loading) return <Loading />;
           if (error) return <Err />;
+          console.log(data);
 
           const profile = data.getMe.user;
+
           return (
             <Layout>
               <Headbar />
@@ -153,43 +202,84 @@ class Mypage extends Component {
                           <br />
                           <div>Provider : </div>
                           <div>{profile.provider}</div>
+                          {data.getMe.isMe === true ? (
+                            // token 실어서 보내면 true 일 때가 된다! 토큰 헤더에서 실어서 요청해야함.
 
-                          <div style={{ marginTop: '20%' }}>
-                            <Button
-                              type="default"
-                              size="large"
-                              onClick={this.showModal}
-                            >
-                              edit
-                            </Button>
-                            <Modal
-                              title="Change info"
-                              visible={this.state.editModal}
-                              onOk={this.handleOk}
-                              onCancel={this.handleCancel}
-                            >
-                              <p>
-                                new Password
-                                <Input
-                                  placeholder="write new password and press enter"
-                                  onPressEnter={this.changePassword}
-                                  addonAfter="press Enter"
-                                />
-                              </p>
-                              <p>
-                                new NickName
-                                <Input
-                                  placeholder="write new nickname and press enter"
-                                  onPressEnter={this.changeNickName}
-                                  addonAfter="press Enter"
-                                />
-                              </p>
-                              <p style={{ marginTop: '5%' }}>
-                                Place the cursor where you want to change and
-                                press "enter"
-                              </p>
-                            </Modal>
-                          </div>
+                            <div style={{ marginTop: '20%' }}>
+                              <Button
+                                type="default"
+                                size="large"
+                                onClick={this.showModal}
+                              >
+                                edit
+                              </Button>
+                              <Button></Button>
+                              <Modal
+                                title="Change info"
+                                visible={this.state.editModal}
+                                onOk={this.handleOk}
+                                onCancel={this.handleCancel}
+                              >
+                                <p>
+                                  new Password
+                                  <Mutation<getPassNew, postPassNew>
+                                    mutation={CHANGE_PASSWORD}
+                                    variables={{
+                                      password: this.state.newPW,
+                                    }}
+
+                                    // context={ headers: {
+                                    //   "x-jwt": token ? `Bearer ${token}` : ""
+                                    // }}
+                                  >
+                                    {changePassWord => (
+                                      <Input
+                                        placeholder="write new password and press enter"
+                                        onPressEnter={e => {
+                                          this.updatePassword(
+                                            e,
+                                            changePassWord
+                                          );
+                                        }}
+                                        addonAfter="press Enter"
+                                        onChange={this.onchangeNewPassWord}
+                                      />
+                                    )}
+                                  </Mutation>
+                                </p>
+                                <p>
+                                  new NickName
+                                  <Mutation<getNickNew, postNickNew>
+                                    mutation={CHANGE_NICKNAME}
+                                    variables={{
+                                      newNickName: this.state.newNN,
+                                    }}
+                                  >
+                                    {changeNickName => (
+                                      <Input
+                                        placeholder="write new nickname and press enter"
+                                        onPressEnter={e => {
+                                          this.updateNickName(
+                                            e,
+                                            changeNickName
+                                          );
+                                        }}
+                                        addonAfter="press Enter"
+                                        onChange={this.onchangeNewNickName}
+                                      />
+                                    )}
+                                  </Mutation>
+                                </p>
+
+                                <p style={{ marginTop: '5%' }}>
+                                  Place the cursor where you want to change and
+                                  press "enter"
+                                </p>
+                              </Modal>
+                            </div>
+                          ) : (
+                            <div />
+                          )}
                         </div>
                       </Col>
                     </Row>

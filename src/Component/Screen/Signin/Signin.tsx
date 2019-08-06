@@ -41,24 +41,15 @@ class Signin extends React.Component<{} & FormComponentProps> {
           },
           async () => {
             const response = await localLogin();
-            console.log('!!!!!!!!!!!!!!!!', response);
-            console.log(response.data.localLogin);
-            console.log('isLogin :', response.data.localLogin.isLogin);
-            console.log('token :', response.data.localLogin.token);
-            console.log('id :', response.data.localLogin.user.id);
-            console.log('email :', response.data.localLogin.user.email);
-            console.log('nickName :', response.data.localLogin.user.nickName);
+            // console.log('!!!!!!!!!!!!!!!!', response);
+            // console.log(response.data.localLogin);
+            // console.log('isLogin :', response.data.localLogin.isLogin);
+            // console.log('token :', response.data.localLogin.token);
+            // console.log('id :', response.data.localLogin.user.id);
+            // console.log('email :', response.data.localLogin.user.email);
+            // console.log('nickName :', response.data.localLogin.user.nickName);
 
-            localStorage.setItem(
-              'userInfo',
-              JSON.stringify({
-                isLogin: response.data.localLogin.isLogin,
-                id: response.data.localLogin.user.id,
-                email: response.data.localLogin.user.email,
-                nickName: response.data.localLogin.user.nickName,
-                token: response.data.localLogin.token,
-              })
-            );
+            localStorage.setItem('token', response.data.localLogin.token);
           }
         );
       }

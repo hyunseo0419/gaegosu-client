@@ -4,14 +4,13 @@ import { Link } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import './logo.css';
 import { Layout, Menu, Button } from 'antd';
-import { async } from 'q';
+
 // import Mypage from '../Screen/Mypage/Mypage';
 
 const { Header } = Layout;
 
 // const isLogin = false;
-const Storage: any = localStorage.getItem('userInfo');
-const userStorage: any = JSON.parse(Storage);
+const Xtoken: any = localStorage.getItem('token');
 
 class Headbar extends Component {
   logoClick = () => {
@@ -19,14 +18,13 @@ class Headbar extends Component {
   };
 
   logoutClick = async () => {
-    console.log('is it run???????');
+    //console.log('is it run???????');
     await localStorage.clear();
-    console.log('스토리지--->', localStorage.getItem('userInfo'));
   };
 
   render() {
-    console.log('헤드바가 렌더 됩니다');
-    console.log(userStorage);
+    //console.log('헤드바가 렌더 됩니다');
+    //console.log(userStorage);
     return (
       <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
         <div className="logo">
@@ -46,7 +44,7 @@ class Headbar extends Component {
           /> */}
         </div>
 
-        {userStorage !== null ? (
+        {Xtoken !== null ? (
           <Menu
             theme="light"
             mode="horizontal"
