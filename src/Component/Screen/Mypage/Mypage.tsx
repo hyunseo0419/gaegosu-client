@@ -151,7 +151,7 @@ class Mypage extends Component<MyProps> {
           console.log(data);
 
           const profile = data.getUser.user;
-
+          console.log('@@@@@@@@@@@@@', profile.pets[0]);
           return (
             <Layout>
               <Headbar />
@@ -183,16 +183,19 @@ class Mypage extends Component<MyProps> {
                             style={{ margin: '10%' }}
                           />
                         </div>
-                        <Button
-                          type="default"
-                          size="large"
-                          onClick={this.showModal}
-                          style={{
-                            marginLeft: '21%',
-                          }}
-                        >
-                          upload / change
-                        </Button>
+
+                        {data.getUser.isMe === true ? (
+                          <Button
+                            type="default"
+                            size="large"
+                            onClick={this.showModal}
+                            style={{
+                              marginLeft: '21%',
+                            }}
+                          >
+                            upload / change
+                          </Button>
+                        ) : null}
                       </Col>
                       <Col span={6} pull={18}>
                         <div
@@ -206,8 +209,12 @@ class Mypage extends Component<MyProps> {
                           <div>{profile.nickName}</div>
                           <br />
                           <br />
-                          <div>E-mail : </div>
-                          <div>{profile.email}</div>
+                          {profile.email !== null ? (
+                            <span>
+                              <div>E-mail : </div>
+                              <div>{profile.email}</div>
+                            </span>
+                          ) : null}
                           <br />
                           <br />
                           <div>Provider : </div>
@@ -304,49 +311,55 @@ class Mypage extends Component<MyProps> {
                     </Row>
                     <br />
                     <Divider>Pet</Divider>
-                    <br />
-                    <Row>
-                      <Col span={18} push={10}>
-                        <div>
-                          <Avatar
-                            size={250}
-                            icon="user"
-                            src={profile.pets[0].profileImage}
-                            style={{ margin: '10%' }}
-                          />
-                        </div>
-                        <Button
-                          type="default"
-                          size="large"
-                          onClick={this.showModal}
-                          style={{
-                            marginLeft: '21%',
-                          }}
-                        >
-                          upload / change
-                        </Button>
-                      </Col>
-                      <Col span={6} pull={18}>
-                        <div
-                          style={{
-                            marginTop: '20%',
-                            marginBottom: '20%',
-                            fontSize: 20,
-                          }}
-                        >
-                          <div>Pet's Name : </div>
-                          <div>{profile.pets[0].name}</div>
-                          <br />
-                          <br />
-                          <div>Animal : </div>
-                          <div>{profile.pets[0].animal}</div>
-                          <br />
-                          <br />
-                          <div>Breeds : </div>
-                          <div>{profile.pets[0].breeds}</div>
-                        </div>
-                      </Col>
-                    </Row>
+                    {profile.pets[0] !== undefined ? (
+                      <span>
+                        <br />
+                        <Row>
+                          <Col span={18} push={10}>
+                            <div>
+                              <Avatar
+                                size={250}
+                                icon="user"
+                                src={profile.pets[0].profileImage}
+                                style={{ margin: '10%' }}
+                              />
+                            </div>
+                            {data.getUser.isMe === true ? (
+                              <Button
+                                type="default"
+                                size="large"
+                                onClick={this.showModal}
+                                style={{
+                                  marginLeft: '21%',
+                                }}
+                              >
+                                upload / change
+                              </Button>
+                            ) : null}
+                          </Col>
+                          <Col span={6} pull={18}>
+                            <div
+                              style={{
+                                marginTop: '20%',
+                                marginBottom: '20%',
+                                fontSize: 20,
+                              }}
+                            >
+                              <div>Pet's Name : </div>
+                              <div>{profile.pets[0].name}</div>
+                              <br />
+                              <br />
+                              <div>Animal : </div>
+                              <div>{profile.pets[0].animal}</div>
+                              <br />
+                              <br />
+                              <div>Breeds : </div>
+                              <div>{profile.pets[0].breeds}</div>
+                            </div>
+                          </Col>
+                        </Row>
+                      </span>
+                    ) : null}
                   </div>
                 </Content>
               </Layout>

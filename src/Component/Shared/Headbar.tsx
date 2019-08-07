@@ -33,14 +33,14 @@ interface DATAS {
   };
 }
 
-const Myparams = (id: any) => {
-  return (
-    <Menu.Item key="2">
-      mypage
-      <Link to={`/mypage/${id}`} />
-    </Menu.Item>
-  );
-};
+// const Myparams = (id: any) => {
+//   return (
+//     <Menu.Item key="2">
+//       mypage
+//       <Link to={`/mypage/${id}`} />
+//     </Menu.Item>
+//   );
+// };
 
 const Xtoken: any = localStorage.getItem('token');
 
@@ -84,7 +84,7 @@ class Headbar extends Component {
           /> */}
               </div>
 
-              {Xtoken !== null ? (
+              {data.getMe.err === null && data.getMe.user ? (
                 <Menu
                   theme="light"
                   mode="horizontal"
@@ -93,11 +93,11 @@ class Headbar extends Component {
                   <Menu.Item key="1" onClick={this.logoutClick}>
                     <a href="/">logout</a>
                   </Menu.Item>
-                  <Myparams id={data.getMe.user.id} />
-                  {/* <Menu.Item key="2">
+                  {/* <Myparams id={data.getMe.user.id} /> */}
+                  <Menu.Item key="2">
                     mypage
-                    <Link to={`/mypage`} />
-                  </Menu.Item> */}
+                    <Link to={`/mypage/${data.getMe.user.id}`} />
+                  </Menu.Item>
                 </Menu>
               ) : (
                 <Menu
