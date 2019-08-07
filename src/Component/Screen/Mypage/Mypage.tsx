@@ -76,7 +76,6 @@ interface Variables {
 //   error: ApolloError;
 //   data: Data;
 // }
-
 const { Content } = Layout;
 
 //console.log(token);
