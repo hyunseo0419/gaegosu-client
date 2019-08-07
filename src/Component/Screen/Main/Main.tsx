@@ -11,6 +11,7 @@ import Headbar from '../../Shared/Headbar';
 import Footbar from '../../Shared/Footbar';
 import './main.css';
 import Album from '../Album/Album';
+import Info from '../Info/Info';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -21,8 +22,8 @@ const { TabPane } = Tabs;
 //   flex-wrap: wrap;
 //   justify-items: center;
 // `;
-//const userStorage = localStorage.getItem('userInfo');
-
+// const userStorage = localStorage.getItem('userInfo');
+// console.log(userStorage);
 class Main extends Component {
   render() {
     return (
@@ -45,9 +46,7 @@ class Main extends Component {
                 </TabPane>
                 <TabPane tab="Info" key="3">
                   {/* Use map API and show near shops */}
-                  <p>Content of Tab Pane 3</p>
-                  <p>Content of Tab Pane 3</p>
-                  <p>Content of Tab Pane 3</p>
+                  <Info />
                 </TabPane>
               </Tabs>
             </div>
