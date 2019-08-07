@@ -163,12 +163,13 @@ export default class Album extends Component {
           </Modal>
           <Button style={{ float: 'right' }}>New</Button>
         </div>
-        {rows.map((row: any) => (
-          <div className="row">
-            {row.map((col: any) => (
-              <span>
+        {rows.map((row: any, idx: number) => (
+          <div className="row" key={idx}>
+            {row.map((col: any, idx: number) => (
+              <span key={idx * -1}>
                 <img
                   className="thumb1"
+                  key={idx * -1}
                   src={col.photo}
                   alt={col}
                   onClick={() => this.ClickPhoto(col)}

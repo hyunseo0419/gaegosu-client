@@ -12,6 +12,7 @@ import Footbar from '../../Shared/Footbar';
 import './main.css';
 import Album from '../Album/Album';
 import Search from '../Album/Search';
+import Rescue from '../Rescue/Rescue';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -36,9 +37,7 @@ class Main extends Component {
                 <TabPane tab="Report" key="1">
                   {/* Report form page 
                 <component /> */}
-                  <p>Content of Tab Pane 1</p>
-                  <p>Content of Tab Pane 1</p>
-                  <p>Content of Tab Pane 1</p>
+                  <Rescue />
                 </TabPane>
                 <TabPane tab="Album" key="2">
                   <Search />
