@@ -1,7 +1,18 @@
+.tab {
+  min-width: 800px;
+}
+
+/* .row {
+  width: 1em;
+} */
+
 .thumb1 { 
     object-fit: cover;
-    width: 250px;
-    height: 250px;
+    /* width: 250px; */
+    width: 33%;
+    /* width: 20em; */
+    /* height: 250px; */
+    /* min-width: 30%; */
   }
   
   /* .thumb1:hover { YOUR HOVER STYLES HERE } */
@@ -15,7 +26,7 @@
   
   .thumb img {
     display: block; /* Otherwise it keeps some space around baseline */
-    min-width: 100%; /* Scale up to fill container width */
-    min-height: 100%; /* Scale up to fill container height */
+    min-width: 30%; /* Scale up to fill container width */
+    min-height: 30%; /* Scale up to fill container height */
     -ms-interpolation-mode: bicubic; /* Scaled images look a bit better in IE now */
   }
