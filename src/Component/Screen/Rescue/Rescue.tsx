@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Tabs } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import { Mutation } from 'react-apollo';
+
+const { TabPane } = Tabs;
+
+function callback(key: any) {
+  console.log(key);
+}
 
 class Rescue extends Component<{} & FormComponentProps> {
   handleSubmit = (e: any) => {
@@ -22,7 +29,13 @@ class Rescue extends Component<{} & FormComponentProps> {
     //console.log('!!!!!!', this.state);
     return (
       <div>
-        <div>heloo</div>
+        <div>
+          지도 , 사진 첨부 예정
+          <br />
+          <br />
+          <br />
+          <br />
+        </div>
         <Form
           labelCol={{ span: 5 }}
           wrapperCol={{ span: 12 }}
@@ -49,7 +62,13 @@ class Rescue extends Component<{} & FormComponentProps> {
               ],
             })(<Input />)}
           </Form.Item>
+          <Tabs defaultActiveKey="1" onChange={callback}>
+            <TabPane tab="동의 사항" key="1" style={{ marginBottom: '5%' }}>
+              허위 신고는 혼나요!
+            </TabPane>
+          </Tabs>
           <Form.Item wrapperCol={{ span: 12, offset: 5 }}>
+            {/* <Mutation></Mutation> */}
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
