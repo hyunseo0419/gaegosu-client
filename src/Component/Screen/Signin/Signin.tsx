@@ -43,24 +43,7 @@ class Signin extends React.Component<{} & FormComponentProps> {
           },
           async () => {
             const response = await localLogin();
-            console.log(response.data.localLogin.isLogin);
-            console.log(response.data.localLogin.user.id);
-            console.log(response.data.localLogin.user.email);
-            console.log(response.data.localLogin.user.nickName);
-            console.log(response.data.localLogin.token);
-
-            localStorage.setItem(
-              'userInfo',
-              JSON.stringify({
-                isLogin: response.data.localLogin.isLogin,
-                id: response.data.localLogin.user.id,
-                email: response.data.localLogin.user.email,
-                nickName: response.data.localLogin.user.nickName,
-                token: response.data.localLogin.token,
-              })
-            );
-
-            // this.props.history.push("/");
+            localStorage.setItem('token', response.data.localLogin.token);
             this.setState({
               online: true,
             });
@@ -146,7 +129,6 @@ class Signin extends React.Component<{} & FormComponentProps> {
                         <a className="login-form-forgot" href="/">
                           Forgot password
                         </a>
-
                         <Button
                           type="primary"
                           htmlType="submit"
@@ -154,7 +136,6 @@ class Signin extends React.Component<{} & FormComponentProps> {
                         >
                           Log in
                         </Button>
-
                         <a href="http://localhost:4000/kakao">
                           <Button
                             type="default"
@@ -179,7 +160,5 @@ class Signin extends React.Component<{} & FormComponentProps> {
     );
   }
 }
-
 const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(Signin);
-
 export default WrappedNormalLoginForm;

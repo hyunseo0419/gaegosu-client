@@ -14,9 +14,9 @@ class App extends Component {
         <Router>
           <React.Fragment>
             <Route exact={true} path={'/'} component={Main} />
-            <Route path={'/signup'} component={CommmonSignup} />
-            <Route path={'/login'} component={Signin} />
-            <Route path={'/mypage'} component={Mypage} />
+            <Route exact={true} path={'/signup'} component={CommmonSignup} />
+            <Route exact={true} path={'/login'} component={Signin} />
+            <Route exact={true} path={'/mypage/:id'} component={Mypage} />
           </React.Fragment>
         </Router>
       </ApolloProvider>
