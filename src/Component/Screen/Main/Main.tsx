@@ -11,6 +11,9 @@ import Headbar from '../../Shared/Headbar';
 import Footbar from '../../Shared/Footbar';
 import './main.css';
 import Album from '../Album/Album';
+import Info from '../Info/Info';
+import Search from '../Album/Search';
+import Rescue from '../Rescue/Rescue';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -21,8 +24,6 @@ const { TabPane } = Tabs;
 //   flex-wrap: wrap;
 //   justify-items: center;
 // `;
-// const userStorage = localStorage.getItem('userInfo');
-// console.log(userStorage);
 class Main extends Component {
   render() {
     return (
@@ -32,22 +33,19 @@ class Main extends Component {
           <Content style={{ padding: '0 50px', marginTop: 64 }}>
             <Breadcrumb style={{ margin: '50px 0' }} />
             <div className="card-container">
-              <Tabs type="card">
+              <Tabs type="card" defaultActiveKey="2">
                 <TabPane tab="Report" key="1">
                   {/* Report form page 
                 <component /> */}
-                  <p>Content of Tab Pane 1</p>
-                  <p>Content of Tab Pane 1</p>
-                  <p>Content of Tab Pane 1</p>
+                  <Rescue />
                 </TabPane>
                 <TabPane tab="Album" key="2">
+                  <Search />
                   <Album />
                 </TabPane>
                 <TabPane tab="Info" key="3">
                   {/* Use map API and show near shops */}
-                  <p>Content of Tab Pane 3</p>
-                  <p>Content of Tab Pane 3</p>
-                  <p>Content of Tab Pane 3</p>
+                  <Info />
                 </TabPane>
               </Tabs>
             </div>

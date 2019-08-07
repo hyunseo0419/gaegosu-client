@@ -1,0 +1,43 @@
+.divarea{
+  position: relative;
+  margin: 24px 0 22px 0;
+  padding: 24px 0 0 0;
+  border-top: 1px solid #efefef
+}
+
+.titlearea{
+  margin: 0 0 19px 0;
+  border-top: 0;
+}
+.stararea {
+  padding: 25px 0 0 0;
+  color: #929292;
+  font-size: 16px;
+  line-height: 120%;
+  text-align: center;
+  background-size: 140px 44px;
+}
+/* .maparea{
+  border: 0px;
+  width: 350px;
+  height: 300px;
+  position: relative;
+  overflow: hidden;
+} */
+
+ul {
+  display: block;
+  list-style-type: disc;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  padding-inline-start: 40px;
+}
+
+li {
+  display: list-item;
+  text-align: -webkit-match-parent;
+}
+
+

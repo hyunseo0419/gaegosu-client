@@ -14,7 +14,7 @@ import {
   Divider,
   Modal,
 } from 'antd';
-//import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { FormComponentProps } from 'antd/lib/form';
 import { Mutation } from 'react-apollo';
 import { MU_SIGNUP, Data, MVariables } from './Mutation/SignupMutation';
@@ -46,6 +46,7 @@ class Signup extends Component<{} & FormComponentProps> {
     },
     send: false,
     auth: false,
+    online: false,
   };
 
   errorSignup = () => {
@@ -82,11 +83,17 @@ class Signup extends Component<{} & FormComponentProps> {
             if (this.state.auth && this.state.send) {
               const response = await localsignUp();
               console.log('response---->', response);
+              this.setState({
+                online: true,
+              });
             } else {
               this.errorSignup();
             }
           }
         );
+        // this.setState({
+        //   online: true,
+        // });
       }
     });
   };
@@ -309,187 +316,191 @@ class Signup extends Component<{} & FormComponentProps> {
     ));
     return (
       <>
-        <Content style={{ padding: '0 50px', marginTop: 64 }}>
-          <Breadcrumb style={{ margin: '16px 0' }}></Breadcrumb>
-          <div style={{ background: '#fff', padding: 24, minHeight: 380 }}>
-            <Mutation<Data, MVariables>
-              mutation={MU_SIGNUP}
-              variables={{
-                nickname: values.nickname,
-                email: values.email,
-                password: values.password,
-                profileImage: values.profileImage,
-                provider: values.provider,
-                admin: values.admin,
-                pets: values.pets,
-              }}
-            >
-              {localsignUp => (
-                <Form
-                  {...formItemLayout}
-                  onSubmit={e => {
-                    this.handleSubmit(e, localsignUp);
-                  }}
-                >
-                  <Form.Item label="E-mail" extra="이메일 인증은 필수입니다.">
-                    <Row gutter={8}>
-                      <Col span={12}>
-                        {getFieldDecorator('email', {
-                          rules: [
-                            {
-                              type: 'email',
-                              message: '이메일을 입력해주세요!',
-                            },
-                            {
-                              required: true,
-                              message: '이메일을 등록해주세요!',
-                            },
-                            {
-                              validator: this.emailVal,
-                            },
-                          ],
-                        })(<Input />)}
-                      </Col>
-                      <Col span={12}>
-                        <Mutation<Boolean, MuemailVariables>
-                          mutation={MU_EMAILSEND}
-                          variables={{ email: val }}
-                        >
-                          {emailSend => (
-                            <Button
-                              onClick={e => {
-                                this.checkEmail(e, emailSend);
-                              }}
-                            >
-                              본인이메일 확인
-                            </Button>
-                          )}
-                        </Mutation>
-                      </Col>
-                    </Row>
-                  </Form.Item>
+        {this.state.online === true ? (
+          <Redirect to={'/login'} />
+        ) : (
+          <Content style={{ padding: '0 50px', marginTop: 64 }}>
+            <Breadcrumb style={{ margin: '16px 0' }}></Breadcrumb>
+            <div style={{ background: '#fff', padding: 24, minHeight: 380 }}>
+              <Mutation<Data, MVariables>
+                mutation={MU_SIGNUP}
+                variables={{
+                  nickname: values.nickname,
+                  email: values.email,
+                  password: values.password,
+                  profileImage: values.profileImage,
+                  provider: values.provider,
+                  admin: values.admin,
+                  pets: values.pets,
+                }}
+              >
+                {localsignUp => (
+                  <Form
+                    {...formItemLayout}
+                    onSubmit={e => {
+                      this.handleSubmit(e, localsignUp);
+                    }}
+                  >
+                    <Form.Item label="E-mail" extra="이메일 인증은 필수입니다.">
+                      <Row gutter={8}>
+                        <Col span={12}>
+                          {getFieldDecorator('email', {
+                            rules: [
+                              {
+                                type: 'email',
+                                message: '이메일을 입력해주세요!',
+                              },
+                              {
+                                required: true,
+                                message: '이메일을 등록해주세요!',
+                              },
+                              {
+                                validator: this.emailVal,
+                              },
+                            ],
+                          })(<Input />)}
+                        </Col>
+                        <Col span={12}>
+                          <Mutation<Boolean, MuemailVariables>
+                            mutation={MU_EMAILSEND}
+                            variables={{ email: val }}
+                          >
+                            {emailSend => (
+                              <Button
+                                onClick={e => {
+                                  this.checkEmail(e, emailSend);
+                                }}
+                              >
+                                본인이메일 확인
+                              </Button>
+                            )}
+                          </Mutation>
+                        </Col>
+                      </Row>
+                    </Form.Item>
 
-                  <Form.Item
-                    label="인증번호"
-                    extra="본인이메일로 가서 인증번호를 확인해주세요"
-                  >
-                    <Row gutter={8}>
-                      <Col span={12}>
-                        {getFieldDecorator('captcha', {
-                          rules: [
-                            {
-                              required: true,
-                              message: '이메일인증번호를 입력해주세요',
-                            },
-                            {
-                              validator: this.authNum,
-                            },
-                          ],
-                        })(<Input />)}
-                      </Col>
-                      <Col span={12}>
-                        <Mutation<Boolean, Muemailauth>
-                          mutation={MU_EMAILAUTH}
-                          variables={{ email: val, randomWord: authWord }}
+                    <Form.Item
+                      label="인증번호"
+                      extra="본인이메일로 가서 인증번호를 확인해주세요"
+                    >
+                      <Row gutter={8}>
+                        <Col span={12}>
+                          {getFieldDecorator('captcha', {
+                            rules: [
+                              {
+                                required: true,
+                                message: '이메일인증번호를 입력해주세요',
+                              },
+                              {
+                                validator: this.authNum,
+                              },
+                            ],
+                          })(<Input />)}
+                        </Col>
+                        <Col span={12}>
+                          <Mutation<Boolean, Muemailauth>
+                            mutation={MU_EMAILAUTH}
+                            variables={{ email: val, randomWord: authWord }}
+                          >
+                            {emailauth => (
+                              <Button
+                                onClick={e => {
+                                  this.authSend(e, emailauth);
+                                }}
+                              >
+                                이메일인증 확인
+                              </Button>
+                            )}
+                          </Mutation>
+                        </Col>
+                      </Row>
+                    </Form.Item>
+                    <Form.Item label="Password" hasFeedback>
+                      {getFieldDecorator('password', {
+                        rules: [
+                          {
+                            required: true,
+                            message: '패스워드를 입력해주세요!',
+                          },
+                          {
+                            validator: this.validateToNextPassword,
+                          },
+                        ],
+                      })(
+                        <Input.Password
+                          style={{ width: '62%', marginRight: 8 }}
+                        />
+                      )}
+                    </Form.Item>
+                    <Form.Item label="Confirm Password" hasFeedback>
+                      {getFieldDecorator('confirm', {
+                        rules: [
+                          {
+                            required: true,
+                            message: '패스워드를 다시한번 확인해주세요!',
+                          },
+                          {
+                            validator: this.compareToFirstPassword,
+                          },
+                        ],
+                      })(
+                        <Input.Password
+                          onBlur={this.handleConfirmBlur}
+                          style={{ width: '62%', marginRight: 8 }}
+                        />
+                      )}
+                    </Form.Item>
+                    <Form.Item
+                      label={
+                        <span>
+                          Nickname&nbsp;
+                          <Tooltip title="중복되지 않는 닉네임을 설정해주세요">
+                            <Icon type="question-circle-o" />
+                          </Tooltip>
+                        </span>
+                      }
+                    >
+                      {getFieldDecorator('nickname', {
+                        rules: [
+                          {
+                            required: true,
+                            message: '닉네임을 입력해주세요!',
+                            whitespace: true,
+                          },
+                        ],
+                      })(<Input style={{ width: '62%', marginRight: 8 }} />)}
+                    </Form.Item>
+                    <div className="container">
+                      <Divider orientation="left" className="first">
+                        애완동물 정보 기입 [선택사항]
+                      </Divider>
+                      {formItems}
+                      <Form.Item {...formItemLayoutWithOutLabel}>
+                        <Button
+                          type="dashed"
+                          onClick={this.add}
+                          style={{ width: '62%' }}
                         >
-                          {emailauth => (
-                            <Button
-                              onClick={e => {
-                                this.authSend(e, emailauth);
-                              }}
-                            >
-                              이메일인증 확인
-                            </Button>
-                          )}
-                        </Mutation>
-                      </Col>
-                    </Row>
-                  </Form.Item>
-                  <Form.Item label="Password" hasFeedback>
-                    {getFieldDecorator('password', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '패스워드를 입력해주세요!',
-                        },
-                        {
-                          validator: this.validateToNextPassword,
-                        },
-                      ],
-                    })(
-                      <Input.Password
-                        style={{ width: '62%', marginRight: 8 }}
-                      />
-                    )}
-                  </Form.Item>
-                  <Form.Item label="Confirm Password" hasFeedback>
-                    {getFieldDecorator('confirm', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '패스워드를 다시한번 확인해주세요!',
-                        },
-                        {
-                          validator: this.compareToFirstPassword,
-                        },
-                      ],
-                    })(
-                      <Input.Password
-                        onBlur={this.handleConfirmBlur}
-                        style={{ width: '62%', marginRight: 8 }}
-                      />
-                    )}
-                  </Form.Item>
-                  <Form.Item
-                    label={
-                      <span>
-                        Nickname&nbsp;
-                        <Tooltip title="중복되지 않는 닉네임을 설정해주세요">
-                          <Icon type="question-circle-o" />
-                        </Tooltip>
-                      </span>
-                    }
-                  >
-                    {getFieldDecorator('nickname', {
-                      rules: [
-                        {
-                          required: true,
-                          message: '닉네임을 입력해주세요!',
-                          whitespace: true,
-                        },
-                      ],
-                    })(<Input style={{ width: '62%', marginRight: 8 }} />)}
-                  </Form.Item>
-                  <div className="container">
-                    <Divider orientation="left" className="first">
-                      애완동물 정보 기입 [선택사항]
-                    </Divider>
-                    {formItems}
-                    <Form.Item {...formItemLayoutWithOutLabel}>
-                      <Button
-                        type="dashed"
-                        onClick={this.add}
-                        style={{ width: '62%' }}
-                      >
-                        <Icon type="plus" /> 애완동물 정보를 기입해주세요
+                          <Icon type="plus" /> 애완동물 정보를 기입해주세요
+                        </Button>
+                      </Form.Item>
+                    </div>
+                    <Form.Item {...tailFormItemLayout}>
+                      {getFieldDecorator('agreement', {
+                        valuePropName: 'checked',
+                      })(<Checkbox>I have read the agreement</Checkbox>)}
+                    </Form.Item>
+                    <Form.Item {...tailFormItemLayout}>
+                      <Button type="primary" htmlType="submit">
+                        회원가입
                       </Button>
                     </Form.Item>
-                  </div>
-                  <Form.Item {...tailFormItemLayout}>
-                    {getFieldDecorator('agreement', {
-                      valuePropName: 'checked',
-                    })(<Checkbox>I have read the agreement</Checkbox>)}
-                  </Form.Item>
-                  <Form.Item {...tailFormItemLayout}>
-                    <Button type="primary" htmlType="submit">
-                      회원가입
-                    </Button>
-                  </Form.Item>
-                </Form>
-              )}
-            </Mutation>
-          </div>
-        </Content>
+                  </Form>
+                )}
+              </Mutation>
+            </div>
+          </Content>
+        )}
       </>
     );
   }
