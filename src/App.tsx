@@ -13,8 +13,8 @@ class App extends Component {
       <ApolloProvider client={client}>
         <Router>
           <React.Fragment>
-            <Route exact={true} path={'/signup'} component={CommmonSignup} />
             <Route exact={true} path={'/'} component={Main} />
+            <Route exact={true} path={'/signup'} component={CommmonSignup} />
             <Route exact={true} path={'/login'} component={Signin} />
             <Route exact={true} path={'/mypage/:id'} component={Mypage} />
           </React.Fragment>

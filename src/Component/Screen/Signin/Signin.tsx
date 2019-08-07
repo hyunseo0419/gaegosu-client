@@ -11,6 +11,7 @@ import { Mutation } from 'react-apollo';
 import { LOGIN_BUTTON } from '../../../queries';
 import { Form, Icon, Input, Button, Checkbox, Layout, Breadcrumb } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+// import Main from '../../../Component/Screen/Main/Main';
 import Headbar from '../../Shared/Headbar';
 import Footbar from '../../Shared/Footbar';
 // import client from '../../../apolloClient';
@@ -43,7 +44,6 @@ class Signin extends React.Component<{} & FormComponentProps> {
           async () => {
             const response = await localLogin();
             localStorage.setItem('token', response.data.localLogin.token);
-
             this.setState({
               online: true,
             });
