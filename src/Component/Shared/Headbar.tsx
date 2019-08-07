@@ -42,7 +42,7 @@ interface DATAS {
 //   );
 // };
 
-const Xtoken: any = localStorage.getItem('token');
+//const Xtoken: any = localStorage.getItem('token');
 
 class Headbar extends Component {
   logoClick = () => {

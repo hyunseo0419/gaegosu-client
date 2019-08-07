@@ -11,6 +11,9 @@ import {
   Button,
   Modal,
   Input,
+  Upload,
+  message,
+  Icon,
 } from 'antd';
 import { MY_PROFILE } from './Query/QueriesMypage';
 import { CHANGE_NICKNAME } from './Mutation/MutationMypage';
@@ -139,6 +142,7 @@ class Mypage extends Component<MyProps> {
     }
     return alert(result.data.changeNickName.err);
   };
+  // ==============================================
 
   render() {
     console.log(Number(this.props.match.params.id));
@@ -149,6 +153,37 @@ class Mypage extends Component<MyProps> {
           if (loading) return <Loading />;
           if (error) return <Err />;
           console.log(data);
+
+          // =====================file uploead part==============================
+          const props = {
+            name: 'file',
+            action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+
+            onChange(info: any) {
+              if (info.file.status !== 'uploading') {
+                console.log('--->', info.file, 'list-->', info.fileList);
+              }
+              if (info.file.status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully`);
+                let formData = new FormData();
+                formData.append('photo', info.fileList[0]);
+                fetch('http://localhost:4000/', {
+                  method: 'POST',
+                  body: formData,
+                  headers: {
+                    authorization: 'authorization-text',
+                    'content-type': 'multipart/form-data',
+                  },
+                })
+                  // .then(res => res.json())
+                  .then(json => console.log(json))
+                  .catch(err => console.error('Caught error: ', err));
+              } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+              }
+            },
+          };
+          //=====================================================================
 
           const profile = data.getUser.user;
           console.log('@@@@@@@@@@@@@', profile.pets[0]);
@@ -185,16 +220,19 @@ class Mypage extends Component<MyProps> {
                         </div>
 
                         {data.getUser.isMe === true ? (
-                          <Button
-                            type="default"
-                            size="large"
-                            onClick={this.showModal}
-                            style={{
-                              marginLeft: '21%',
-                            }}
-                          >
-                            upload / change
-                          </Button>
+                          <Upload {...props}>
+                            <Button
+                              type="default"
+                              size="large"
+                              //onClick={this.showModal}
+                              style={{
+                                marginLeft: '21%',
+                              }}
+                            >
+                              <Icon type="upload" />
+                              upload / change
+                            </Button>
+                          </Upload>
                         ) : null}
                       </Col>
                       <Col span={6} pull={18}>
@@ -325,16 +363,19 @@ class Mypage extends Component<MyProps> {
                               />
                             </div>
                             {data.getUser.isMe === true ? (
-                              <Button
-                                type="default"
-                                size="large"
-                                onClick={this.showModal}
-                                style={{
-                                  marginLeft: '21%',
-                                }}
-                              >
-                                upload / change
-                              </Button>
+                              <Upload {...props}>
+                                <Button
+                                  type="default"
+                                  size="large"
+                                  //onClick={this.showModal}
+                                  style={{
+                                    marginLeft: '21%',
+                                  }}
+                                >
+                                  <Icon type="upload" />
+                                  upload / change
+                                </Button>
+                              </Upload>
                             ) : null}
                           </Col>
                           <Col span={6} pull={18}>
