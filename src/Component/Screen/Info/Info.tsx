@@ -38,6 +38,7 @@ const data = [
   },
 ];
 
+// 아 태홍님 깃 트롤
 // interface infoState {
 //   mode: string;
 //   detail: {
@@ -112,6 +113,7 @@ class Info extends Component<{}> {
   }
 
   render() {
+    console.log(this);
     console.log('렌더 동작');
     return (
       <>
