@@ -62,6 +62,32 @@ class Info extends Component<{}> {
     detail: {},
   };
 
+  mygetLocation = () => {
+    if (navigator.geolocation) {
+      // GPS를 지원하면
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          console.log('position---->', position);
+          console.log(
+            position.coords.latitude + ' ' + position.coords.longitude
+          );
+        },
+        error => {
+          console.log('=============');
+          console.log(error);
+        },
+        {
+          enableHighAccuracy: false,
+          maximumAge: 0,
+          timeout: Infinity,
+        }
+      );
+    } else {
+      alert('GPS를 지원하지 않습니다');
+      console.log('gps 거부');
+    }
+  };
+
   changeDetailView = (e: any, item: any) => {
     console.log('item---->', item);
     this.setState({
@@ -76,7 +102,17 @@ class Info extends Component<{}> {
     });
   };
 
+  addInfo = (e: any) => {
+    console.log('e-->', e);
+    //data에 concat 작성해야함
+  };
+
+  componentDidMount() {
+    this.mygetLocation();
+  }
+
   render() {
+    console.log('렌더 동작');
     return (
       <>
         {this.state.mode === 'infoDetail' ? (
@@ -120,11 +156,11 @@ class Info extends Component<{}> {
                 )}
               />
             </div>
+            <div>
+              <Button onClick={e => this.addInfo(e)}>더보기</Button>
+            </div>
           </div>
         )}
-        <div>
-          <Button>더보기</Button>
-        </div>
       </>
     );
   }
