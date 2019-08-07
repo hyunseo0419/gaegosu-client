@@ -156,7 +156,7 @@ class Mypage extends Component<MyProps> {
 
           // =====================file uploead part==============================
           const props = {
-            name: 'photo',
+            name: 'file',
             action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
 
             onChange(info: any) {
@@ -166,7 +166,7 @@ class Mypage extends Component<MyProps> {
               if (info.file.status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully`);
                 let formData = new FormData();
-                formData.append(info.file, info.fileList[0]);
+                formData.append('photo', info.fileList[0]);
                 fetch('http://localhost:4000/', {
                   method: 'POST',
                   body: formData,
