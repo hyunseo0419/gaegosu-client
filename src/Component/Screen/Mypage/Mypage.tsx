@@ -165,14 +165,15 @@ class Mypage extends Component<MyProps> {
               if (info.file.status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully`);
                 let formData = new FormData();
-                formData.append('photo', info.fileList[0]);
+
+                formData.append('photo', info.file.originFileObj);
+                console.log('@@@@', info.file.originFileObj);
                 fetch('http://localhost:4000/', {
                   method: 'POST',
                   body: formData,
-                  headers: {
-                    authorization: 'authorization-text',
-                    'content-type': 'multipart/form-data',
-                  },
+                  // headers: {
+                  //   'content-type': 'multipart/form-data',
+                  // },
                 })
                   // .then(res => res.json())
                   .then(json => console.log(json))
@@ -189,6 +190,7 @@ class Mypage extends Component<MyProps> {
           return (
             <Layout>
               <Headbar />
+
               <Layout>
                 <Breadcrumb style={{ margin: '30px 0' }} />
                 <Content
