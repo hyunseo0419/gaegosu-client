@@ -1,4 +1,3 @@
-/*global kakao*/
 import React, { Component } from 'react';
 import { Form, Input, Button, Tabs, Upload, message, Icon } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
