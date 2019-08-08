@@ -1,4 +1,3 @@
-/*global kakao*/
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
 import { Input, List, Icon, Avatar, Button, Rate } from 'antd';
