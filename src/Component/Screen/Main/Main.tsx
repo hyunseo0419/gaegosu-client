@@ -14,6 +14,7 @@ import Album from '../Album/Album';
 import Info from '../Info/Info';
 import Search from '../Album/Search';
 import Rescue from '../Rescue/Rescue';
+import RescueAdmin from '../Rescue/RescueAdmin';
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -37,7 +38,7 @@ class Main extends Component {
                 <TabPane tab="Report" key="1">
                   {/* Report form page 
                 <component /> */}
-                  <Rescue />
+                  <RescueAdmin />
                 </TabPane>
                 <TabPane tab="Album" key="2">
                   <Search />
