@@ -20,7 +20,7 @@ export const GET_SOS = gql`
 `;
 
 export interface SOSData {
-  getRescueList: {
+  getRescueListResult: {
     success: boolean;
     rescueList: {
       id: number;
