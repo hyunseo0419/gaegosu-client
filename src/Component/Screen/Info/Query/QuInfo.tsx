@@ -93,5 +93,3 @@ export interface InfoDetailData {
     };
   };
 }
-
-export interface InfoDetailVariables {}
