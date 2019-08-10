@@ -55,7 +55,7 @@ class Headbar extends Component {
           }
 
           return (
-            <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+            <Header style={{ position: 'fixed', zIndex: 2, width: '100%' }}>
               <div className="logo">
                 <a href={`/`}>
                   <Button
