@@ -14,7 +14,7 @@ import {
   Divider,
   Modal,
 } from 'antd';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { FormComponentProps } from 'antd/lib/form';
 import { Mutation } from 'react-apollo';
 import { MU_SIGNUP, Data, MVariables } from './Mutation/SignupMutation';

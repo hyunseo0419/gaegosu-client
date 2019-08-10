@@ -45,7 +45,7 @@ let datahos = [
   },
 ];
 
-// 아 태홍님 깃 트롤
+// 아 태홍님 깃 트롤 - 깃은 어려워요
 // interface infoState {
 //   mode: string;
 //   detail: {
@@ -130,10 +130,8 @@ class Info extends Component<{}> {
   }
 
   render() {
-
     const { detail, locate } = this.state;
-    // console.log('렌더 동작');
-
+    console.log('info 렌더 동작');
 
     return (
       <Query<InfoData, InfoVariables>

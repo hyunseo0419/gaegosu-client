@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Input, Icon, Button, Rate } from 'antd';
+import { Input, Icon, Button } from 'antd';
 import './InfoDetail.css';
 import './KakaoMap.css';
 import InfoComment from './InfoComment';
+import Infostarpoint from './Infostarpoint';
+//import client from '../../../apolloClient';
 //import { Link } from 'react-router-dom';
 //import { RouteComponentProps } from 'react-router';
 declare var kakao: any;
@@ -12,13 +14,9 @@ interface InfoDetailProps {
   item: any;
   back: any;
 }
-interface InfoDetailState {
-  value: any;
-  isToggleOn: boolean;
-}
+interface InfoDetailState {}
 
-const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
-const { Search } = Input;
+//const { Search } = Input;
 
 export default class InfoDetail extends Component<
   InfoDetailProps,
@@ -27,24 +25,12 @@ export default class InfoDetail extends Component<
   constructor(props: any) {
     super(props);
     console.log('----->', this.props.item);
-    this.state = {
-      value: 3,
-      isToggleOn: true,
-    };
-    this.rerender = this.rerender.bind(this);
+    this.state = {};
   }
 
-  handleChange = (value: any) => {
-    this.setState({ value });
-  };
-
-  rerender = () => {
-    this.setState({
-      isToggleOn: !this.state.isToggleOn,
-    });
-  };
-
   componentDidMount() {
+    //console.log('---여기까지 오냐????----');
+
     //console.log('x좌표--', this.props.item.locationY);
     // 이미지 지도에서 마커가 표시될 위치입니다
     var markerPosition = new kakao.maps.LatLng(
@@ -67,11 +53,8 @@ export default class InfoDetail extends Component<
         marker: marker, // 이미지 지도에 표시할 마커
       };
     // 이미지 지도를 생성합니다
-    var staticMap = new kakao.maps.StaticMap(
-      staticMapContainer,
-      staticMapOption
-    );
-
+    new kakao.maps.StaticMap(staticMapContainer, staticMapOption);
+    console.log('여기는 오냐--->');
     // var mapContainer = document.getElementById('staticMap'), // 지도를 표시할 div
     //   mapOption = {
     //     center: new kakao.maps.LatLng(
@@ -80,43 +63,37 @@ export default class InfoDetail extends Component<
     //     ), // 지도의 중심좌표
     //     level: 3, // 지도의 확대 레벨
     //   };
-
     // var map = new kakao.maps.Map(mapContainer, mapOption);
-
     // // 마커가 표시될 위치입니다
     // var markerPosition = new kakao.maps.LatLng(
     //   this.props.item.locationY,
     //   this.props.item.locationX
     // );
-
     // // 마커를 생성합니다
     // var marker = new kakao.maps.Marker({
     //   position: markerPosition,
     // });
-
     // // 마커가 지도 위에 표시되도록 설정합니다
     // marker.setMap(map);
-
     // var iwContent =
     //     '<div style="padding:5px;">`{this.props.item.title}`<br><a href="https://map.kakao.com/link/map/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">길찾기</a></div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
     //   iwPosition: any = new kakao.maps.LatLng(
     //     this.props.item.locationY,
     //     this.props.item.locationX
     //   ); //인포윈도우 표시 위치입니다
-
     // // 인포윈도우를 생성합니다
     // var infowindow = new kakao.maps.InfoWindow({
     //   position: iwPosition,
     //   content: iwContent,
     // });
-
     // // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
     // infowindow.open(map, marker);
   }
 
   render() {
-    const { value } = this.state;
+    console.log('infoDetail 렌더');
     console.log('this.state-->확인', this.state);
+    console.log('this.props.item--->확인2', this.props.item);
     return (
       <>
         <div>
@@ -134,30 +111,11 @@ export default class InfoDetail extends Component<
           </div>
           <div className="divarea">
             <h3>동물병원 별점이예요!!</h3>
-            <div className="stararea">
-              <div>
-                <Rate disabled defaultValue={2} />
-              </div>
-              <div>
-                <span>
-                  <p>동물병원의 별점을 선택해주세요~~</p>
-                  <Rate
-                    tooltips={desc}
-                    onChange={this.handleChange}
-                    value={value}
-                  />
-                  {value ? (
-                    <span className="ant-rate-text">{desc[value - 1]}</span>
-                  ) : (
-                    ''
-                  )}
-                </span>
-              </div>
-            </div>
+            <Infostarpoint />
             <div className="divarea">
               <h3>후기를 남겨주세요!!</h3>
               <div>
-                <InfoComment onRerender={this.rerender} />
+                <InfoComment />
               </div>
             </div>
           </div>

@@ -1,65 +1,29 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Comment, Tooltip, List, Input, Button, Modal } from 'antd';
-import moment from 'moment';
+import { Input, Button, Modal } from 'antd';
 import {
   MU_CRETECOMMENT,
   CreateCommentData,
   CreateVariables,
 } from './Mutation/MuInfo';
-import { Mutation } from 'react-apollo';
-import InfoDetail from './InfoDetail';
+import {
+  QU_COMMENTPOINT,
+  InfoCommentData,
+  InfoCommentVariables,
+} from './Query/QuInfo';
+import { Mutation, Query } from 'react-apollo';
+import { Loading, Err } from '../../Shared/loading';
 
 const { TextArea } = Input;
 
-const data = [
-  {
-    author: '로만',
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    content: <p>여기 완전짱이예요</p>,
-    datetime: (
-      <Tooltip
-        title={moment()
-          .subtract(1, 'days')
-          .format('YYYY-MM-DD HH:mm:ss')}
-      >
-        <span>
-          {moment()
-            .subtract(1, 'days')
-            .fromNow()}
-        </span>
-      </Tooltip>
-    ),
-  },
-  {
-    author: '만수르',
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    content: <p>원장님이 진짜 친절해요</p>,
-    datetime: (
-      <Tooltip
-        title={moment()
-          .subtract(2, 'days')
-          .format('YYYY-MM-DD HH:mm:ss')}
-      >
-        <span>
-          {moment()
-            .subtract(2, 'days')
-            .fromNow()}
-        </span>
-      </Tooltip>
-    ),
-  },
-];
+interface InfoCommentProps {}
 
-let reply = '';
-
-interface InfoCommentProps {
-  onRerender: any;
-}
 interface InfoCommentState {
   writeReply: any;
   create: any;
 }
+
+//var reply = '';
 
 export default class InfoComment extends Component<
   InfoCommentProps,
@@ -79,15 +43,15 @@ export default class InfoComment extends Component<
     //console.log('reply onclick e---->', e);
   };
   replyWrite = (e: any) => {
-    console.log('e--->', e.target.value);
+    // console.log('e--->', e.target.value);
+    // // this.setState({
+    // //   wirteReply: e.target.value,
+    // // });
+    // reply = e.target.value;
+    // console.log('reply-->', reply);
     // this.setState({
-    //   wirteReply: e.target.value,
+    //   writeReply: reply,
     // });
-    reply = e.target.value;
-    console.log('reply-->', reply);
-    this.setState({
-      writeReply: reply,
-    });
   };
 
   errorLogin = () => {
@@ -101,64 +65,79 @@ export default class InfoComment extends Component<
     const resReplyData = await createComment();
     if (resReplyData.data.createComment.isLogin === false) {
       return this.errorLogin();
-    } else {
-      this.props.onRerender();
     }
   };
 
   render() {
-    //console.log('commentState----->', this.state);
+    //console.log('infoComment렌더링');
     return (
-      <>
-        <div>
-          <List
-            className="comment-list"
-            header={`${data.length} replies`}
-            itemLayout="horizontal"
-            dataSource={data}
-            renderItem={item => (
-              <li>
-                <Comment
-                  author={item.author}
-                  avatar={item.avatar}
-                  content={item.content}
-                  datetime={item.datetime}
+      <Query<InfoCommentData, InfoCommentVariables>
+        query={QU_COMMENTPOINT}
+        variables={{ id: 1, boardName: 'info' }}
+      >
+        {({ loading, error, data }: any) => {
+          if (loading) return <Loading />;
+          if (error) return <Err />;
+          //console.log('commentdata--->', data);
+          return (
+            <div>
+              <div>
+                {/* <List
+                  className="comment-list"
+                  header={`${data.length} replies`}
+                  itemLayout="horizontal"
+                  dataSource={data}
+                  renderItem={(item: any) => (
+                    <li>
+                      <Comment
+                        author={item.author}
+                        avatar={item.avatar}
+                        content={item.content}
+                        datetime={item.datetime}
+                      />
+                      <Button
+                        style={{}}
+                        onClick={(e: any) => {
+                          this.replydelete(e);
+                        }}
+                      >
+                        delete
+                      </Button>
+                    </li>
+                  )}
+                /> */}
+                잘되냐?
+              </div>
+              <div>
+                <TextArea
+                  rows={4}
+                  onChange={e => {
+                    this.replyWrite(e);
+                  }}
                 />
-                <Button
-                  style={{}}
-                  onClick={(e: any) => {
-                    this.replydelete(e);
+                <Mutation<CreateCommentData, CreateVariables>
+                  mutation={MU_CRETECOMMENT}
+                  variables={{
+                    boardId: 1,
+                    boardName: 'info',
+                    content: '짱좋아요',
                   }}
                 >
-                  delete
-                </Button>
-              </li>
-            )}
-          />
-        </div>
-        <div>
-          <TextArea
-            rows={4}
-            onChange={e => {
-              this.replyWrite(e);
-            }}
-          />
-          <Mutation<CreateCommentData, CreateVariables>
-            mutation={MU_CRETECOMMENT}
-            variables={{ boardId: 1, boardName: 'info', content: '짱좋아요' }}
-          >
-            {createComment => (
-              <Button
-                onClick={e => {
-                  this.replySend(e, createComment);
-                }}
-              >
-                입력
-              </Button>
-            )}
-          </Mutation>
-        </div>
-      </>
+                  {createComment => (
+                    <Button
+                      onClick={e => {
+                        this.replySend(e, createComment);
+                      }}
+                    >
+                      입력
+                    </Button>
+                  )}
+                </Mutation>
+              </div>
+            </div>
+          );
+        }}
+      </Query>
     );
   }
 }
