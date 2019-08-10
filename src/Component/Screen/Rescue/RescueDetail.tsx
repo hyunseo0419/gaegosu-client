@@ -18,6 +18,7 @@ export default class RescueDetail extends Component<Props> {
 
   sosComplete = async (e: any, mufn: any) => {
     let result = await mufn();
+    console.log('this is result-->', result);
   };
 
   componentDidMount = async () => {

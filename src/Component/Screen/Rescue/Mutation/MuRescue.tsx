@@ -32,8 +32,3 @@ export interface COMSOS {
   success: boolean;
   err: string;
 }
-
-export interface POSTSOS {
-  success: boolean;
-  err: string;
-}
