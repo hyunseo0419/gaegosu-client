@@ -1,10 +1,47 @@
+ul {
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+li {
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
+  border : 0;
+  float: right;
+}
+
+.container {
+  width: 480px;
+  display: flex;
+}
+.box-left {
+  width: 48%;
+  height: 240px;
+  flex: 1;
+}
+.box-center {
+  background: orange;
+  flex: 3;
+  text-align: center;
+}
+.box-right {
+  flex: 1;
+}
+
 .tab {
   min-width: 800px;
 }
 
-/* .row {
-  width: 1em;
-} */
+.profile{
+  width: 50px;
+  height: 50px; 
+}
+
+.content {
+  object-fit: cover;
+  width: 50%;
+}
 
 .thumb1 { 
     object-fit: cover;
@@ -29,4 +66,24 @@
     min-width: 30%; /* Scale up to fill container width */
     min-height: 30%; /* Scale up to fill container height */
     -ms-interpolation-mode: bicubic; /* Scaled images look a bit better in IE now */
+  }
+
+  .login-form {
+    position: fixed;
+    max-width: 300px;
+    top: 30%;
+    left: 50%;
+    margin-top: 0px;
+    margin-left: -150px;
+  }
+  .login-form-forgot {
+    float: right;
+  }
+  .login-form-button {
+    width: 100%;
+  }
+  .login-form-kakao {
+    width: 100%;
+    background-color: #ffe812;
+    color: #663300
   }

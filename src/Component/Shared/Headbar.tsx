@@ -3,24 +3,11 @@ import { Link } from 'react-router-dom';
 import 'antd/dist/antd.css';
 import './logo.css';
 import { Layout, Menu, Button } from 'antd';
-import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { Loading, Err } from '../Shared/loading';
+import { GET_ME } from './QuariesShared';
 
 const { Header } = Layout;
-
-const GET_ME = gql`
-  query {
-    getMe {
-      isMe
-      user {
-        id
-        nickName
-      }
-      err
-    }
-  }
-`;
 
 interface DATAS {
   getMe: {
@@ -55,6 +42,9 @@ class Headbar extends Component {
   };
 
   render() {
+    // const token = localStorage.getItem('token')
+    // ? localStorage.getItem('token')
+    // : null;
     return (
       <Query<DATAS> query={GET_ME}>
         {({ loading, error, data }: any) => {
@@ -63,12 +53,11 @@ class Headbar extends Component {
             console.log(error);
             return <Err />;
           }
-          console.log('header data--->', data);
 
           return (
             <Header style={{ position: 'fixed', zIndex: 2, width: '100%' }}>
               <div className="logo">
-                <a href="/">
+                <a href={`/`}>
                   <Button
                     type="default"
                     htmlType="button"
@@ -83,7 +72,12 @@ class Headbar extends Component {
             onClick={this.logoClick}
           /> */}
               </div>
-
+              {console.log(
+                '==============!!!!===========',
+                data.getMe.err, // token expire 에러가 나왔음
+                '/',
+                data.getMe.user
+              )}
               {data.getMe.err === null && data.getMe.user ? (
                 <Menu
                   theme="light"
