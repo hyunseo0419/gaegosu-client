@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { GET_SOS, SOSData } from './Query/QuRescue';
 import { Button, List, Avatar } from 'antd';
-
 import { Query } from 'react-apollo';
 import { Loading, Err } from '../../Shared/loading';
+import RescueDetail from './RescueDetail';
 
 let SOSDatas = [
   {
@@ -22,7 +22,24 @@ let SOSDatas = [
 //declare var kakao: any;
 
 export default class RescueAdmin extends Component<{}> {
-  state = {};
+  state = {
+    mode: false,
+    list: {},
+  };
+  changeDetailView = async (item: any) => {
+    console.log('item---->', item);
+    await this.setState({
+      mode: true,
+      list: item,
+    });
+  };
+
+  backInfoView = (e: any) => {
+    this.setState({
+      mode: false,
+    });
+  };
+
   render() {
     return (
       <Query<SOSData> query={GET_SOS}>
@@ -33,34 +50,50 @@ export default class RescueAdmin extends Component<{}> {
           SOSDatas = data.getRescueList.rescueList;
           console.log('DATA@!!@!!@', SOSDatas);
           return (
-            <div>
-              <List
-                itemLayout="horizontal"
-                dataSource={SOSDatas}
-                renderItem={item => (
-                  <List.Item>
-                    <List.Item.Meta
-                      avatar={<Avatar icon="medicine-box" />}
-                      //title={<Link to="/Path">{item.title}</Link>}
-                      title={
-                        <Button
-                          onClick={() => {
-                            console.log(item);
-                          }}
-                        >
-                          {item.creator.nickName}
-                        </Button>
-                      }
-                      description={`동물 : ${
-                        item.content.split(',')[0]
-                      } / 상태 : ${item.content.split(',')[1]} / 상세위치 : ${
-                        item.content.split(',')[2]
-                      }  /  🚨구조상태 : ${item.status}`}
-                    />
-                  </List.Item>
-                )}
-              />
-            </div>
+            <>
+              {this.state.mode ? (
+                <RescueDetail
+                  list={this.state.list}
+                  back={this.backInfoView.bind(this)}
+                />
+              ) : (
+                <div>
+                  <List
+                    itemLayout="horizontal"
+                    dataSource={SOSDatas}
+                    renderItem={item => (
+                      <List.Item>
+                        <List.Item.Meta
+                          avatar={<Avatar icon="medicine-box" />}
+                          //title={<Link to="/Path">{item.title}</Link>}
+                          title={
+                            <div>
+                              <Button
+                                onClick={() => {
+                                  console.log(item);
+                                  this.changeDetailView(item);
+                                }}
+                                style={{ marginRight: '3%' }}
+                              >
+                                Show detail
+                              </Button>
+                              동물 : {item.content.split(',')[0]}
+                            </div>
+                          }
+                          description={`상태 : ${
+                            item.content.split(',')[1]
+                          } . 상세위치 : ${
+                            item.content.split(',')[2]
+                          }  . 🚨구조상태 : ${item.status} . 신고자 :${
+                            item.creator.nickName
+                          }`}
+                        />
+                      </List.Item>
+                    )}
+                  />
+                </div>
+              )}
+            </>
           );
         }}
       </Query>
