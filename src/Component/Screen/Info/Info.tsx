@@ -110,7 +110,6 @@ class Info extends Component<{}> {
   }
 
   render() {
-
     const { detail, locate } = this.state;
     console.log('info 렌더 동작');
 
