@@ -8,7 +8,7 @@ import {
   CreateVariables,
 } from './Mutation/MuInfo';
 import { Mutation } from 'react-apollo';
-import InfoDetail from './InfoDetail';
+// import InfoDetail from './InfoDetail';
 
 const { TextArea } = Input;
 

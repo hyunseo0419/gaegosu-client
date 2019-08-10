@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Input, Icon, Button, Rate } from 'antd';
+import { Icon, Button, Rate } from 'antd';
 import './InfoDetail.css';
 import './KakaoMap.css';
 import InfoComment from './InfoComment';
@@ -18,7 +18,7 @@ interface InfoDetailState {
 }
 
 const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
-const { Search } = Input;
+// const { Search } = Input;
 
 export default class InfoDetail extends Component<
   InfoDetailProps,

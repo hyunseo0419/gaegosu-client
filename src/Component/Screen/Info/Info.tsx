@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Input, List, Icon, Avatar, Button } from 'antd';
-//import { Link } from 'react-router-dom';
+import { Input, List, Avatar, Button } from 'antd';
 import InfoDetail from './InfoDetail';
-//import { RouteComponentProps } from 'react-router';
 
 const { Search } = Input;
 
