@@ -13,8 +13,6 @@ import { Form, Input, Button, Layout, Breadcrumb } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import Headbar from '../../Shared/Headbar';
 import Footbar from '../../Shared/Footbar';
-// import client from '../../../apolloClient';
-// import { GET_ME } from '../../Shared/QuariesShared';
 
 const { Content } = Layout;
 
