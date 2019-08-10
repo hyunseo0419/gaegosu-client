@@ -32,3 +32,15 @@ export interface COMSOS {
   success: boolean;
   err: string;
 }
+
+export interface POSTSOS {
+  success: boolean;
+  err: string;
+}
+
+export interface POSTVALUES {
+  locationX: number;
+  locationY: number;
+  content: string;
+  photo: string;
+}
