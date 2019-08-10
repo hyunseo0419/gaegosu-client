@@ -130,10 +130,8 @@ class Info extends Component<{}> {
   }
 
   render() {
-
     const { detail, locate } = this.state;
     // console.log('렌더 동작');
-
 
     return (
       <Query<InfoData, InfoVariables>
