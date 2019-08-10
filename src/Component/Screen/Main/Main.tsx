@@ -11,7 +11,7 @@ import Headbar from '../../Shared/Headbar';
 import Footbar from '../../Shared/Footbar';
 import './main.css';
 import Album from '../Album/Album';
-import Info from '../Info/Info';
+
 import Search from '../Album/Search';
 import Rescue from '../Rescue/Rescue';
 import RescueAdmin from '../Rescue/RescueAdmin';
