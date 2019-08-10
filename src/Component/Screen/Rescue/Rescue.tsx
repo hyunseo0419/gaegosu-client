@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Form, Input, Button, Tabs, Upload, message, Icon } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { Mutation } from 'react-apollo';
+import { POSTSOS, POST_RESCUE, POSTVALUES } from './Mutation/MuRescue';
 
 const { TabPane } = Tabs;
 
@@ -18,19 +19,27 @@ let initLat: any = null;
 let initLang: any = null;
 class Rescue extends Component<{} & FormComponentProps> {
   state = {
-    lat: null,
-    lang: null,
+    lat: 0,
+    lang: 0,
+    detail: '',
+    photo: '',
+  };
+
+  postSOSgo = async (e: any, mufn: any) => {
+    let result = await mufn();
+    console.log(result);
   };
 
   handleSubmit = (e: any) => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(async (err, values) => {
       if (!err) {
         console.log(Object.values(values).join(','));
-        let result = Object.values(values).join(',');
-        this.setState({
-          result: result,
+        let detail = Object.values(values).join(',');
+        await this.setState({
+          detail: detail,
         });
+        console.log('$$$$$$$$', this.state);
       }
     });
   };
@@ -214,11 +223,34 @@ class Rescue extends Component<{} & FormComponentProps> {
                 size="large"
                 style={{ marginLeft: '4%' }}
               >
-                Submit
+                상세정보 확인
               </Button>
             </div>
           </Form.Item>
         </Form>
+        <Mutation<POSTSOS, POSTVALUES>
+          mutation={POST_RESCUE}
+          variables={{
+            locationY: this.state.lat,
+            locationX: this.state.lang,
+            content: this.state.detail,
+            photo: this.state.photo,
+          }}
+        >
+          {postData => (
+            <Button
+              type="primary"
+              htmlType="submit"
+              size="large"
+              style={{ marginLeft: '4%' }}
+              onClick={e => {
+                this.postSOSgo(e, postData);
+              }}
+            >
+              Submit
+            </Button>
+          )}
+        </Mutation>
       </div>
     );
   }

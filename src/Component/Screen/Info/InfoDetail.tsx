@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
+
 import { Input, Icon, Button } from 'antd';
+
 import './InfoDetail.css';
 import './KakaoMap.css';
 import InfoComment from './InfoComment';
@@ -15,6 +17,7 @@ interface InfoDetailProps {
   back: any;
 }
 interface InfoDetailState {}
+
 
 //const { Search } = Input;
 

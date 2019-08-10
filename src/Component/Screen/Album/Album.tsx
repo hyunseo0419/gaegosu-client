@@ -1,8 +1,37 @@
 import React, { Component } from 'react';
-import './Album.css';
+import { Link } from 'react-router-dom';
 //import { Pagination } from 'antd';
 import { Modal, Button } from 'antd'; // Input, Select, Dropdown, Menu
-import { fakedata } from './fakedata';
+// import { fakedata } from './fakedata';
+import { FIRST_ALBUM } from './Query/QuariesAlbum';
+import { Query } from 'react-apollo';
+import { Loading, Err } from '../../Shared/loading';
+import SingleIMG from './SingleIMG';
+import './Album.css';
+
+interface Data {
+  getFirstAlbum: {
+    success: boolean;
+    boards: {
+      id: number;
+      title: string;
+      content: string;
+      photo: string;
+      creator: {
+        id: number;
+        nickName: string;
+      };
+      boardName: string;
+      createdAt: string;
+      updatedAt: string;
+    };
+    err: string;
+  };
+}
+
+interface Variables {
+  boardName: string;
+}
 
 // const { Search } = Input;
 // const { Option } = Select;
@@ -31,11 +60,7 @@ import { fakedata } from './fakedata';
 export default class Album extends Component {
   state = {
     modal1_vis: false,
-    modal2_vis: false,
     confirmLoading: false,
-    title: '',
-    photo: '',
-    comment: '',
   };
 
   showModal1 = () => {
@@ -43,14 +68,6 @@ export default class Album extends Component {
     this.setState({
       modal1_vis: true,
     });
-  };
-
-  showModal2 = () => {
-    console.log('open a image');
-    this.setState({
-      modal2_vis: true,
-    });
-    // return this.ClickPhoto(data);
   };
 
   handleOk1 = () => {
@@ -72,126 +89,67 @@ export default class Album extends Component {
     });
   };
 
-  handleCancel2 = () => {
-    console.log('close a image');
-    this.setState({
-      modal2_vis: false,
-    });
-  };
-
-  ClickPhoto = (data: any) => {
-    // const { modal2_vis } = this.state;
-
-    this.setState({
-      modal2_vis: true,
-      title: data.title,
-      photo: data.photo,
-      comment: data.comment,
-    });
-
-    // return (
-    //   <Modal
-    //     title={data.title}
-    //     visible={modal2_vis}
-    //     onCancel={this.handleCancel2}
-    //     centered
-    //     footer={[]}
-    //   >
-    //     <div>title : {data.title}</div>
-    //     <div>
-    //       photo : <img className="thumb1" src={data.photo} alt="" />
-    //     </div>
-    //     <div>comment : {data.comment}</div>
-    //   </Modal>
-    // );
-
-    // Modal.success({
-    //   title: data.title,
-    //   content: (
-    //     <div>
-    //       <div>title : {data.title}</div>
-    //       <div>
-    //         photo : <img className="thumb1" src={data.photo} alt="" />
-    //       </div>
-    //       <div>comment : {data.comment}</div>
-    //     </div>
-    //   ),
-    // });
-  };
-
   render() {
-    const rows: any = chunk(fakedata, 3);
-    const {
-      modal1_vis,
-      modal2_vis,
-      confirmLoading,
-      title,
-      photo,
-      comment,
-    } = this.state;
     return (
-      <div className="tab">
-        <div style={{ marginBottom: 16 }}>
-          <Button type="primary" icon="search" onClick={this.showModal1}>
-            Search
-          </Button>
-          <Modal
-            title="Search"
-            visible={modal1_vis}
-            onOk={this.handleOk1}
-            confirmLoading={confirmLoading}
-            onCancel={this.handleCancel1}
-            centered
-          >
-            {/* <Form> */}
+      <Query<Data, Variables>
+        query={FIRST_ALBUM}
+        variables={{ boardName: 'album' }}
+      >
+        {({ loading, error, data }: any) => {
+          if (loading) return <Loading />;
+          if (error) return <Err />;
+          console.log(data.getFirstAlbum.boards);
+
+          const rows: any = chunk(data.getFirstAlbum.boards, 3);
+          const { modal1_vis, confirmLoading } = this.state;
+
+          return (
             <div>
-              <p>
-                need to set dropwon and textbox for search
-                {/* <Dropdown overlay={menu} trigger={['click']}>
+              <div style={{ marginBottom: 16 }}>
+                <Button type="primary" icon="search" onClick={this.showModal1}>
+                  Search
+                </Button>
+                <Modal
+                  title="Search"
+                  visible={modal1_vis}
+                  onOk={this.handleOk1}
+                  confirmLoading={confirmLoading}
+                  onCancel={this.handleCancel1}
+                  centered
+                >
+                  {/* <Form> */}
+                  <div>
+                    <p>
+                      need to set dropwon and textbox for search
+                      {/* <Dropdown overlay={menu} trigger={['click']}>
                   검색 범위
                 </Dropdown> */}
-                {/* <Search
+                      {/* <Search
                 // addonBefore={selectBefore}
                 placeholder="input search text"
                 onSearch={value => console.log(value)}
                 enterButton
                 style={{ width: 300 }}
               /> */}
-              </p>
-            </div>
-            {/* </Form> */}
-          </Modal>
-          <Button style={{ float: 'right' }}>New</Button>
-        </div>
-        {rows.map((row: any, idx: number) => (
-          <div className="row" key={idx}>
-            {row.map((col: any, idx: number) => (
-              <span key={idx * -1}>
-                <img
-                  className="thumb1"
-                  key={idx * -1}
-                  src={col.photo}
-                  alt={col}
-                  onClick={() => this.ClickPhoto(col)}
-                />
-                <Modal
-                  title={title}
-                  visible={modal2_vis}
-                  onCancel={this.handleCancel2}
-                  centered
-                  footer={[]}
-                >
-                  <div>photo title : {title}</div>
-                  <div>
-                    photo : <img className="thumb1" src={photo} alt={photo} />
+                    </p>
                   </div>
-                  <div>comment : {comment}</div>
+                  {/* </Form> */}
                 </Modal>
-              </span>
-            ))}
-          </div>
-        ))}
-      </div>
+                <Link to="/new">
+                  <Button style={{ float: 'right' }}>New</Button>
+                </Link>
+              </div>
+              {rows.map((row: any, idx: number) => (
+                <div className="row" key={idx}>
+                  {row.map((col: any, idx: number) => (
+                    <SingleIMG idx={idx} col={col} />
+                  ))}
+                </div>
+              ))}
+            </div>
+          );
+        }}
+      </Query>
     );
   }
 }

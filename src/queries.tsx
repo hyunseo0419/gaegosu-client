@@ -12,21 +12,6 @@ export const MAIN_PAGE = gql`
   }
 `;
 
-export const LOGIN_BUTTON = gql`
-  mutation clickLoginBtn($email: String!, $password: String!) {
-    localLogin(email: $email, password: $password) {
-      isLogin
-      user {
-        id
-        nickName
-        email
-      }
-      err
-      token
-    }
-  }
-`;
-
 export interface IUserProps {
   id: number;
   nickName: string;

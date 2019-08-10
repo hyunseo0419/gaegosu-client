@@ -6,6 +6,7 @@ import CommmonSignup from './Component/Screen/Signup/Common-Signup';
 import Main from './Component/Screen/Main/Main';
 import Signin from './Component/Screen/Signin/Signin';
 import Mypage from './Component/Screen/Mypage/Mypage';
+import NewBoard from './Component/Screen/Album/NewBoard';
 
 class App extends Component {
   render() {
@@ -14,6 +15,7 @@ class App extends Component {
         <Router>
           <React.Fragment>
             <Route exact={true} path={'/'} component={Main} />
+            <Route exact={true} path={'/new'} component={NewBoard} />
             <Route exact={true} path={'/signup'} component={CommmonSignup} />
             <Route exact={true} path={'/login'} component={Signin} />
             <Route exact={true} path={'/mypage/:id'} component={Mypage} />
