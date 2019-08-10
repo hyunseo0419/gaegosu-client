@@ -110,7 +110,10 @@ class Info extends Component<{}> {
   }
 
   render() {
-    console.log('렌더 동작');
+
+    const { detail, locate } = this.state;
+    console.log('info 렌더 동작');
+
     return (
       <>
         {this.state.mode === 'infoDetail' ? (

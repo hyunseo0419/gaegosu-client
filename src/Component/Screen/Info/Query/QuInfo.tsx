@@ -37,8 +37,8 @@ export interface InfoVariables {
   locationY: any;
 }
 
-export const QU_EACHINFODATA = gql`
-  query queachinfodata($id: Int!, $boardName: String!) {
+export const QU_STARPOINT = gql`
+  query qustarpoint($id: Int!) {
     getRate(hospital: $id) {
       success
       err
@@ -46,6 +46,25 @@ export const QU_EACHINFODATA = gql`
       meRate
       rate
     }
+  }
+`;
+
+export interface InfoStarData {
+  getRate: {
+    success: boolean;
+    err: string;
+    isLogin: boolean;
+    meRate: number;
+    rate: number;
+  };
+}
+
+export interface InfoStarVariables {
+  id: number;
+}
+
+export const QU_COMMENTPOINT = gql`
+  query qustarpoint($id: Int!, $boardName: String!) {
     getComments(id: $id, boardName: $boardName) {
       success
       err
@@ -60,20 +79,14 @@ export const QU_EACHINFODATA = gql`
             nickName
             profileImage
           }
-          createAt
+          createdAt
         }
       }
     }
   }
 `;
-export interface InfoDetailData {
-  getRate: {
-    success: boolean;
-    err: string;
-    isLogin: boolean;
-    meRate: number;
-    rate: number;
-  };
+
+export interface InfoCommentData {
   getComments: {
     success: boolean;
     err: string;
@@ -92,4 +105,9 @@ export interface InfoDetailData {
       };
     };
   };
+}
+
+export interface InfoCommentVariables {
+  id: number;
+  boardName: string;
 }
