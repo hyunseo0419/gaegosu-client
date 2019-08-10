@@ -8,15 +8,13 @@ import 'antd/dist/antd.css';
 import './signin.css';
 import { Link, Redirect } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
-import { LOGIN_BUTTON } from '../../../queries';
+import { LOGIN_BUTTON } from './Query/QuariesSignin';
 import { Form, Icon, Input, Button, Checkbox, Layout, Breadcrumb } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
-// import Main from '../../../Component/Screen/Main/Main';
 import Headbar from '../../Shared/Headbar';
 import Footbar from '../../Shared/Footbar';
-// import client from '../../../apolloClient';
-// import ClickLoginBtn from './clickLoginBtn';
-// import Submit from './Submit';
+import client from '../../../apolloClient';
+// import { GET_ME } from '../../Shared/QuariesShared';
 
 const { Content } = Layout;
 
@@ -26,11 +24,7 @@ class Signin extends React.Component<{} & FormComponentProps> {
     password: '',
     online: false,
   };
-  handleChange = (e: any) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
+
   handleSubmit = (e: any, localLogin: any) => {
     e.preventDefault();
     this.props.form.validateFields((err: any | null, values: any | null) => {
@@ -42,8 +36,10 @@ class Signin extends React.Component<{} & FormComponentProps> {
             password: values.password,
           },
           async () => {
+            client.cache.reset();
             const response = await localLogin();
             localStorage.setItem('token', response.data.localLogin.token);
+
             this.setState({
               online: true,
             });
@@ -58,9 +54,8 @@ class Signin extends React.Component<{} & FormComponentProps> {
     return (
       <React.Fragment>
         {this.state.online === true ? (
-          <Redirect to={'/'} />
+          <Redirect to={`/`} />
         ) : (
-          // <a href="/" />
           <Layout>
             <Headbar />
             <Content style={{ padding: '0 50px', marginTop: 64 }}>
