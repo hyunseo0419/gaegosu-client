@@ -84,9 +84,9 @@ export default class RescueAdmin extends Component<{}> {
                             item.content.split(',')[1]
                           } . 상세위치 : ${
                             item.content.split(',')[2]
-                          }  . 🚨구조상태 : ${item.status} . 신고자 :${
+                          }  .  신고자 :${
                             item.creator.nickName
-                          }`}
+                          } . 🚨구조상태 : ${item.status}`}
                         />
                       </List.Item>
                     )}
