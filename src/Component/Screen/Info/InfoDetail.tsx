@@ -97,9 +97,11 @@ export default class InfoDetail extends Component<
             <div className="maparea">
               <div className="kakaomap" id="staticMap" />
             </div>
-            <ul>
-              <li>주소 {this.props.item.roadAddress}</li>
-              <li>연락처 {this.props.item.phone}</li>
+            <ul className="roadlist">
+              <li className="roadAddress">
+                주소 {this.props.item.roadAddress}
+              </li>
+              <li className="roadAddress">연락처 {this.props.item.phone}</li>
             </ul>
           </div>
           <div className="divarea">

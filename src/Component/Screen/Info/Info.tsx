@@ -153,7 +153,7 @@ class Info extends Component<{}> {
                             }
                             description={item.roadAddress}
                           />
-                          {item.phone}
+                          <div>연락처 {item.phone}</div>
                         </List.Item>
                       )}
                     />
