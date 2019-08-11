@@ -40,4 +40,21 @@ li {
   text-align: -webkit-match-parent;
 }
 
+.commentbox {
+  display: flex;
+  border-bottom: 1px solid black;
+  margin-bottom: 3px;
+}
 
+.eachcommentbox{
+  width: 100%;
+}
+
+.commentinfobox{
+  display: flex;
+  justify-content: space-between
+}
+
+.average {
+  margin-bottom: 10px;
+}
