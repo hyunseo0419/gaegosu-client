@@ -166,17 +166,17 @@ class Mypage extends Component<MyProps> {
                 message.success(`${info.file.name} file uploaded successfully`);
                 let formData = new FormData();
 
-                formData.append('photo', info.file.originFileObj);
+                formData.append('photo', info.fileList[0].originFileObj);
                 console.log('@@@@', info.file.originFileObj);
-                fetch('http://localhost:4000/', {
+                fetch('http://localhost:4000/photo', {
                   method: 'POST',
                   body: formData,
                   // headers: {
                   //   'content-type': 'multipart/form-data',
                   // },
                 })
-                  // .then(res => res.json())
-                  .then(json => console.log(json))
+                  .then(res => res.json())
+                  .then(json => console.log('##', json))
                   .catch(err => console.error('Caught error: ', err));
               } else if (info.file.status === 'error') {
                 message.error(`${info.file.name} file upload failed.`);
