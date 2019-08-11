@@ -1,5 +1,4 @@
-import React, { Component } from 'react';
-// import { Link } from 'react-router-dom';
+import React from 'react';
 import {
   GET_CONTENT,
   ADD_COMMENT,
@@ -10,7 +9,6 @@ import { Input, Button, Icon } from 'antd';
 import { Query, Mutation } from 'react-apollo';
 import { Loading, Err } from '../../Shared/loading';
 import './Album.css';
-// import AddComment from './AddComment';
 
 interface Data {
   getAlbumContent: {
@@ -112,10 +110,6 @@ export default class SingleContent extends React.Component<Props, State> {
       toggle: this.state.toggle ? false : true,
     });
     console.log('create Comment :', this.state.toggle, result);
-    // if (result.data.createComment.success) {
-    //   return alert('Comment is Applied');
-    // }
-    // return alert(result.data.changePassWord.err);
   };
 
   deleteComment = async (e: any, mufn: any) => {
@@ -125,10 +119,6 @@ export default class SingleContent extends React.Component<Props, State> {
       toggle: this.state.toggle ? false : true,
     });
     console.log('delete Comment :', this.state.toggle, result);
-    // if (result.data.createComment.success) {
-    //   return alert('Comment is Applied');
-    // }
-    // return alert(result.data.changePassWord.err);
   };
 
   handleComment = async (e: any) => {
@@ -148,9 +138,6 @@ export default class SingleContent extends React.Component<Props, State> {
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) return <Err />;
-          //   console.log('each data :', data);
-          console.log('this.props *********', this.props);
-          //   const likeState: any = data.getLikes.
           const comments: any = data.getComments.comments;
           console.log('received comments :', comments);
 
@@ -202,13 +189,6 @@ export default class SingleContent extends React.Component<Props, State> {
                   )}
                   <Mutation<getAddComm, postAddComm>
                     mutation={ADD_COMMENT}
-                    // update={(cache, {data: {getAddComm}}) => {
-                    //     const {todos: any} = cache.readQuery({query: GET_CONTENT})
-                    //     cache.writeQuery({
-                    //         query: GET_CONTENT,
-                    //         data: {todos: todos.concat([getAddComm])}
-                    //     })
-                    // }}
                     variables={{
                       boardId: this.props.boards.id,
                       boardName: this.props.boards.boardName,

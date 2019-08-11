@@ -14,7 +14,7 @@ import {
   Divider,
   Modal,
 } from 'antd';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { FormComponentProps } from 'antd/lib/form';
 import { Mutation } from 'react-apollo';
 import { MU_SIGNUP, Data, MVariables } from './Mutation/SignupMutation';
@@ -259,7 +259,7 @@ class Signup extends Component<{} & FormComponentProps> {
         required={false}
         key={k}
       >
-        {getFieldDecorator(`petname[${k}]`, {
+        {getFieldDecorator(`petname[${index}]`, {
           validateTrigger: ['onChange', 'onBlur'],
           rules: [
             {
@@ -270,11 +270,11 @@ class Signup extends Component<{} & FormComponentProps> {
           ],
         })(
           <Input
-            placeholder="PetName"
+            placeholder="필수: 애완동물이름"
             style={{ width: '62%', marginRight: 8 }}
           />
         )}
-        {getFieldDecorator(`pettype[${k}]`, {
+        {getFieldDecorator(`pettype[${index}]`, {
           validateTrigger: ['onChange', 'onBlur'],
           rules: [
             {
@@ -285,11 +285,11 @@ class Signup extends Component<{} & FormComponentProps> {
           ],
         })(
           <Input
-            placeholder="PetType(ex: 개, 고양이)"
+            placeholder="필수: 애완동물종류(ex: 개, 고양이)"
             style={{ width: '62%', marginRight: 8 }}
           />
         )}
-        {getFieldDecorator(`petbreed[${k}]`, {
+        {getFieldDecorator(`petbreed[${index}]`, {
           validateTrigger: ['onChange', 'onBlur'],
           rules: [
             {
@@ -300,7 +300,7 @@ class Signup extends Component<{} & FormComponentProps> {
           ],
         })(
           <Input
-            placeholder="PetBreed"
+            placeholder="필수: 애완동물품종(ex: 모르면 모름 기입)"
             style={{ width: '62%', marginRight: 8 }}
           />
         )}

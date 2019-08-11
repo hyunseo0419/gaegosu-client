@@ -18,6 +18,7 @@ import RescueAdmin from '../Rescue/RescueAdmin';
 import { Query } from 'react-apollo';
 import { Loading, Err } from '../../Shared/loading';
 import gql from 'graphql-tag';
+// import AdvRescue from '../Rescue/AdvRescue';
 import AdvRescue from '../Rescue/AdvRescue';
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -63,6 +64,9 @@ class Main extends Component {
             console.log(error);
             return <Err />;
           }
+          {
+            console.log('null--->>', data.getMe.user);
+          }
           console.log('getMe--->', data);
           return (
             <Layout>
@@ -75,7 +79,7 @@ class Main extends Component {
                       <TabPane tab="Report" key="1">
                         {data.getMe.user === null ? (
                           <AdvRescue />
-                        ) : data.getMe.user.admin === false ? (
+                        ) : data.getMe.user.admin !== false ? (
                           <RescueAdmin />
                         ) : (
                           <Rescue />

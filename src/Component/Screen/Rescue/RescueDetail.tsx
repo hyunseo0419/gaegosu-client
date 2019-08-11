@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Icon, Button } from 'antd';
 import { Mutation } from 'react-apollo';
 import { RESCUE_COM, COMSOS } from './Mutation/MuRescue';
+import { Redirect } from 'react-router';
 
 declare var kakao: any;
 
@@ -11,6 +12,9 @@ interface Props {
 }
 
 export default class RescueDetail extends Component<Props> {
+  state = {
+    done: false,
+  };
   constructor(props: any) {
     super(props);
     console.log('#######', this.props.list);
@@ -19,6 +23,12 @@ export default class RescueDetail extends Component<Props> {
   sosComplete = async (e: any, mufn: any) => {
     let result = await mufn();
     console.log('this is result-->', result);
+    if (result.data.completeRescue.success === true) {
+      await alert('구조 요청 확인이 완료되었습니다.');
+      this.setState({
+        done: true,
+      });
+    }
   };
 
   componentDidMount = async () => {
@@ -49,6 +59,16 @@ export default class RescueDetail extends Component<Props> {
   };
 
   render() {
+    if (this.state.done === true) {
+      return (
+        <div>
+          <div>구조 확인이 완료되었습니다.</div>
+          <a href="http://localhost:3000">
+            <Button>확인</Button>
+          </a>
+        </div>
+      );
+    }
     return (
       <div style={{ margin: '3%' }}>
         <Button

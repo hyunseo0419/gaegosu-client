@@ -23,11 +23,18 @@ class Rescue extends Component<{} & FormComponentProps> {
     lang: 0,
     detail: '',
     photo: '',
+    done: false,
   };
 
   postSOSgo = async (e: any, mufn: any) => {
     let result = await mufn();
     console.log(result);
+    if (result.data.createRescue.success === true) {
+      alert('구조 요청이 완료되었습니다.');
+      this.setState({
+        done: true,
+      });
+    }
   };
 
   handleSubmit = (e: any) => {
@@ -134,6 +141,17 @@ class Rescue extends Component<{} & FormComponentProps> {
     //   center: new kakao.maps.LatLng(33.450701, 126.570667),
     // });
     //console.log('!!!!!!', this.state);
+
+    if (this.state.done === true) {
+      return (
+        <div>
+          <div>요청이 완료되었습니다.</div>
+          <a href="http://localhost:3000">
+            <Button>확인</Button>
+          </a>
+        </div>
+      );
+    }
     return (
       <div>
         <Form
