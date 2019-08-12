@@ -36,13 +36,22 @@ class Signin extends React.Component<{} & FormComponentProps> {
             password: values.password,
           },
           async () => {
-            client.cache.reset();
             const response = await localLogin();
-            localStorage.setItem('token', response.data.localLogin.token);
+            console.log('login response ======== ', response);
+            if (response.data.localLogin.isLogin === false) {
+              alert(response.data.localLogin.err);
+              this.setState({
+                username: '',
+                password: '',
+              });
+            } else {
+              client.cache.reset();
+              localStorage.setItem('token', response.data.localLogin.token);
 
-            this.setState({
-              online: true,
-            });
+              this.setState({
+                online: true,
+              });
+            }
           }
         );
       }

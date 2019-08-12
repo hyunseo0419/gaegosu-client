@@ -8,7 +8,7 @@ import 'antd/dist/antd.css';
 import './Album.css';
 import { Redirect } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
-import { NEW_BOARD } from './Query/QuariesAlbum';
+import { FIRST_ALBUM, NEW_BOARD } from './Query/QuariesAlbum';
 import { Form, Input, Button, Layout, Breadcrumb } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import Headbar from '../../Shared/Headbar';
@@ -70,6 +70,12 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
                     boardName: this.state.boardName,
                     photo: this.state.photo,
                   }}
+                  refetchQueries={[
+                    {
+                      query: FIRST_ALBUM,
+                      variables: { boardName: 'album' },
+                    },
+                  ]}
                 >
                   {(createBoard: any) => (
                     <Form

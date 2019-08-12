@@ -87,10 +87,12 @@ interface Variables {
 
 export default class Album extends Component {
   state = {
-    category: '',
+    category: '제목',
     searchWord: '',
     lastId: 0,
     boardName: 'album',
+    search: false,
+    data: '',
   };
 
   selectCategory = (val: any) => {
@@ -100,9 +102,19 @@ export default class Album extends Component {
   };
 
   updateSearch = async (e: any, mufn: any) => {
+    this.setState({
+      lastId: 0,
+    });
     let result: any = await mufn();
     console.log('category :', this.state.category);
     console.log(result);
+
+    if (result.data.searchAlbum.success === true) {
+      this.setState({
+        search: true,
+        data: result.data.searchAlbum.boards,
+      });
+    }
   };
 
   handleSearch = async (e: any) => {
@@ -123,7 +135,10 @@ export default class Album extends Component {
           if (error) return <Err />;
           console.log(data.getFirstAlbum.boards);
 
-          const rows: any = chunk(data.getFirstAlbum.boards, 3);
+          const rows: any =
+            this.state.search === true
+              ? chunk(this.state.data, 3)
+              : chunk(data.getFirstAlbum.boards, 3);
           // const { modal1_vis, confirmLoading } = this.state;
 
           return (
@@ -164,9 +179,18 @@ export default class Album extends Component {
                     // </InputGroup>
                   )}
                 </Mutation>
-                <Link to="/new">
-                  <Button style={{ float: 'right' }}>New</Button>
-                </Link>
+                {localStorage.getItem('token') === null ? (
+                  <Button
+                    style={{ float: 'right' }}
+                    onClick={() => alert('please login')}
+                  >
+                    New
+                  </Button>
+                ) : (
+                  <Link to="/new">
+                    <Button style={{ float: 'right' }}>New</Button>
+                  </Link>
+                )}
               </span>
               {rows.map((row: any, idx: number) => (
                 <div className="row" key={idx}>
