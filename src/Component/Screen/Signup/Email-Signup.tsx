@@ -13,6 +13,9 @@ import {
   Breadcrumb,
   Divider,
   Modal,
+  Upload,
+  message,
+  Avatar,
 } from 'antd';
 import { Redirect } from 'react-router-dom';
 import { FormComponentProps } from 'antd/lib/form';
@@ -314,6 +317,40 @@ class Signup extends Component<{} & FormComponentProps> {
         ) : null}
       </Form.Item>
     ));
+
+    const signProps = {
+      name: 'file',
+      action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+      signIMG: '',
+
+      onChange(info: any) {
+        if (info.file.status !== 'uploading') {
+          console.log('--->', info.file, 'list-->', info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+          let formData = new FormData();
+
+          formData.append('photo', info.fileList[0].originFileObj);
+          console.log('@@@@', info.file.originFileObj);
+
+          fetch('http://localhost:4000/photo', {
+            method: 'POST',
+            body: formData,
+            // headers: {
+            //   'content-type': 'multipart/form-data',
+            // },
+          })
+            .then(res => res.json())
+            .then(json => (signProps.signIMG = json))
+            // .then(json => Mypage.urlSetter(json))
+            .catch(err => console.error('Caught error: ', err));
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
+
     return (
       <>
         {this.state.online === true ? (
@@ -469,6 +506,40 @@ class Signup extends Component<{} & FormComponentProps> {
                           },
                         ],
                       })(<Input style={{ width: '62%', marginRight: 8 }} />)}
+                      <Divider />
+                      <div>Profile IMG</div>
+                      {values.profileImage !== '' ? (
+                        <div style={{ textAlign: 'center' }}>
+                          <Avatar
+                            shape="square"
+                            size={250}
+                            icon="user"
+                            src={values.profileImage}
+                          />
+                        </div>
+                      ) : null}
+                      <Upload {...signProps} multiple={false}>
+                        <Button
+                          type="default"
+                          size="large"
+                          // onClick={this.userSetIMG()}
+                        >
+                          <Icon type="upload" />
+                          upload / change
+                        </Button>
+                      </Upload>
+                      <Button
+                        style={{ marginTop: '2%' }}
+                        onClick={() => {
+                          this.setState({
+                            // values.profileImage:ignProps.signIMG
+                          });
+                          console.log(this.state);
+                        }}
+                      >
+                        Confirm
+                      </Button>
+                      <div>hello</div>
                     </Form.Item>
                     <div className="container">
                       <Divider orientation="left" className="first">

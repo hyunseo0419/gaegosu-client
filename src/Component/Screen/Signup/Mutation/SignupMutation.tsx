@@ -14,9 +14,9 @@ export const MU_SIGNUP = gql`
       nickName: $nickname
       email: $email
       password: $password
+      profileImage: $profileImage
       provider: $provider
       admin: $admin
-      profileImage: $profileImage
       pets: $pets
     ) {
       status
