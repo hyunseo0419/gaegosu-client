@@ -91,6 +91,7 @@ class Mypage extends Component<MyProps> {
     editModal: false,
     newNN: '',
     newPW: '',
+    photo: null,
   };
 
   // modals =======================================
@@ -110,6 +111,13 @@ class Mypage extends Component<MyProps> {
     });
   };
   // change info ==================================
+
+  urlSetter = (url: string) => {
+    this.setState({
+      photo: url,
+    });
+  };
+
   onchangeNewPassWord = async (e: any) => {
     await this.setState({
       newPW: e.target.value,
@@ -159,6 +167,7 @@ class Mypage extends Component<MyProps> {
             action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
 
             onChange(info: any) {
+              console.log(this);
               if (info.file.status !== 'uploading') {
                 console.log('--->', info.file, 'list-->', info.fileList);
               }
@@ -166,17 +175,19 @@ class Mypage extends Component<MyProps> {
                 message.success(`${info.file.name} file uploaded successfully`);
                 let formData = new FormData();
 
-                formData.append('photo', info.file.originFileObj);
+                formData.append('photo', info.fileList[0].originFileObj);
                 console.log('@@@@', info.file.originFileObj);
-                fetch('http://localhost:4000/', {
+
+                fetch('http://localhost:4000/photo', {
                   method: 'POST',
                   body: formData,
                   // headers: {
                   //   'content-type': 'multipart/form-data',
                   // },
                 })
-                  // .then(res => res.json())
-                  .then(json => console.log(json))
+                  .then(res => res.json())
+                  .then(json => console.log('##', json))
+                  // .then(json => Mypage.urlSetter(json))
                   .catch(err => console.error('Caught error: ', err));
               } else if (info.file.status === 'error') {
                 message.error(`${info.file.name} file upload failed.`);
@@ -234,7 +245,8 @@ class Mypage extends Component<MyProps> {
                               upload / change
                             </Button>
                           </Upload>
-                        ) : null}
+                        ) : // {this.photoURL}
+                        null}
                       </Col>
                       <Col span={6} pull={18}>
                         <div
