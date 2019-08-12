@@ -17,3 +17,21 @@ export const CHANGE_PASSWORD = gql`
     }
   }
 `;
+
+export const USER_IMG = gql`
+  mutation uploadUserIMG($profileImage: String!) {
+    changeImage(profileImage: $profileImage) {
+      success
+      err
+    }
+  }
+`;
+
+export const PET_IMG = gql`
+  mutation uploadUserIMG($id: Int!, $profileImage: String!) {
+    changePetImage(id: $id, profileImage: $profileImage) {
+      success
+      err
+    }
+  }
+`;

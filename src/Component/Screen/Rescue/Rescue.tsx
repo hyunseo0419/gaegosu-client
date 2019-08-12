@@ -1,6 +1,14 @@
-/*global kakao*/
 import React, { Component } from 'react';
-import { Form, Input, Button, Tabs, Upload, message, Icon } from 'antd';
+import {
+  Form,
+  Input,
+  Button,
+  Tabs,
+  Upload,
+  message,
+  Icon,
+  Divider,
+} from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { Mutation } from 'react-apollo';
 import { POSTSOS, POST_RESCUE, POSTVALUES } from './Mutation/MuRescue';
@@ -229,23 +237,30 @@ class Rescue extends Component<{} & FormComponentProps> {
             })(<Input />)}
           </Form.Item>
           <Tabs defaultActiveKey="1" onChange={callback}>
-            <TabPane tab="주의사항" key="1" style={{ marginBottom: '5%' }}>
-              허위 신고는 혼나요!
+            <TabPane tab="신고 동의 약관" key="1">
+              허위의 정보를 기재하거나, 장난으로 구조 요청을 하는 경우 <br />
+              300만원 이하의 벌금이 부과되며 서비스 이용자격이 박탈됩니다.
+              <br />
+              허위가 아닌 정확한 신고로 더 많은 동물을 구조할 수 있습니다.
+              <br />
+              감사합니다.
             </TabPane>
           </Tabs>
           <Form.Item wrapperCol={{ span: 12, offset: 5 }}>
             <div style={{ textAlign: 'center', marginLeft: '12%' }}>
+              <div>약관에 동의하십니까?</div>
               <Button
                 type="primary"
                 htmlType="submit"
                 size="large"
                 style={{ marginLeft: '4%' }}
               >
-                상세정보 확인
+                네, 동의합니다.
               </Button>
             </div>
           </Form.Item>
         </Form>
+        <Divider />
         <Mutation<POSTSOS, POSTVALUES>
           mutation={POST_RESCUE}
           variables={{
@@ -260,7 +275,7 @@ class Rescue extends Component<{} & FormComponentProps> {
               type="primary"
               htmlType="submit"
               size="large"
-              style={{ marginLeft: '4%' }}
+              style={{ marginLeft: '46%' }}
               onClick={e => {
                 this.postSOSgo(e, postData);
               }}

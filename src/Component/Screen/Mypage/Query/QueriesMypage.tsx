@@ -10,6 +10,7 @@ export const MY_PROFILE = gql`
         email
         provider
         pets {
+          id
           name
           animal
           breeds
