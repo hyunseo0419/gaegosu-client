@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Input, List, Avatar, Button } from 'antd';
+import { List, Avatar, Button } from 'antd';
 //import { Link } from 'react-router-dom';
 //import { RouteComponentProps } from 'react-router';
 import InfoDetail from './InfoDetail';
@@ -103,7 +103,6 @@ class Info extends Component<{}> {
   }
 
   render() {
-
     const { detail, locate } = this.state;
 
     console.log('info 렌더 동작');
