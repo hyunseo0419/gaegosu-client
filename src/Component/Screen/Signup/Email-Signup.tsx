@@ -76,7 +76,7 @@ class Signup extends Component<{} & FormComponentProps> {
           values.pets[i].profileImage = '';
         }
         values.admin = false;
-        values.profileImage = '';
+        values.profileImage = this.state.values.profileImage;
         values.provider = 'local';
         this.setState(
           {
@@ -221,6 +221,8 @@ class Signup extends Component<{} & FormComponentProps> {
   };
 
   render() {
+    console.log('this.state--->', this.state);
+
     const { values, val, authWord } = this.state;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
@@ -531,17 +533,22 @@ class Signup extends Component<{} & FormComponentProps> {
                       <Button
                         style={{ marginTop: '2%' }}
                         onClick={() => {
+                          console.log(
+                            'signProps.signIMG--->',
+                            signProps.signIMG
+                          );
                           this.setState({
-                            // values.profileImage:ignProps.signIMG
+                            values: {
+                              profileImage: signProps.signIMG,
+                            },
                           });
-                          console.log(this.state);
                         }}
                       >
                         Confirm
                       </Button>
                       <div>hello</div>
                     </Form.Item>
-                    <div className="container">
+                    <div className="petcontainer">
                       <Divider orientation="left" className="first">
                         애완동물 정보 기입 [선택사항]
                       </Divider>
