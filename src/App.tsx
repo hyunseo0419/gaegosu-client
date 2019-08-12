@@ -7,6 +7,7 @@ import Main from './Component/Screen/Main/Main';
 import Signin from './Component/Screen/Signin/Signin';
 import Mypage from './Component/Screen/Mypage/Mypage';
 import NewBoard from './Component/Screen/Album/NewBoard';
+import KaKaoSignPage from './Component/Screen/KakaoSign/KaKaoSignPage';
 
 class App extends Component {
   render() {
@@ -19,6 +20,11 @@ class App extends Component {
             <Route exact={true} path={'/signup'} component={CommmonSignup} />
             <Route exact={true} path={'/login'} component={Signin} />
             <Route exact={true} path={'/mypage/:id'} component={Mypage} />
+            <Route
+              exact={true}
+              path={'/kakao/:token'}
+              component={KaKaoSignPage}
+            />
           </React.Fragment>
         </Router>
       </ApolloProvider>
