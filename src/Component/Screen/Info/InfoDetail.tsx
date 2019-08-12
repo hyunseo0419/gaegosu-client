@@ -72,7 +72,7 @@ export default class InfoDetail extends Component<
     });
     // 마커가 지도 위에 표시되도록 설정합니다
     marker.setMap(map);
-    var iwContent = `<div style="padding:5px;">${this.props.item.title}<br><a href="https://map.kakao.com/link/map/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/Hello World!,33.450701,126.570667" style="color:blue" target="_blank">길찾기</a></div>`,
+    var iwContent = `<div style="padding:5px;">${this.props.item.title}<br><a href="https://map.kakao.com/link/map/${this.props.item.title},${this.props.item.locationY},${this.props.item.locationX}" style="color:blue" target="_blank">큰지도보기</a> <a href="https://map.kakao.com/link/to/${this.props.item.title},${this.props.item.locationY},${this.props.item.locationX}" style="color:blue" target="_blank">길찾기</a></div>`,
       iwPosition: any = new kakao.maps.LatLng(
         this.props.item.locationY,
         this.props.item.locationX
