@@ -84,7 +84,6 @@ interface Variables {
 //     <Menu.Item key="3">3rd menu item</Menu.Item>
 //   </Menu>
 // );
-
 export default class Album extends Component {
   state = {
     category: '제목',
@@ -94,6 +93,25 @@ export default class Album extends Component {
     search: false,
     data: '',
   };
+
+  // infiniteScroll = () => {
+  //   let scrollHeight = Math.max(
+  //     document.documentElement.scrollHeight,
+  //     document.body.scrollHeight
+  //   );
+  //   let scrollTop = Math.max(
+  //     document.documentElement.scrollTop,
+  //     document.body.scrollTop
+  //   );
+  //   let clientHeight = document.documentElement.clientHeight;
+
+  //   if (scrollTop + clientHeight === scrollHeight) {
+  //     this.setState({
+  //       preitems: this.state.items,
+  //       items: this.state.items + 9,
+  //     });
+  //   }
+  // };
 
   selectCategory = (val: any) => {
     this.setState({
@@ -106,22 +124,58 @@ export default class Album extends Component {
       lastId: 0,
     });
     let result: any = await mufn();
-    console.log('category :', this.state.category);
-    console.log(result);
+    // console.log('category :', this.state.category);
+    // console.log(result);
 
-    if (result.data.searchAlbum.success === true) {
+    if (
+      result.data.searchAlbum.success === true &&
+      result.data.searchAlbum.boards.length !== 0
+    ) {
       this.setState({
         search: true,
         data: result.data.searchAlbum.boards,
+        lastId:
+          result.data.searchAlbum.boards[
+            result.data.searchAlbum.boards.length - 1
+          ].id,
+      });
+    } else {
+      this.setState({
+        search: true,
+        data: result.data.searchAlbum.boards,
+        lastId: 0,
       });
     }
   };
 
-  handleSearch = async (e: any) => {
-    await this.setState({
+  handleSearch = (e: any) => {
+    this.setState({
       searchWord: e.target.value,
     });
-    console.log("!!'", this.state.searchWord);
+    // console.log("!!'", this.state.searchWord);
+  };
+
+  // componentDidMount() {
+  //   window.addEventListener('scroll', this.infiniteScroll, true);
+  // }
+
+  plusSearchData = async (e: any, searchAlbum: any) => {
+    const resSearchAlbum = await searchAlbum();
+    // console.log('---plusSearchData----', resSearchAlbum);
+    // console.log('data--->', this.state.data);
+
+    let newData = Array.from(this.state.data);
+    console.log('newData--->', newData);
+    if (resSearchAlbum.data.searchAlbum.boards.length !== 0) {
+      newData = newData.concat(resSearchAlbum.data.searchAlbum.boards);
+      this.setState({
+        data: newData,
+        lastId:
+          resSearchAlbum.data.searchAlbum.boards[
+            resSearchAlbum.data.searchAlbum.boards.length - 1
+          ].id,
+      });
+    }
   };
 
   render() {
@@ -133,12 +187,24 @@ export default class Album extends Component {
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) return <Err />;
-          console.log(data.getFirstAlbum.boards);
-
-          const rows: any =
-            this.state.search === true
-              ? chunk(this.state.data, 3)
-              : chunk(data.getFirstAlbum.boards, 3);
+          console.log(
+            '머야-->',
+            data.getFirstAlbum.boards[data.getFirstAlbum.boards.length - 1].id
+          );
+          if (this.state.lastId === 0 && this.state.search === false) {
+            this.setState({
+              lastId:
+                data.getFirstAlbum.boards[data.getFirstAlbum.boards.length - 1]
+                  .id,
+              data: data.getFirstAlbum.boards,
+            });
+          }
+          // const rows: any =
+          //   this.state.search === true
+          //     ? chunk(this.state.data, 3)
+          //     : chunk(data.getFirstAlbum.boards, 3);
+          const rows = chunk(this.state.data, 3);
+          console.log('rows--->', rows);
           // const { modal1_vis, confirmLoading } = this.state;
 
           return (
@@ -150,7 +216,7 @@ export default class Album extends Component {
                   variables={{
                     category: this.state.category,
                     searchWord: this.state.searchWord,
-                    lastId: this.state.lastId,
+                    lastId: 0,
                     boardName: this.state.boardName,
                   }}
                 >
@@ -192,13 +258,46 @@ export default class Album extends Component {
                   </Link>
                 )}
               </span>
-              {rows.map((row: any, idx: number) => (
-                <div className="row" key={idx}>
-                  {row.map((col: any, idx: number) => (
-                    <SingleIMG idx={idx} col={col} />
-                  ))}
-                </div>
-              ))}
+
+              <div>
+                {rows.map((row: any, idx: number) => (
+                  <div className="row" key={idx}>
+                    {row.map((col: any, idx: number) => (
+                      <SingleIMG idx={idx} col={col} />
+                    ))}
+                  </div>
+                ))}
+              </div>
+
+              <Mutation<getSearch, postSearch>
+                mutation={SEARCH_ALBUM}
+                variables={{
+                  category: this.state.category,
+                  searchWord: this.state.searchWord,
+                  lastId: this.state.lastId,
+                  boardName: this.state.boardName,
+                }}
+              >
+                {searchAlbum => (
+                  <div
+                    style={{
+                      textAlign: 'center',
+                      marginTop: 12,
+                      height: 32,
+                      lineHeight: '32px',
+                    }}
+                  >
+                    <Button
+                      icon="download"
+                      onClick={e => {
+                        this.plusSearchData(e, searchAlbum);
+                      }}
+                    >
+                      loading more
+                    </Button>
+                  </div>
+                )}
+              </Mutation>
             </div>
           );
         }}
