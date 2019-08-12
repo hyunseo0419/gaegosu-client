@@ -64,9 +64,6 @@ class Main extends Component {
             console.log(error);
             return <Err />;
           }
-          {
-            console.log('null--->>', data.getMe.user);
-          }
           console.log('getMe--->', data);
           return (
             <Layout>

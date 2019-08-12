@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Icon, Button } from 'antd';
 import { Mutation } from 'react-apollo';
 import { RESCUE_COM, COMSOS } from './Mutation/MuRescue';
-import { Redirect } from 'react-router';
+// import { Redirect } from 'react-router';
 
 declare var kakao: any;
 

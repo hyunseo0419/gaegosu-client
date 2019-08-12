@@ -16,10 +16,16 @@ import {
   Icon,
 } from 'antd';
 import { MY_PROFILE } from './Query/QueriesMypage';
-import { CHANGE_NICKNAME } from './Mutation/MutationMypage';
-import { CHANGE_PASSWORD } from './Mutation/MutationMypage';
+import {
+  CHANGE_PASSWORD,
+  CHANGE_NICKNAME,
+  USER_IMG,
+  PET_IMG,
+} from './Mutation/MutationMypage';
+
 import { Query, Mutation } from 'react-apollo';
 import { Loading, Err } from '../../Shared/loading';
+import Info from '../Info/Info';
 
 interface Data {
   getUser: {
@@ -30,6 +36,7 @@ interface Data {
       email: string;
       provider: string;
       pets: {
+        id: number;
         name: string;
         animal: string;
         breeds: string;
@@ -38,7 +45,7 @@ interface Data {
     };
   };
 }
-
+//========URL params & Varialbes=====================
 interface MyProps {
   match: {
     params: {
@@ -47,28 +54,35 @@ interface MyProps {
   };
 }
 
+interface Variables {
+  id: any;
+}
+//========change info================================
 interface getNickNew {
   success: boolean;
   err: string;
   isLogin: boolean;
 }
-
 interface postNickNew {
   newNickName: string;
 }
-
 interface getPassNew {
   success: boolean;
   err: string;
   isLogin: boolean;
 }
-
 interface postPassNew {
   password: string;
 }
+//========change img=================================
+interface uploadUser {
+  success: boolean;
+  err: string;
+}
 
-interface Variables {
-  id: any;
+interface uploadPet {
+  success: boolean;
+  err: string;
 }
 
 // interface res {
@@ -91,10 +105,11 @@ class Mypage extends Component<MyProps> {
     editModal: false,
     newNN: '',
     newPW: '',
-    photo: null,
+    userPhoto: null,
+    petPhoto: null,
   };
 
-  // modals =======================================
+  // modals ==============================================================================
   showModal = () => {
     this.setState({
       editModal: true,
@@ -110,7 +125,7 @@ class Mypage extends Component<MyProps> {
       editModal: false,
     });
   };
-  // change info ==================================
+  // change info =========================================================================
 
   urlSetter = (url: string) => {
     this.setState({
@@ -149,8 +164,30 @@ class Mypage extends Component<MyProps> {
     }
     return alert(result.data.changeNickName.err);
   };
-  // ==============================================
+  // change img===========================================================================
+  userSetIMG = async (user: string, muFn: any) => {
+    await this.setState({
+      userPhoto: user,
+    });
+    let result = muFn();
+    console.log('result====>', result);
+  };
 
+  petSetIMG = async (pet: string, muFn: any) => {
+    await this.setState({
+      petPhoto: pet,
+    });
+    let result = muFn();
+    console.log('result====>', result);
+  };
+
+  // changeUserIMG = (user: string, mufn) => {
+  //   this.setState({
+  //     userPhoto: user,
+  //   });
+  // };
+
+  // =====================================================================================
   render() {
     console.log(Number(this.props.match.params.id));
     const personalId = Number(this.props.match.params.id);
@@ -162,12 +199,13 @@ class Mypage extends Component<MyProps> {
           console.log(data);
 
           // =====================file uploead part==============================
-          const props = {
+
+          const userProps = {
             name: 'file',
             action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+            userIMG: '',
 
             onChange(info: any) {
-              console.log(this);
               if (info.file.status !== 'uploading') {
                 console.log('--->', info.file, 'list-->', info.fileList);
               }
@@ -186,7 +224,7 @@ class Mypage extends Component<MyProps> {
                   // },
                 })
                   .then(res => res.json())
-                  .then(json => console.log('##', json))
+                  .then(json => (userProps.userIMG = json))
                   // .then(json => Mypage.urlSetter(json))
                   .catch(err => console.error('Caught error: ', err));
               } else if (info.file.status === 'error') {
@@ -194,10 +232,44 @@ class Mypage extends Component<MyProps> {
               }
             },
           };
+
+          const petProps = {
+            name: 'file',
+            action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+            petIMG: '',
+
+            onChange(info: any) {
+              if (info.file.status !== 'uploading') {
+                console.log('--->', info.file, 'list-->', info.fileList);
+              }
+              if (info.file.status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully`);
+                let formData = new FormData();
+
+                formData.append('photo', info.fileList[0].originFileObj);
+                console.log('@@@@', info.file.originFileObj);
+
+                fetch('http://localhost:4000/photo', {
+                  method: 'POST',
+                  body: formData,
+                  // headers: {
+                  //   'content-type': 'multipart/form-data',
+                  // },
+                })
+                  .then(res => res.json())
+                  .then(json => (petProps.petIMG = json))
+                  // .then(json => Mypage.urlSetter(json))
+                  .catch(err => console.error('Caught error: ', err));
+              } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+              }
+            },
+          };
+
           //=====================================================================
 
           const profile = data.getUser.user;
-          console.log('@@@@@@@@@@@@@', profile.pets[0]);
+
           return (
             <Layout>
               <Headbar />
@@ -222,7 +294,11 @@ class Mypage extends Component<MyProps> {
                   >
                     <Row>
                       <Col span={18} push={10}>
-                        <div>
+                        <div
+                          style={{
+                            textAlign: 'center',
+                          }}
+                        >
                           <Avatar
                             size={250}
                             icon="user"
@@ -232,19 +308,47 @@ class Mypage extends Component<MyProps> {
                         </div>
 
                         {data.getUser.isMe === true ? (
-                          <Upload {...props}>
-                            <Button
-                              type="default"
-                              size="large"
-                              //onClick={this.showModal}
-                              style={{
-                                marginLeft: '21%',
+                          <div
+                            style={{
+                              textAlign: 'center',
+                            }}
+                          >
+                            <Upload {...userProps} multiple={false}>
+                              <Button
+                                type="default"
+                                size="large"
+                                // onClick={this.userSetIMG()}
+                              >
+                                <Icon type="upload" />
+                                upload / change
+                              </Button>
+                            </Upload>
+                            <Mutation<uploadUser>
+                              mutation={USER_IMG}
+                              variables={{
+                                profileImage: this.state.userPhoto,
                               }}
+                              refetchQueries={[
+                                {
+                                  query: MY_PROFILE,
+                                  variables: {
+                                    id: personalId,
+                                  },
+                                },
+                              ]}
                             >
-                              <Icon type="upload" />
-                              upload / change
-                            </Button>
-                          </Upload>
+                              {postIMG => (
+                                <Button
+                                  style={{ marginTop: '2%' }}
+                                  onClick={() => {
+                                    this.userSetIMG(userProps.userIMG, postIMG);
+                                  }}
+                                >
+                                  Confirm
+                                </Button>
+                              )}
+                            </Mutation>
+                          </div>
                         ) : // {this.photoURL}
                         null}
                       </Col>
@@ -286,7 +390,12 @@ class Mypage extends Component<MyProps> {
                                 <Button
                                   type="default"
                                   size="large"
-                                  // onClick={this.showModal}
+                                  onClick={() => {
+                                    console.log(
+                                      '@@@@@@@@@@@@@@@@@@@',
+                                      userProps.userIMG
+                                    );
+                                  }}
                                 >
                                   exit
                                 </Button>
@@ -361,57 +470,93 @@ class Mypage extends Component<MyProps> {
                       </Col>
                     </Row>
                     <br />
-                    <Divider>Pet</Divider>
+
                     {profile.pets[0] !== undefined ? (
                       <span>
-                        <br />
-                        <Row>
-                          <Col span={18} push={10}>
-                            <div>
-                              <Avatar
-                                size={250}
-                                icon="user"
-                                src={profile.pets[0].profileImage}
-                                style={{ margin: '10%' }}
-                              />
-                            </div>
-                            {data.getUser.isMe === true ? (
-                              <Upload {...props}>
-                                <Button
-                                  type="default"
-                                  size="large"
-                                  //onClick={this.showModal}
+                        {profile.pets.map((ele: any, idx: number) => (
+                          <div key={ele.id + ele.name}>
+                            <Divider>Pet {idx + 1}</Divider>
+                            <Row>
+                              <Col span={18} push={10}>
+                                <div style={{ textAlign: 'center' }}>
+                                  <Avatar
+                                    size={250}
+                                    icon="user"
+                                    src={ele.profileImage}
+                                    style={{ margin: '10%' }}
+                                  />
+                                </div>
+                                {data.getUser.isMe === true ? (
+                                  <div
+                                    style={{
+                                      textAlign: 'center',
+                                    }}
+                                  >
+                                    <Upload {...petProps}>
+                                      <Button
+                                        type="default"
+                                        size="large"
+                                        style={{ marginBottom: '8%' }}
+                                      >
+                                        <Icon type="upload" />
+                                        upload / change
+                                      </Button>
+                                    </Upload>
+                                    <Mutation<uploadPet>
+                                      mutation={PET_IMG}
+                                      variables={{
+                                        id: ele.id,
+                                        profileImage: this.state.petPhoto,
+                                      }}
+                                      refetchQueries={[
+                                        {
+                                          query: MY_PROFILE,
+                                          variables: {
+                                            id: personalId,
+                                          },
+                                        },
+                                      ]}
+                                    >
+                                      {postIMG => (
+                                        <Button
+                                          style={{ marginTop: '2%' }}
+                                          onClick={() => {
+                                            this.petSetIMG(
+                                              petProps.petIMG,
+                                              postIMG
+                                            );
+                                          }}
+                                        >
+                                          Confirm
+                                        </Button>
+                                      )}
+                                    </Mutation>
+                                  </div>
+                                ) : null}
+                              </Col>
+                              <Col span={6} pull={18}>
+                                <div
                                   style={{
-                                    marginLeft: '21%',
+                                    marginTop: '20%',
+                                    marginBottom: '20%',
+                                    fontSize: 20,
                                   }}
                                 >
-                                  <Icon type="upload" />
-                                  upload / change
-                                </Button>
-                              </Upload>
-                            ) : null}
-                          </Col>
-                          <Col span={6} pull={18}>
-                            <div
-                              style={{
-                                marginTop: '20%',
-                                marginBottom: '20%',
-                                fontSize: 20,
-                              }}
-                            >
-                              <div>Pet's Name : </div>
-                              <div>{profile.pets[0].name}</div>
-                              <br />
-                              <br />
-                              <div>Animal : </div>
-                              <div>{profile.pets[0].animal}</div>
-                              <br />
-                              <br />
-                              <div>Breeds : </div>
-                              <div>{profile.pets[0].breeds}</div>
-                            </div>
-                          </Col>
-                        </Row>
+                                  <div>Pet's Name : </div>
+                                  <div>{ele.name}</div>
+                                  <br />
+                                  <br />
+                                  <div>Animal : </div>
+                                  <div>{ele.animal}</div>
+                                  <br />
+                                  <br />
+                                  <div>Breeds : </div>
+                                  <div>{ele.breeds}</div>
+                                </div>
+                              </Col>
+                            </Row>
+                          </div>
+                        ))}
                       </span>
                     ) : null}
                   </div>
