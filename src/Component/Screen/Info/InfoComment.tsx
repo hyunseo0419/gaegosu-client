@@ -16,6 +16,7 @@ import {
 } from './Query/QuInfo';
 import { Mutation, Query } from 'react-apollo';
 import { Loading, Err } from '../../Shared/loading';
+import { Link } from 'react-router-dom';
 
 const { TextArea } = Input;
 
@@ -105,7 +106,9 @@ export default class InfoComment extends Component<
                       <div className="eachcommentbox">
                         <div className="commentinfobox">
                           <div className="commentid">
-                            {value.comment.creator.nickName}
+                            <Link to={`/mypage/${value.comment.creator.id}`}>
+                              {value.comment.creator.nickName}
+                            </Link>
                           </div>
                           <div className="commentcreatAt">
                             {value.comment.createdAt}
