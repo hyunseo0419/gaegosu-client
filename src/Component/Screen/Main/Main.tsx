@@ -79,7 +79,7 @@ class Main extends Component {
                       <TabPane tab="Report" key="1">
                         {data.getMe.user === null ? (
                           <AdvRescue />
-                        ) : data.getMe.user.admin !== false ? (
+                        ) : data.getMe.user.admin === false ? (
                           <RescueAdmin />
                         ) : (
                           <Rescue />

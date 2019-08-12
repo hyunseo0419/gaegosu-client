@@ -64,7 +64,7 @@ export default class RescueAdmin extends Component<{}> {
                     renderItem={item => (
                       <List.Item>
                         <List.Item.Meta
-                          avatar={<Avatar icon="medicine-box" />}
+                          avatar={<Avatar icon="alert" />}
                           //title={<Link to="/Path">{item.title}</Link>}
                           title={
                             <div>
