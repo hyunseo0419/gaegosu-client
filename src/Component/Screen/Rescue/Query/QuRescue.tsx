@@ -13,6 +13,7 @@ export const GET_SOS = gql`
           nickName
         }
         status
+        photo
         createdAt
       }
     }
@@ -31,6 +32,7 @@ export interface SOSData {
         nickName: string;
       };
       status: boolean;
+      photo: string;
       createdAt: string;
     };
   };

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Button } from 'antd';
+import { Icon, Button, Avatar } from 'antd';
 import { Mutation } from 'react-apollo';
 import { RESCUE_COM, COMSOS } from './Mutation/MuRescue';
 // import { Redirect } from 'react-router';
@@ -71,39 +71,60 @@ export default class RescueDetail extends Component<Props> {
     }
     return (
       <div style={{ margin: '3%' }}>
-        <Button
-          onClick={(e: any) => this.props.back(e)}
-          style={{ marginBottom: '4%' }}
-        >
-          <Icon type="left" />
-          Go back
-        </Button>
-        <h3>동물 : {this.props.list.content.split(',')[0]}</h3>
-        <h3>상태 : {this.props.list.content.split(',')[1]}</h3>
-        <h3>위치 : {this.props.list.content.split(',')[2]}</h3>
+        <div style={{ float: 'left' }}>
+          <Button
+            onClick={(e: any) => this.props.back(e)}
+            style={{ marginBottom: '4%' }}
+          >
+            <Icon type="left" />
+            Go back
+          </Button>
+          <h3 style={{ marginBottom: '40%', marginTop: '40%' }}>
+            동물 : {this.props.list.content.split(',')[0]}
+          </h3>
+          <h3 style={{ marginBottom: '40%' }}>
+            상태 : {this.props.list.content.split(',')[1]}
+          </h3>
+          <h3 style={{ marginBottom: '40%' }}>
+            위치 : {this.props.list.content.split(',')[2]}
+          </h3>
+        </div>
+        {this.props.list.photo !== '' ? (
+          <div style={{ float: 'left', marginLeft: '20%', marginBottom: '5%' }}>
+            <Avatar
+              shape="square"
+              size={250}
+              icon="user"
+              src={this.props.list.photo}
+            />
+          </div>
+        ) : null}
         <div
           className="kakaomap"
           id="map"
           style={{
             textAlign: 'center',
-            width: '80%',
+            width: '70%',
             height: 350,
             marginTop: '1%',
           }}
         />
+
         <Mutation<COMSOS>
           mutation={RESCUE_COM}
           variables={{ id: this.props.list.id }}
         >
           {status => (
-            <Button
-              onClick={e => {
-                this.sosComplete(e, status);
-              }}
-              style={{ marginBottom: '4%' }}
-            >
-              Rescue Complete
-            </Button>
+            <div style={{ marginTop: '10%', marginLeft: '35%' }}>
+              <Button
+                onClick={e => {
+                  this.sosComplete(e, status);
+                }}
+                style={{ marginBottom: '4%' }}
+              >
+                Rescue Complete
+              </Button>
+            </div>
           )}
         </Mutation>
       </div>
