@@ -6,7 +6,7 @@ ul {
 
 .container {
   width: 480px;
-  display: flex;
+  /* display: flex; */
 }
 .box-left {
   width: 48%;
