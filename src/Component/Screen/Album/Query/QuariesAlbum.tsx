@@ -22,6 +22,38 @@ export const FIRST_ALBUM = gql`
   }
 `;
 
+export const SEARCH_ALBUM = gql`
+  mutation searchAlbum(
+    $category: String!
+    $searchWord: String!
+    $lastId: Int
+    $boardName: String!
+  ) {
+    searchAlbum(
+      category: $category
+      searchWord: $searchWord
+      lastId: $lastId
+      boardName: $boardName
+    ) {
+      success
+      err
+      boards {
+        id
+        title
+        content
+        photo
+        creator {
+          id
+          nickName
+        }
+        boardName
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
 export const NEW_BOARD = gql`
   mutation createAlbum(
     $title: String!
