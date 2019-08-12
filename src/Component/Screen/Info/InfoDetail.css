@@ -25,7 +25,7 @@
   overflow: hidden;
 } */
 
-ul {
+.roadlist {
   display: block;
   list-style-type: disc;
   margin-block-start: 1em;
@@ -35,9 +35,26 @@ ul {
   padding-inline-start: 40px;
 }
 
-li {
+.roadAddress {
   display: list-item;
   text-align: -webkit-match-parent;
 }
 
+.commentbox {
+  display: flex;
+  border-bottom: 1px solid black;
+  margin-bottom: 3px;
+}
 
+.eachcommentbox{
+  width: 100%;
+}
+
+.commentinfobox{
+  display: flex;
+  justify-content: space-between
+}
+
+.average {
+  margin-bottom: 3px;
+}

@@ -5,8 +5,10 @@ import {
   MU_CRETECOMMENT,
   CreateCommentData,
   CreateVariables,
+  MU_DELETECOMMENT,
+  DeleteCommentData,
+  DelteteCommentVariables,
 } from './Mutation/MuInfo';
-
 import {
   QU_COMMENTPOINT,
   InfoCommentData,
@@ -14,17 +16,20 @@ import {
 } from './Query/QuInfo';
 import { Mutation, Query } from 'react-apollo';
 import { Loading, Err } from '../../Shared/loading';
+import { Link } from 'react-router-dom';
 
 const { TextArea } = Input;
 
-interface InfoCommentProps {}
+interface InfoCommentProps {
+  hospitalid: number;
+}
 
 interface InfoCommentState {
   writeReply: any;
   create: any;
 }
 
-//var reply = '';
+var reply = '';
 
 export default class InfoComment extends Component<
   InfoCommentProps,
@@ -34,7 +39,7 @@ export default class InfoComment extends Component<
     super(props);
     console.log('commeent---->', this.props);
     this.state = {
-      writeReply: undefined,
+      writeReply: '',
       create: false, //뮤테이션 함수에 같이 넣어서 쿼리 재렌더링 없애야함
     };
   }
@@ -43,22 +48,19 @@ export default class InfoComment extends Component<
     //id를 비교 후 삭제
     //console.log('reply onclick e---->', e);
   };
+
   replyWrite = (e: any) => {
-    // console.log('e--->', e.target.value);
-    // // this.setState({
-    // //   wirteReply: e.target.value,
-    // // });
-    // reply = e.target.value;
-    // console.log('reply-->', reply);
-    // this.setState({
-    //   writeReply: reply,
-    // });
+    reply = e.target.value;
+    console.log('reply-->', reply);
+    this.setState({
+      writeReply: reply,
+    });
   };
 
   errorLogin = () => {
     Modal.error({
       title: '댓글작성은 로그인을 해야 합니다!!!',
-      content: '로그인 후 이용 해주세요',
+      content: '로그인 상태면 로그아웃 후 재로그인 부탁드립니다',
     });
   };
 
@@ -69,60 +71,105 @@ export default class InfoComment extends Component<
     }
   };
 
+  deleteMyComment = async (e: any, deleteComment: any) => {
+    const resDeleteData = await deleteComment();
+    console.log('resDeleteData--->', resDeleteData);
+    if (resDeleteData.data.deleteComment.isLogin === false) {
+      alert('로그아웃 후 재로그인');
+    }
+  };
+
   render() {
-    //console.log('infoComment렌더링');
+    const { hospitalid } = this.props;
+    const { writeReply } = this.state;
+    //console.log('hospitalid-->', hospitalid, writeReply);
     return (
       <Query<InfoCommentData, InfoCommentVariables>
         query={QU_COMMENTPOINT}
-        variables={{ id: 1, boardName: 'info' }}
+        variables={{ id: hospitalid, boardName: 'info' }}
       >
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) return <Err />;
-          //console.log('commentdata--->', data);
+          console.log('commentdata--->', data.getComments.comments);
+          let commentData = data.getComments.comments;
           return (
             <div>
               <div>
-                {/* <List
-                  className="comment-list"
-                  header={`${data.length} replies`}
-                  itemLayout="horizontal"
-                  dataSource={data}
-                  renderItem={(item: any) => (
-                    <li>
-                      <Comment
-                        author={item.author}
-                        avatar={item.avatar}
-                        content={item.content}
-                        datetime={item.datetime}
-                      />
-                      <Button
-                        style={{}}
-                        onClick={(e: any) => {
-                          this.replydelete(e);
-                        }}
-                      >
-                        delete
-                      </Button>
-                    </li>
-                  )}
-                /> */}
-                잘되냐?
+                {commentData.map((value: any, i: any) => {
+                  return (
+                    <div
+                      className="commentbox"
+                      key={value.comment.creator.nickName + i}
+                    >
+                      <div className="avatar">사진</div>
+                      <div className="eachcommentbox">
+                        <div className="commentinfobox">
+                          <div className="commentid">
+                            <Link to={`/mypage/${value.comment.creator.id}`}>
+                              {value.comment.creator.nickName}
+                            </Link>
+                          </div>
+                          <div className="commentcreatAt">
+                            {value.comment.createdAt}
+                          </div>
+                        </div>
+                        <div className="comment">{value.comment.content}</div>
+                      </div>
+                      {value.isMe === true ? (
+                        <Mutation<DeleteCommentData, DelteteCommentVariables>
+                          mutation={MU_DELETECOMMENT}
+                          variables={{ id: value.comment.id }}
+                          refetchQueries={[
+                            {
+                              query: QU_COMMENTPOINT,
+                              variables: {
+                                id: hospitalid,
+                                boardName: 'info',
+                              },
+                            },
+                          ]}
+                        >
+                          {deleteComment => (
+                            <Button
+                              onClick={e => {
+                                this.deleteMyComment(e, deleteComment);
+                              }}
+                            >
+                              삭제
+                            </Button>
+                          )}
+                        </Mutation>
+                      ) : (
+                        <div></div>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
               <div>
                 <TextArea
                   rows={4}
-                  onChange={e => {
+                  onChange={(e: any) => {
                     this.replyWrite(e);
                   }}
                 />
                 <Mutation<CreateCommentData, CreateVariables>
                   mutation={MU_CRETECOMMENT}
                   variables={{
-                    boardId: 1,
+                    boardId: hospitalid,
                     boardName: 'info',
-                    content: '짱좋아요',
+                    content: writeReply,
                   }}
+                  refetchQueries={[
+                    {
+                      query: QU_COMMENTPOINT,
+                      variables: {
+                        id: hospitalid,
+                        boardName: 'info',
+                      },
+                    },
+                  ]}
                 >
                   {createComment => (
                     <Button
