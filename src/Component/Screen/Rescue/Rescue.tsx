@@ -8,6 +8,7 @@ import {
   message,
   Icon,
   Divider,
+  Avatar,
 } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { Mutation } from 'react-apollo';
@@ -95,8 +96,20 @@ class Rescue extends Component<{} & FormComponentProps> {
           // 마커 위치를 클릭한 위치로 옮깁니다
           marker.setPosition(latlng);
 
-          var message = '클릭한 위치의 위도는 ' + latlng.getLat() + ' 이고, ';
-          message += '경도는 ' + latlng.getLng() + ' 입니다';
+          var message =
+            '클릭한 위치의 위도는 ' +
+            latlng
+              .getLat()
+              .toString()
+              .slice(0, 10) +
+            ' 이고, ';
+          message +=
+            '경도는 ' +
+            latlng
+              .getLng()
+              .toString()
+              .slice(0, 10) +
+            ' 입니다';
 
           currLat = latlng.getLat();
           currLang = latlng.getLng();
@@ -112,10 +125,10 @@ class Rescue extends Component<{} & FormComponentProps> {
   };
 
   render() {
-    const props = {
+    const SOSprops = {
       name: 'file',
       action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-
+      animalIMG: '',
       onChange(info: any) {
         if (info.file.status !== 'uploading') {
           console.log('--->', info.file, 'list-->', info.fileList);
@@ -126,15 +139,15 @@ class Rescue extends Component<{} & FormComponentProps> {
 
           formData.append('photo', info.file.originFileObj);
           console.log('@@@@', info.file.originFileObj);
-          fetch('http://localhost:4000/', {
+          fetch('http://localhost:4000/photo', {
             method: 'POST',
             body: formData,
             // headers: {
             //   'content-type': 'multipart/form-data',
             // },
           })
-            // .then(res => res.json())
-            .then(json => console.log(json))
+            .then(res => res.json())
+            .then(json => (SOSprops.animalIMG = json))
             .catch(err => console.error('Caught error: ', err));
         } else if (info.file.status === 'error') {
           message.error(`${info.file.name} file upload failed.`);
@@ -170,6 +183,43 @@ class Rescue extends Component<{} & FormComponentProps> {
           <br />
           <div>
             <div id="map" style={{ width: '100%', height: 350 }}></div>
+            <div style={{ textAlign: 'center', marginTop: '4%' }}>
+              <Button
+                type="primary"
+                onClick={async () => {
+                  if (this.state.lang === null) {
+                    await this.setState({
+                      lat: initLat,
+                      lang: initLang,
+                    });
+                    console.log('init this is states--->', this.state);
+                  }
+                  await this.setState({
+                    lat: currLat,
+                    lang: currLang,
+                  });
+                  console.log('this is states--->', this.state);
+                }}
+              >
+                위치확인 완료
+              </Button>
+            </div>
+            <div
+              id="clickLatlng"
+              style={{ textAlign: 'center', marginTop: '4%' }}
+            ></div>
+            <Divider />
+
+            {this.state.photo !== '' ? (
+              <div style={{ textAlign: 'center' }}>
+                <Avatar
+                  shape="square"
+                  size={250}
+                  icon="user"
+                  src={this.state.photo}
+                />
+              </div>
+            ) : null}
             <div style={{ marginTop: '3%', textAlign: 'center' }}>
               유기동물의 상태 , 사진을 첨부해주세요.
               <div
@@ -177,41 +227,28 @@ class Rescue extends Component<{} & FormComponentProps> {
                   marginTop: '3%',
                 }}
               >
-                <Upload {...props}>
+                <Upload {...SOSprops}>
                   <Button type="default" size="large">
                     <Icon type="upload" />
                     upload / change
                   </Button>
                 </Upload>
+                <Button
+                  style={{ marginTop: '2%' }}
+                  onClick={() => {
+                    this.setState({
+                      photo: SOSprops.animalIMG,
+                    });
+                  }}
+                >
+                  Confirm
+                </Button>
               </div>
             </div>
           </div>
-          <div
-            id="clickLatlng"
-            style={{ textAlign: 'center', marginTop: '4%' }}
-          ></div>
+
           {/* <Mutation></Mutation> */}
-          <div style={{ textAlign: 'center', marginTop: '4%' }}>
-            <Button
-              type="primary"
-              onClick={async () => {
-                if (this.state.lang === null) {
-                  await this.setState({
-                    lat: initLat,
-                    lang: initLang,
-                  });
-                  console.log('init this is states--->', this.state);
-                }
-                await this.setState({
-                  lat: currLat,
-                  lang: currLang,
-                });
-                console.log('this is states--->', this.state);
-              }}
-            >
-              위치확인 완료
-            </Button>
-          </div>
+
           <br />
 
           <br />

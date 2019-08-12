@@ -215,7 +215,6 @@ class Mypage extends Component<MyProps> {
 
                 formData.append('photo', info.fileList[0].originFileObj);
                 console.log('@@@@', info.file.originFileObj);
-
                 fetch('http://localhost:4000/photo', {
                   method: 'POST',
                   body: formData,
@@ -225,7 +224,6 @@ class Mypage extends Component<MyProps> {
                 })
                   .then(res => res.json())
                   .then(json => (userProps.userIMG = json))
-                  // .then(json => Mypage.urlSetter(json))
                   .catch(err => console.error('Caught error: ', err));
               } else if (info.file.status === 'error') {
                 message.error(`${info.file.name} file upload failed.`);
