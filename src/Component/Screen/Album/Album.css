@@ -4,12 +4,6 @@ ul {
   padding:0;
 }
 
-li {
-  margin: 0 0 0 0;
-  padding: 0 0 0 0;
-  border : 0;
-}
-
 .container {
   width: 480px;
   /* display: flex; */

@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 //import { Pagination } from 'antd';
-import { Modal, Button } from 'antd'; // Input, Select, Dropdown, Menu
+import { Input, Button, Select } from 'antd'; // Input, Select, Dropdown, Menu
 // import { fakedata } from './fakedata';
-import { FIRST_ALBUM } from './Query/QuariesAlbum';
-import { Query } from 'react-apollo';
+import { FIRST_ALBUM, SEARCH_ALBUM } from './Query/QuariesAlbum';
+import { Query, Mutation } from 'react-apollo';
 import { Loading, Err } from '../../Shared/loading';
 import SingleIMG from './SingleIMG';
 import './Album.css';
+
+const InputGroup = Input.Group;
+const { Option } = Select;
 
 interface Data {
   getFirstAlbum: {
@@ -27,6 +30,31 @@ interface Data {
     };
     err: string;
   };
+}
+
+interface getSearch {
+  success: boolean;
+  boards: {
+    id: number;
+    title: string;
+    content: string;
+    photo: string;
+    creator: {
+      id: number;
+      nickName: string;
+    };
+    boardName: string;
+    createdAt: string;
+    updatedAt: string;
+  };
+  err: string;
+}
+
+interface postSearch {
+  category: string;
+  searchWord: string;
+  lastId: number;
+  boardName: string;
 }
 
 interface Variables {
@@ -59,34 +87,29 @@ interface Variables {
 
 export default class Album extends Component {
   state = {
-    modal1_vis: false,
-    confirmLoading: false,
+    category: '',
+    searchWord: '',
+    lastId: 0,
+    boardName: 'album',
   };
 
-  showModal1 = () => {
-    console.log('open search modal');
+  selectCategory = (val: any) => {
     this.setState({
-      modal1_vis: true,
+      searchWord: val,
     });
   };
 
-  handleOk1 = () => {
-    this.setState({
-      confirmLoading: true,
-    });
-    setTimeout(() => {
-      this.setState({
-        modal1_vis: false,
-        confirmLoading: false,
-      });
-    }, 2000);
+  updateSearch = async (e: any, mufn: any) => {
+    let result: any = await mufn();
+    console.log('category :', this.state.category);
+    console.log(result);
   };
 
-  handleCancel1 = () => {
-    console.log('close search modal');
-    this.setState({
-      modal1_vis: false,
+  handleSearch = async (e: any) => {
+    await this.setState({
+      searchWord: e.target.value,
     });
+    console.log("!!'", this.state.searchWord);
   };
 
   render() {
@@ -101,44 +124,50 @@ export default class Album extends Component {
           console.log(data.getFirstAlbum.boards);
 
           const rows: any = chunk(data.getFirstAlbum.boards, 3);
-          const { modal1_vis, confirmLoading } = this.state;
+          // const { modal1_vis, confirmLoading } = this.state;
 
           return (
             <div>
-              <div style={{ marginBottom: 16 }}>
-                <Button type="primary" icon="search" onClick={this.showModal1}>
-                  Search
-                </Button>
-                <Modal
-                  title="Search"
-                  visible={modal1_vis}
-                  onOk={this.handleOk1}
-                  confirmLoading={confirmLoading}
-                  onCancel={this.handleCancel1}
-                  centered
+              <span style={{ marginBottom: 16 }}>
+                {/* search input */}
+                <Mutation<getSearch, postSearch>
+                  mutation={SEARCH_ALBUM}
+                  variables={{
+                    category: this.state.category,
+                    searchWord: this.state.searchWord,
+                    lastId: this.state.lastId,
+                    boardName: this.state.boardName,
+                  }}
                 >
-                  {/* <Form> */}
-                  <div>
-                    <p>
-                      need to set dropwon and textbox for search
-                      {/* <Dropdown overlay={menu} trigger={['click']}>
-                  검색 범위
-                </Dropdown> */}
-                      {/* <Search
-                // addonBefore={selectBefore}
-                placeholder="input search text"
-                onSearch={value => console.log(value)}
-                enterButton
-                style={{ width: 300 }}
-              /> */}
-                    </p>
-                  </div>
-                  {/* </Form> */}
-                </Modal>
+                  {addSearch => (
+                    // <InputGroup compact>
+                    <span>
+                      <Select
+                        defaultValue="제목"
+                        onSelect={(value: string) => {
+                          this.setState({ category: value });
+                        }}
+                      >
+                        {console.log(this.state.category)}
+                        <Option value="작성자">작성자</Option>
+                        <Option value="제목">제목</Option>
+                      </Select>
+                      <Input
+                        style={{ width: '40%' }}
+                        placeholder="search"
+                        onPressEnter={e => {
+                          this.updateSearch(e, addSearch);
+                        }}
+                        onChange={this.handleSearch}
+                      />
+                    </span>
+                    // </InputGroup>
+                  )}
+                </Mutation>
                 <Link to="/new">
                   <Button style={{ float: 'right' }}>New</Button>
                 </Link>
-              </div>
+              </span>
               {rows.map((row: any, idx: number) => (
                 <div className="row" key={idx}>
                   {row.map((col: any, idx: number) => (
