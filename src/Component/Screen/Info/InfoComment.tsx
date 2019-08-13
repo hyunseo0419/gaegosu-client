@@ -37,7 +37,7 @@ export default class InfoComment extends Component<
 > {
   constructor(props: any) {
     super(props);
-    console.log('commeent---->', this.props);
+
     this.state = {
       writeReply: '',
       create: false, //뮤테이션 함수에 같이 넣어서 쿼리 재렌더링 없애야함
@@ -91,7 +91,6 @@ export default class InfoComment extends Component<
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) return <Err />;
-          console.log('commentdata--->', data.getComments.comments);
           let commentData = data.getComments.comments;
           return (
             <div>

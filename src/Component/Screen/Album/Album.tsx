@@ -187,10 +187,7 @@ export default class Album extends Component {
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) return <Err />;
-          console.log(
-            '머야-->',
-            data.getFirstAlbum.boards[data.getFirstAlbum.boards.length - 1].id
-          );
+
           if (this.state.lastId === 0 && this.state.search === false) {
             this.setState({
               lastId:
@@ -204,7 +201,6 @@ export default class Album extends Component {
           //     ? chunk(this.state.data, 3)
           //     : chunk(data.getFirstAlbum.boards, 3);
           const rows = chunk(this.state.data, 3);
-          console.log('rows--->', rows);
           // const { modal1_vis, confirmLoading } = this.state;
 
           return (
