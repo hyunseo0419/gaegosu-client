@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import { Modal } from 'antd';
 
 class KaKaoSignPage extends Component {
   constructor(props: any) {

@@ -20,31 +20,12 @@ interface DATAS {
   };
 }
 
-// const Myparams = (id: any) => {
-//   return (
-//     <Menu.Item key="2">
-//       mypage
-//       <Link to={`/mypage/${id}`} />
-//     </Menu.Item>
-//   );
-// };
-
-//const Xtoken: any = localStorage.getItem('token');
-
 class Headbar extends Component {
-  logoClick = () => {
-    // <Link to={`/`} />;
-  };
-
   logoutClick = async () => {
-    //console.log('is it run???????');
     await localStorage.clear();
   };
 
   render() {
-    // const token = localStorage.getItem('token')
-    // ? localStorage.getItem('token')
-    // : null;
     return (
       <Query<DATAS> query={GET_ME}>
         {({ loading, error, data }: any) => {
@@ -66,11 +47,6 @@ class Headbar extends Component {
                     Gaego
                   </Button>
                 </a>
-                {/* <img
-            // src="https://www.clipartmax.com/png/middle/93-935635_dog-with-long-body-comments-dog-with-long-body.png"
-            alt="logo"
-            onClick={this.logoClick}
-          /> */}
               </div>
               {console.log(
                 '==============!!!!===========',
@@ -87,7 +63,7 @@ class Headbar extends Component {
                   <Menu.Item key="1" onClick={this.logoutClick}>
                     <a href="/">logout</a>
                   </Menu.Item>
-                  {/* <Myparams id={data.getMe.user.id} /> */}
+
                   <Menu.Item key="2">
                     mypage
                     <Link to={`/mypage/${data.getMe.user.id}`} />

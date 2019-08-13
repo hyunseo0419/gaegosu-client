@@ -25,7 +25,6 @@ import {
 
 import { Query, Mutation } from 'react-apollo';
 import { Loading, Err } from '../../Shared/loading';
-import Info from '../Info/Info';
 
 interface Data {
   getUser: {

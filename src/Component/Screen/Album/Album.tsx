@@ -259,7 +259,7 @@ export default class Album extends Component {
                 {rows.map((row: any, idx: number) => (
                   <div className="row" key={idx}>
                     {row.map((col: any, idx: number) => (
-                      <SingleIMG idx={idx} col={col} />
+                      <SingleIMG idx={idx} col={col} key={idx} />
                     ))}
                   </div>
                 ))}
