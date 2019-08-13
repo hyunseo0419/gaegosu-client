@@ -9,20 +9,64 @@ import './Album.css';
 import { Redirect } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import { FIRST_ALBUM, NEW_BOARD } from './Query/QuariesAlbum';
-import { Form, Input, Button, Layout, Breadcrumb } from 'antd';
+import {
+  Form,
+  Input,
+  Button,
+  Layout,
+  Breadcrumb,
+  Upload,
+  message,
+  Icon,
+} from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import Headbar from '../../Shared/Headbar';
 import Footbar from '../../Shared/Footbar';
 
 const { Content } = Layout;
 
+function getBase64(img: any, callback: any) {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
+
+function beforeUpload(file: any) {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  if (!isJpgOrPng) {
+    message.error('You can only upload JPG/PNG file!');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+  }
+  return isJpgOrPng && isLt2M;
+}
+
 class NewBoard extends React.Component<{} & FormComponentProps> {
   state = {
     title: '',
     content: '',
     boardName: 'album',
-    photo: '',
+    imageUrl: '',
     submit: false,
+    loading: false,
+  };
+
+  handleChange = (info: any) => {
+    if (info.file.status === 'uploading') {
+      this.setState({ loading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, (imageUrl: any) =>
+        this.setState({
+          imageUrl,
+          loading: false,
+        })
+      );
+    }
   };
 
   handleSubmit = (e: any, createBoard: any) => {
@@ -35,7 +79,7 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
             title: values.title,
             content: values.content,
             boardName: this.state.boardName,
-            photo: values.photo,
+            imageUrl: values.imageUrl,
           },
           async () => {
             const response = await createBoard();
@@ -50,8 +94,60 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
     });
   };
 
+  albumSetIMG = async (album: string, muFn: any) => {
+    await this.setState({
+      albumPhoto: album,
+    });
+    let result = muFn();
+    console.log('result====>', result);
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
+
+    const albumProps = {
+      name: 'file',
+      action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+      albumIMG: '',
+
+      // S3로 전송 및 저장
+      onChange(info: any) {
+        if (info.file.status !== 'uploading') {
+          console.log('--->', info.file, 'list-->', info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+          let formData = new FormData();
+
+          formData.append('photo', info.fileList[0].originFileObj);
+          console.log('@@@@', info.file.originFileObj);
+
+          fetch('http://localhost:4000/photo', {
+            method: 'POST',
+            body: formData,
+            // headers: {
+            //   'content-type': 'multipart/form-data',
+            // },
+          })
+            .then(res => res.json())
+            .then(json => (albumProps.albumIMG = json))
+            // .then(json => Mypage.urlSetter(json))
+            .catch(err => console.error('Caught error: ', err));
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
+
+    // const uploadButton = (
+    //   <div>
+    //     <Icon type={this.state.loading ? 'loading' : 'plus'} />
+    //     <div className="ant-upload-text">Upload</div>
+    //   </div>
+    // );
+
+    // const { imageUrl } = this.state;
+
     return (
       <React.Fragment>
         {this.state.submit === true ? (
@@ -68,7 +164,7 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
                     title: this.state.title,
                     content: this.state.content,
                     boardName: this.state.boardName,
-                    photo: this.state.photo,
+                    imageUrl: this.state.imageUrl,
                   }}
                   refetchQueries={[
                     {
@@ -112,7 +208,62 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
                               message: 'Photo cannot be NULL !',
                             },
                           ],
-                        })(<Input placeholder="Photo" />)}
+                        })(
+                          // <Input placeholder="Photo" />
+                          <div
+                            style={{
+                              textAlign: 'center',
+                            }}
+                          >
+                            <Upload {...albumProps} multiple={false}>
+                              <Button
+                                type="default"
+                                size="large"
+                                // onClick={this.albumSetIMG()}
+                              >
+                                <Icon type="upload" />
+                                upload / change
+                              </Button>
+                            </Upload>
+
+                            {/* <Upload
+                              name="avatar"
+                              listType="picture-card"
+                              className="avatar-uploader"
+                              showUploadList={false}
+                              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                              beforeUpload={beforeUpload}
+                              onChange={this.handleChange}
+                            >
+                              {imageUrl ? (
+                                <img
+                                  src={imageUrl}
+                                  alt="avatar"
+                                  style={{ width: '100%' }}
+                                />
+                              ) : (
+                                uploadButton
+                              )}
+                            </Upload> */}
+                            {/* <Mutation<uploadAlbum>
+                              mutation={ALBUM_IMG}
+                              variables={{
+                                profileImage: this.state.photo,
+                              }}
+                            >
+                              {postIMG => (
+                                <Button
+                                  style={{ marginTop: '2%' }}
+                                  onClick={() => {
+                                    this.albumSetIMG(albumProps.albumIMG, postIMG);
+                                  }}
+                                >
+                                  Confirm
+                                </Button>
+                              )}
+                            </Mutation> */}
+                          </div>
+                        )}
                       </Form.Item>
                       <Form.Item>
                         <Button

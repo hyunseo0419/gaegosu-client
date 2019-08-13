@@ -9,7 +9,7 @@ import { Loading, Err } from '../../Shared/loading';
 import SingleIMG from './SingleIMG';
 import './Album.css';
 
-const InputGroup = Input.Group;
+// const InputGroup = Input.Group;
 const { Option } = Select;
 
 interface Data {
