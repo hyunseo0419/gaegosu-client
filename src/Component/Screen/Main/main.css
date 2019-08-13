@@ -2,7 +2,7 @@
   position:"absolute";
   left: 50%;
   padding: '0 50px';
-  max-width: 1000px;
+  max-width: 91.83%;
   /* min-width: 800px; */
 }
 .card-container > .ant-tabs-card > .ant-tabs-content {
@@ -22,7 +22,13 @@
 
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab {
   border-color: transparent;
-  background: transparent;
+  background: white;
+  width: 155.6%;
+  align-content: space-between;
+  text-align: center;
+  
+  
+  color:#303014;
 }
 
 .card-container > .ant-tabs-card > .ant-tabs-bar .ant-tabs-tab-active {

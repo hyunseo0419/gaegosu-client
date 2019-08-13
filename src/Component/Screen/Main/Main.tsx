@@ -68,8 +68,29 @@ class Main extends Component {
             <Layout>
               <Headbar />
               <Layout>
-                <Content style={{ padding: '0 50px', marginTop: 64 }}>
-                  <Breadcrumb style={{ margin: '50px 0' }} />
+                <Content
+                  style={{
+                    padding: '0 6% 0 12%',
+                    marginTop: '4%',
+                    minHeight: 570,
+                  }}
+                >
+                  <img
+                    src="https://www.dogsandcatsoffthemenu.com/images/DCOTM-ARTWORK/DCOTM-DOGS-3.jpg"
+                    style={{ width: '91.83%', height: 150 }}
+                  />
+                  {/* <div
+                    style={{
+                      backgroundColor: 'white',
+                      textAlign: 'center',
+                      fontSize: 25,
+                      width: '91.83%',
+                      paddingBottom: '3%',
+                    }}
+                  >
+                    '개' 와 '고'양이 모두의 '수'다 공간 , 개고수입니다.
+                  </div>
+                  <Breadcrumb style={{ margin: '50px 0' }} /> */}
                   <div className="card-container">
                     <Tabs type="card" defaultActiveKey="2">
                       <TabPane tab="Report" key="1">

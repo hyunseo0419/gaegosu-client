@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Icon, Button, Avatar } from 'antd';
+import { Icon, Button, Avatar, Divider } from 'antd';
 import { Mutation } from 'react-apollo';
 import { RESCUE_COM, COMSOS } from './Mutation/MuRescue';
 // import { Redirect } from 'react-router';
@@ -71,56 +71,87 @@ export default class RescueDetail extends Component<Props> {
     }
     return (
       <div style={{ margin: '3%' }}>
-        <div style={{ float: 'left' }}>
+        <div>
           <Button
             onClick={(e: any) => this.props.back(e)}
-            style={{ marginBottom: '4%' }}
+            style={{
+              marginBottom: '4%',
+            }}
           >
             <Icon type="left" />
             Go back
           </Button>
-          <h3 style={{ marginBottom: '40%', marginTop: '40%' }}>
-            동물 : {this.props.list.content.split(',')[0]}
-          </h3>
-          <h3 style={{ marginBottom: '40%' }}>
-            상태 : {this.props.list.content.split(',')[1]}
-          </h3>
-          <h3 style={{ marginBottom: '40%' }}>
-            위치 : {this.props.list.content.split(',')[2]}
-          </h3>
+          <Divider style={{ marginTop: '-1%' }} />
         </div>
-        {this.props.list.photo !== '' ? (
-          <div style={{ float: 'left', marginLeft: '20%', marginBottom: '5%' }}>
-            <Avatar
-              shape="square"
-              size={250}
-              icon="user"
-              src={this.props.list.photo}
-            />
+        <div>
+          <div
+            className="kakaomap"
+            id="map"
+            style={{
+              textAlign: 'center',
+              width: '50%',
+              height: 300,
+              marginBottom: '7%',
+              marginTop: '3.5%',
+              marginRight: '3.5%',
+              float: 'right',
+              // margin: '5%',
+            }}
+          />
+          <div style={{ float: 'left' }}>
+            <div
+              style={{
+                float: 'left',
+                marginLeft: '20%',
+                marginBottom: '5%',
+                textAlign: 'center',
+              }}
+            >
+              {this.props.list.photo !== '' ? (
+                <Avatar
+                  shape="square"
+                  size={250}
+                  icon="user"
+                  src={this.props.list.photo}
+                />
+              ) : (
+                <Avatar
+                  shape="square"
+                  size={250}
+                  icon="user"
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCk0PhUNBlZeeI86ZYuxVQQoMc2SVNxbgk8nk6nh9AV78sEzWI"
+                />
+              )}
+              <h3
+                style={{
+                  marginBottom: '4%',
+                  marginTop: '4%',
+                  textAlign: 'left',
+                }}
+              >
+                동물 : {this.props.list.content.split(',')[0]}
+              </h3>
+              <h3 style={{ marginBottom: '4%', textAlign: 'left' }}>
+                상태 : {this.props.list.content.split(',')[1]}
+              </h3>
+              <h3 style={{ marginBottom: '4%', textAlign: 'left' }}>
+                위치 : {this.props.list.content.split(',')[2]}
+              </h3>
+            </div>
           </div>
-        ) : null}
-        <div
-          className="kakaomap"
-          id="map"
-          style={{
-            textAlign: 'center',
-            width: '70%',
-            height: 350,
-            marginTop: '1%',
-          }}
-        />
-
+        </div>
+        <Divider />
         <Mutation<COMSOS>
           mutation={RESCUE_COM}
           variables={{ id: this.props.list.id }}
         >
           {status => (
-            <div style={{ marginTop: '10%', marginLeft: '35%' }}>
+            <div style={{ marginTop: '5%', marginLeft: '35%' }}>
               <Button
                 onClick={e => {
                   this.sosComplete(e, status);
                 }}
-                style={{ marginBottom: '4%' }}
+                style={{ marginBottom: '4%', backgroundColor: '#FBE233' }}
               >
                 Rescue Complete
               </Button>
