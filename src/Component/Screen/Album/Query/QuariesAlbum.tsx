@@ -112,11 +112,6 @@ export const GET_CONTENT = gql`
         }
       }
     }
-    getLikes(board: $id, boardName: $boardName) {
-      isLike
-      likesCount
-      err
-    }
   }
 `;
 
@@ -146,6 +141,16 @@ export const LIKE = gql`
       success
       err
       isLogin
+    }
+  }
+`;
+
+export const GET_LIKE = gql`
+  query getLike($id: Int!, $boardName: String!) {
+    getLikes(board: $id, boardName: $boardName) {
+      isLike
+      likesCount
+      err
     }
   }
 `;
