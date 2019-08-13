@@ -58,3 +58,13 @@
 .average {
   margin-bottom: 3px;
 }
+
+.infocomment {
+  margin-left: 10px;
+  display: flex;
+  justify-content: space-between
+}
+
+.commentid {
+  margin-left: 10px;
+}

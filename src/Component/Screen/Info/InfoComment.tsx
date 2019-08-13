@@ -96,6 +96,19 @@ export default class InfoComment extends Component<
             <div>
               <div>
                 {commentData.map((value: any, i: any) => {
+                  let date = new Date(Number(value.comment.createdAt));
+                  let month = date.getMonth() + 1;
+                  let created =
+                    date.getFullYear() +
+                    '년 ' +
+                    month +
+                    '월 ' +
+                    date.getDate() +
+                    '일 ' +
+                    date.getHours() +
+                    '시 ' +
+                    date.getMinutes() +
+                    '분 ';
                   return (
                     <div
                       className="commentbox"
@@ -111,39 +124,45 @@ export default class InfoComment extends Component<
                               {value.comment.creator.nickName}
                             </Link>
                           </div>
-                          <div className="commentcreatAt">
-                            {value.comment.createdAt}
-                          </div>
+                          <div className="commentcreatAt">{created}</div>
                         </div>
-                        <div className="comment">{value.comment.content}</div>
-                      </div>
-                      {value.isMe === true ? (
-                        <Mutation<DeleteCommentData, DelteteCommentVariables>
-                          mutation={MU_DELETECOMMENT}
-                          variables={{ id: value.comment.id }}
-                          refetchQueries={[
-                            {
-                              query: QU_COMMENTPOINT,
-                              variables: {
-                                id: hospitalid,
-                                boardName: 'info',
-                              },
-                            },
-                          ]}
-                        >
-                          {deleteComment => (
-                            <Button
-                              onClick={e => {
-                                this.deleteMyComment(e, deleteComment);
-                              }}
+                        <div className="infocomment">
+                          {value.comment.content}
+                          {value.isMe === true ? (
+                            <Mutation<
+                              DeleteCommentData,
+                              DelteteCommentVariables
                             >
-                              삭제
-                            </Button>
+                              mutation={MU_DELETECOMMENT}
+                              variables={{ id: value.comment.id }}
+                              refetchQueries={[
+                                {
+                                  query: QU_COMMENTPOINT,
+                                  variables: {
+                                    id: hospitalid,
+                                    boardName: 'info',
+                                  },
+                                },
+                              ]}
+                            >
+                              {deleteComment => (
+                                <Button
+                                  type="danger"
+                                  ghost
+                                  size="small"
+                                  onClick={e => {
+                                    this.deleteMyComment(e, deleteComment);
+                                  }}
+                                >
+                                  삭제
+                                </Button>
+                              )}
+                            </Mutation>
+                          ) : (
+                            <div></div>
                           )}
-                        </Mutation>
-                      ) : (
-                        <div></div>
-                      )}
+                        </div>
+                      </div>
                     </div>
                   );
                 })}
