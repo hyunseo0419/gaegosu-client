@@ -47,7 +47,7 @@ export default class SingleIMG extends Component<Props, State> {
           onCancel={this.handleCancel2}
           centered
           footer={[]}
-          width={'80%'}
+          width={750}
           bodyStyle={{ height: 400 }}
         >
           <SingleContent boards={this.props.col} />
