@@ -31,17 +31,17 @@ function getBase64(img: any, callback: any) {
   reader.readAsDataURL(img);
 }
 
-function beforeUpload(file: any) {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
-    message.error('You can only upload JPG/PNG file!');
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('Image must smaller than 2MB!');
-  }
-  return isJpgOrPng && isLt2M;
-}
+// function beforeUpload(file: any) {
+//   const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+//   if (!isJpgOrPng) {
+//     message.error('You can only upload JPG/PNG file!');
+//   }
+//   const isLt2M = file.size / 1024 / 1024 < 2;
+//   if (!isLt2M) {
+//     message.error('Image must smaller than 2MB!');
+//   }
+//   return isJpgOrPng && isLt2M;
+// }
 
 class NewBoard extends React.Component<{} & FormComponentProps> {
   state = {
@@ -53,33 +53,33 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
     loading: false,
   };
 
-  handleChange = (info: any) => {
-    if (info.file.status === 'uploading') {
-      this.setState({ loading: true });
-      return;
-    }
-    if (info.file.status === 'done') {
-      // Get this url from response in real world.
-      getBase64(info.file.originFileObj, (imageUrl: any) =>
-        this.setState({
-          imageUrl,
-          loading: false,
-        })
-      );
-    }
-  };
+  // handleChange = (info: any) => {
+  //   if (info.file.status === 'uploading') {
+  //     this.setState({ loading: true });
+  //     return;
+  //   }
+  //   if (info.file.status === 'done') {
+  //     // Get this url from response in real world.
+  //     getBase64(info.file.originFileObj, (imageUrl: any) =>
+  //       this.setState({
+  //         imageUrl,
+  //         loading: false,
+  //       })
+  //     );
+  //   }
+  // };
 
-  handleSubmit = (e: any, createBoard: any) => {
+  handleSubmit = (e: any, createBoard: any, photo: string) => {
     e.preventDefault();
     this.props.form.validateFields((err: any | null, values: any | null) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        console.log('Received values of form: ', photo);
         this.setState(
           {
             title: values.title,
             content: values.content,
             boardName: this.state.boardName,
-            imageUrl: values.imageUrl,
+            imageUrl: photo,
           },
           async () => {
             const response = await createBoard();
@@ -130,8 +130,10 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
             // },
           })
             .then(res => res.json())
-            .then(json => (albumProps.albumIMG = json))
-            // .then(json => Mypage.urlSetter(json))
+            .then(json => console.log('this is json :', json)) //(albumProps.albumIMG = json)
+            .then(test =>
+              console.log('uploaded image url :', albumProps.albumIMG)
+            )
             .catch(err => console.error('Caught error: ', err));
         } else if (info.file.status === 'error') {
           message.error(`${info.file.name} file upload failed.`);
@@ -176,7 +178,7 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
                   {(createBoard: any) => (
                     <Form
                       onSubmit={e => {
-                        this.handleSubmit(e, createBoard);
+                        this.handleSubmit(e, createBoard, albumProps.albumIMG);
                       }}
                       className="login-form"
                     >
@@ -215,7 +217,12 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
                               textAlign: 'center',
                             }}
                           >
-                            <Upload {...albumProps} multiple={false}>
+                            <Upload
+                              {...albumProps}
+                              multiple={false}
+                              onChange={data => albumProps.onChange(data)}
+                            >
+                              {/* this.setState({ imageUrl: data }) */}
                               <Button
                                 type="default"
                                 size="large"
