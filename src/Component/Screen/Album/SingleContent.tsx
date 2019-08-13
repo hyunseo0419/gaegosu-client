@@ -31,11 +31,6 @@ interface Data {
       };
     };
   };
-  // getLikes: {
-  //   isLike: boolean;
-  //   likesCount: number;
-  //   err: string;
-  // };
 }
 
 interface getAddComm {
@@ -79,47 +74,36 @@ export default class SingleContent extends React.Component<Props, State> {
 
   updateComment = async (e: any, mufn: any) => {
     let result: any = await mufn();
-
+    console.log(result);
     this.setState({
       toggle: this.state.toggle ? false : true,
     });
-    console.log('create Comment :', this.state.toggle, result);
   };
 
   deleteComment = async (e: any, mufn: any) => {
     let result: any = await mufn();
-
+    console.log(result);
     this.setState({
       toggle: this.state.toggle ? false : true,
     });
-    console.log('delete Comment :', this.state.toggle, result);
   };
 
   handleComment = async (e: any) => {
     await this.setState({
       comment: e.target.value,
     });
-    console.log("!!'", this.state.comment);
   };
 
   render() {
-    console.log('Received Data', this.props.boards);
     return (
       <Query<Data, Variables>
         query={GET_CONTENT}
         variables={{ id: this.props.boards.id, boardName: 'album' }}
-        // onCompleted={data => this.setLike(data.getLikes.isLike)}
       >
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) return <Err />;
           const comments: any = data.getComments.comments;
-          // this.setState({
-          //   like: data.getLikes.isLike,
-          // });
-          // this.state.like = data.getLikes.isLike;
-          console.log('received comments :', comments);
-          // console.log('Like status :', like);
 
           return (
             <div className="container">
@@ -132,9 +116,8 @@ export default class SingleContent extends React.Component<Props, State> {
                 <div>photo title : {this.props.boards.title}</div>
                 <div>content : {this.props.boards.content}</div>
                 <div>
-                  {/* /////////////// LIKE //////////////// */}
                   <LikeBTN boards={this.props.boards} />
-                  {/* //////////////  ADD COMMENT ////////////// */}
+
                   <Mutation<getAddComm, postAddComm>
                     mutation={ADD_COMMENT}
                     variables={{
@@ -167,14 +150,11 @@ export default class SingleContent extends React.Component<Props, State> {
 
                 <div>comment</div>
                 <div>
-                  {/* ////////////// SHOW COMMENT ////////////// */}
                   {comments.map((comment: any, idx: number) => (
                     <div>
                       {console.log('comment :', comment)}
                       <img
                         className="profile"
-                        // src={this.props.boards.photo}
-                        // alt={this.props.boards.photo}
                         src={comment.comment.creator.profileImage}
                         alt={comment.comment.creator.profileImage}
                       />
@@ -182,35 +162,7 @@ export default class SingleContent extends React.Component<Props, State> {
                         {comment.comment.creator.nickName}
                       </Link>
                       {comment.comment.content}
-                      {/* <Mutation<getEditComm, postEditComm>
-                        mutation={EDIT_COMMENT}
-                        variables={{
-                          commentId: comment.comment.id,
-                          comment: ''
-                        }}
-                        refetchQueries={[
-                          {
-                            query: GET_CONTENT,
-                            variables: {
-                              id: this.props.boards.id,
-                              boardName: 'album',
-                            },
-                          },
-                        ]}
-                      >
-                        {delComment => (
-                          <>
-                          <Button
-                            onClick={e => {
-                              this.deleteComment(e, delComment);
-                            }}
-                          >
-                            edit
-                          </Button>
-                          add input space
-                          </>
-                        )}
-                      </Mutation> */}
+
                       <Mutation<getDelComm, postDelComm>
                         mutation={DEL_COMMENT}
                         variables={{
@@ -247,11 +199,3 @@ export default class SingleContent extends React.Component<Props, State> {
     );
   }
 }
-
-// mutate({
-//     mutation: ADD_COMMENT,
-//     variables: {
-//       ...values
-//     },
-//     refetchQueries: [`getContent`]
-//   })

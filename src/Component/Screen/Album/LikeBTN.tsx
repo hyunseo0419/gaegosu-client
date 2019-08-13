@@ -3,7 +3,6 @@ import { Query, Mutation } from 'react-apollo';
 import { LIKE, GET_LIKE } from './Query/QuariesAlbum';
 import { Button, Icon } from 'antd';
 import { Loading, Err } from '../../Shared/loading';
-import client from '../../../apolloClient';
 
 interface Data {
   getLikes: {
