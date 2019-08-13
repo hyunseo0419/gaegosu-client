@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Input, Button, Modal } from 'antd';
+import { Input, Button, Modal, Avatar } from 'antd';
 import {
   MU_CRETECOMMENT,
   CreateCommentData,
@@ -37,7 +37,7 @@ export default class InfoComment extends Component<
 > {
   constructor(props: any) {
     super(props);
-    console.log('commeent---->', this.props);
+
     this.state = {
       writeReply: '',
       create: false, //뮤테이션 함수에 같이 넣어서 쿼리 재렌더링 없애야함
@@ -91,7 +91,6 @@ export default class InfoComment extends Component<
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) return <Err />;
-          console.log('commentdata--->', data.getComments.comments);
           let commentData = data.getComments.comments;
           return (
             <div>
@@ -102,7 +101,9 @@ export default class InfoComment extends Component<
                       className="commentbox"
                       key={value.comment.creator.nickName + i}
                     >
-                      <div className="avatar">사진</div>
+                      <div className="avatar">
+                        <Avatar src={value.comment.creator.profileImage} />
+                      </div>
                       <div className="eachcommentbox">
                         <div className="commentinfobox">
                           <div className="commentid">
