@@ -4,22 +4,37 @@ ul {
   padding:0;
 }
 
-.container {
-  width: 480px;
-  /* display: flex; */
+.albumContainer {
+  width: auto;
+  display: flex;
 }
+
 .box-left {
   width: 48%;
-  height: 240px;
-  flex: 1;
+  height: auto;
+  flex: 15;
+}
+
+.box-left-image {
+  width: 100%;
+  height: auto;
+  flex: 15;
 }
 .box-center {
-  background: orange;
-  flex: 3;
+  flex: 1;
   text-align: center;
 }
+
 .box-right {
-  flex: 1;
+  flex: 15;
+}
+
+.demo-infinite-container {
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  overflow: auto;
+  padding: 8px 24px;
+  height: 180px;
 }
 
 .tab {
@@ -36,47 +51,44 @@ ul {
   width: 50%;
 }
 
-.thumb1 { 
-    object-fit: cover;
-    /* width: 250px; */
-    width: 33%;
-    /* width: 20em; */
-    /* height: 250px; */
-    /* min-width: 30%; */
-  }
-  
-  /* .thumb1:hover { YOUR HOVER STYLES HERE } */
+.thumb-wrapper { 
+  position: relative;
+  overflow: auto;
+  float: left;
+  width: 32%;
+  height: 0;
+  padding-bottom: 32%;
+  margin-right: 2px;
+  margin-bottom: 2px;
+}
 
-  .thumb {
-    display: block;
-    overflow: hidden;
-    height: 200px;
-    width: 200px;
-  }
-  
-  .thumb img {
-    display: block; /* Otherwise it keeps some space around baseline */
-    min-width: 30%; /* Scale up to fill container width */
-    min-height: 30%; /* Scale up to fill container height */
-    -ms-interpolation-mode: bicubic; /* Scaled images look a bit better in IE now */
-  }
+.thumb {
+  position: absolute;
+  clear: both;
+  display: block;
+	top: 2px;
+	left: 2px;
+	max-width: 100%;
+  max-height: 100%;
+}
 
-  .login-form {
-    position: fixed;
-    max-width: 300px;
-    top: 30%;
-    left: 50%;
-    margin-top: 0px;
-    margin-left: -150px;
-  }
-  .login-form-forgot {
-    float: right;
-  }
-  .login-form-button {
-    width: 100%;
-  }
-  .login-form-kakao {
-    width: 100%;
-    background-color: #ffe812;
-    color: #663300
-  }
+.login-form {
+  position: fixed;
+  max-width: 300px;
+  top: 30%;
+  left: 50%;
+  margin-top: 0px;
+  margin-left: -150px;
+}
+.login-form-forgot {
+  float: right;
+}
+.login-form-button {
+  width: 100%;
+}
+.login-form-kakao {
+  width: 100%;
+  background-color: #ffe812;
+  color: #663300
+}
+  

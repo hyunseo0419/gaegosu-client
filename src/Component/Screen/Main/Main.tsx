@@ -12,7 +12,6 @@ import Footbar from '../../Shared/Footbar';
 import './main.css';
 import Album from '../Album/Album';
 import Info from '../Info/Info';
-import Search from '../Album/Search';
 import Rescue from '../Rescue/Rescue';
 import RescueAdmin from '../Rescue/RescueAdmin';
 import { Query } from 'react-apollo';
@@ -76,14 +75,13 @@ class Main extends Component {
                       <TabPane tab="Report" key="1">
                         {data.getMe.user === null ? (
                           <AdvRescue />
-                        ) : data.getMe.user.admin === false ? (
+                        ) : data.getMe.user.admin !== false ? (
                           <RescueAdmin />
                         ) : (
                           <Rescue />
                         )}
                       </TabPane>
                       <TabPane tab="Album" key="2">
-                        <Search />
                         <Album />
                       </TabPane>
                       <TabPane tab="Info" key="3">

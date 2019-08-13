@@ -63,31 +63,58 @@ export default class RescueAdmin extends Component<{}> {
                     dataSource={SOSDatas}
                     renderItem={item => (
                       <List.Item>
-                        <List.Item.Meta
-                          avatar={<Avatar icon="alert" />}
-                          //title={<Link to="/Path">{item.title}</Link>}
-                          title={
-                            <div>
-                              <Button
-                                onClick={() => {
-                                  console.log(item);
-                                  this.changeDetailView(item);
-                                }}
-                                style={{ marginRight: '3%' }}
-                              >
-                                Show detail
-                              </Button>
-                              동물 : {item.content.split(',')[0]}
-                            </div>
-                          }
-                          description={`상태 : ${
-                            item.content.split(',')[1]
-                          } . 상세위치 : ${
-                            item.content.split(',')[2]
-                          }  .  신고자 :${
-                            item.creator.nickName
-                          } . 🚨구조상태 : ${item.status}`}
-                        />
+                        {item.status === false ? (
+                          <List.Item.Meta
+                            avatar={<Avatar icon="alert" />}
+                            title={
+                              <div>
+                                <Button
+                                  onClick={() => {
+                                    console.log(item);
+                                    this.changeDetailView(item);
+                                  }}
+                                  style={{ marginRight: '3%' }}
+                                >
+                                  Show detail
+                                </Button>
+                                동물 : {item.content.split(',')[0]}
+                              </div>
+                            }
+                            description={`상태 : ${
+                              item.content.split(',')[1]
+                            }➖상세위치 : ${
+                              item.content.split(',')[2]
+                            }➖신고자 :${item.creator.nickName}➖🔴구조상태 : ${
+                              item.status
+                            }`}
+                          />
+                        ) : (
+                          <List.Item.Meta
+                            avatar={<Avatar icon="alert" />}
+                            //title={<Link to="/Path">{item.title}</Link>}
+                            title={
+                              <div>
+                                <Button
+                                  onClick={() => {
+                                    console.log(item);
+                                    this.changeDetailView(item);
+                                  }}
+                                  style={{ marginRight: '3%' }}
+                                >
+                                  Show detail
+                                </Button>
+                                동물 : {item.content.split(',')[0]}
+                              </div>
+                            }
+                            description={`상태 : ${
+                              item.content.split(',')[1]
+                            }➖상세위치 : ${
+                              item.content.split(',')[2]
+                            }➖신고자 :${item.creator.nickName}➖🔵구조상태 : ${
+                              item.status
+                            }`}
+                          />
+                        )}
                       </List.Item>
                     )}
                   />

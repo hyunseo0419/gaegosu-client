@@ -3,7 +3,6 @@ import { Query, Mutation } from 'react-apollo';
 import { LIKE, GET_LIKE } from './Query/QuariesAlbum';
 import { Button, Icon } from 'antd';
 import { Loading, Err } from '../../Shared/loading';
-import client from '../../../apolloClient';
 
 interface Data {
   getLikes: {
@@ -54,9 +53,6 @@ export default class LikeBTN extends React.Component<Props, State> {
 
     console.log('Like result :', result);
     if (result.data.toggleLike.success === true) {
-      //   this.setState({
-      //     like: this.state.like ? false : true,
-      //   });
       console.log('clicked Like');
     } else {
       alert('login please');
@@ -74,10 +70,9 @@ export default class LikeBTN extends React.Component<Props, State> {
           if (loading) return <Loading />;
           if (error) return <Err />;
           console.log('query successful :', data);
-          //   this.setLike(data.getLikes)
 
           return (
-            <>
+            <span>
               <Mutation<getLike, postLike>
                 mutation={LIKE}
                 variables={{
@@ -96,25 +91,27 @@ export default class LikeBTN extends React.Component<Props, State> {
                 awaitRefetchQueries={false}
               >
                 {toggleLike => (
-                  <>
-                    <Button onClick={e => this.switchLike(e, toggleLike)}>
-                      {this.state.like ? (
+                  <Button onClick={e => this.switchLike(e, toggleLike)}>
+                    {this.state.like ? (
+                      <>
                         <Icon
                           type="heart"
                           theme="twoTone"
                           twoToneColor="#ff0000"
                         />
-                      ) : (
+                        {this.state.count}
+                      </>
+                    ) : (
+                      <>
                         <Icon type="heart" />
-                      )}
-                    </Button>
-                  </>
+                        {this.state.count}
+                      </>
+                    )}
+                  </Button>
                 )}
               </Mutation>
-              {/* {data.getLikes.likesCount} */}
-              {this.state.count}
               {console.log('like count :', data.getLikes.likesCount)}
-            </>
+            </span>
           );
         }}
       </Query>

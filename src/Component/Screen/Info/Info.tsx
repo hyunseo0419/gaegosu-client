@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Input, List, Avatar, Button } from 'antd';
+import { List, Avatar, Button } from 'antd';
 //import { Link } from 'react-router-dom';
 //import { RouteComponentProps } from 'react-router';
 import InfoDetail from './InfoDetail';
@@ -80,7 +80,6 @@ class Info extends Component<{}> {
   };
 
   changeDetailView = (e: any, item: any) => {
-    console.log('item---->', item);
     this.setState({
       mode: 'infoDetail',
       detail: item,
@@ -103,10 +102,7 @@ class Info extends Component<{}> {
   }
 
   render() {
-
     const { detail, locate } = this.state;
-
-    console.log('info 렌더 동작');
 
     return (
       <Query<InfoData, InfoVariables>
@@ -116,7 +112,7 @@ class Info extends Component<{}> {
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) return <Err />;
-          console.log('data--->', data.getInfoList.info);
+
           datahos = data.getInfoList.info;
           return (
             <>

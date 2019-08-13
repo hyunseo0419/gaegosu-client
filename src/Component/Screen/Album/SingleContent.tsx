@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { GET_CONTENT, ADD_COMMENT, DEL_COMMENT } from './Query/QuariesAlbum';
-import { Input, Button } from 'antd';
+import { Input, Button, Col, Avatar } from 'antd';
 import { Query, Mutation } from 'react-apollo';
 import { Loading, Err } from '../../Shared/loading';
 import LikeBTN from './LikeBTN';
@@ -13,6 +13,13 @@ interface Data {
     err: string;
     isMe: boolean;
     isLogin: boolean;
+    board: {
+      creator: {
+        id: number;
+        nickName: string;
+        profileImage: string;
+      };
+    };
   };
   getComments: {
     success: boolean;
@@ -31,11 +38,6 @@ interface Data {
       };
     };
   };
-  // getLikes: {
-  //   isLike: boolean;
-  //   likesCount: number;
-  //   err: string;
-  // };
 }
 
 interface getAddComm {
@@ -79,163 +81,146 @@ export default class SingleContent extends React.Component<Props, State> {
 
   updateComment = async (e: any, mufn: any) => {
     let result: any = await mufn();
-
+    console.log(result);
     this.setState({
       toggle: this.state.toggle ? false : true,
     });
-    console.log('create Comment :', this.state.toggle, result);
   };
 
   deleteComment = async (e: any, mufn: any) => {
     let result: any = await mufn();
-
+    console.log(result);
     this.setState({
       toggle: this.state.toggle ? false : true,
     });
-    console.log('delete Comment :', this.state.toggle, result);
   };
 
   handleComment = async (e: any) => {
     await this.setState({
       comment: e.target.value,
     });
-    console.log("!!'", this.state.comment);
   };
 
   render() {
-    console.log('Received Data', this.props.boards);
     return (
       <Query<Data, Variables>
         query={GET_CONTENT}
         variables={{ id: this.props.boards.id, boardName: 'album' }}
-        // onCompleted={data => this.setLike(data.getLikes.isLike)}
       >
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) return <Err />;
           const comments: any = data.getComments.comments;
-          // this.setState({
-          //   like: data.getLikes.isLike,
-          // });
-          // this.state.like = data.getLikes.isLike;
-          console.log('received comments :', comments);
-          // console.log('Like status :', like);
 
           return (
-            <div className="container">
-              <img
-                className="box-left"
-                src={this.props.boards.photo}
-                alt={this.props.boards.photo}
-              />
+            <div className="albumContainer">
+              <div className="box-left">
+                <img
+                  className="box-left-image"
+                  src={this.props.boards.photo}
+                  alt={this.props.boards.photo}
+                />
+              </div>
+              <div className="box-center" />
               <div className="box-right">
-                <div>photo title : {this.props.boards.title}</div>
-                <div>content : {this.props.boards.content}</div>
                 <div>
-                  {/* /////////////// LIKE //////////////// */}
-                  <LikeBTN boards={this.props.boards} />
-                  {/* //////////////  ADD COMMENT ////////////// */}
-                  <Mutation<getAddComm, postAddComm>
-                    mutation={ADD_COMMENT}
-                    variables={{
-                      boardId: this.props.boards.id,
-                      boardName: this.props.boards.boardName,
-                      content: this.state.comment,
-                    }}
-                    refetchQueries={[
-                      {
-                        query: GET_CONTENT,
-                        variables: {
-                          id: this.props.boards.id,
-                          boardName: 'album',
-                        },
-                      },
-                    ]}
-                  >
-                    {addComment => (
-                      <Input
-                        placeholder="comment"
-                        onPressEnter={e => {
-                          this.updateComment(e, addComment);
+                  <img
+                    className="profile"
+                    src={data.getAlbumContent.board.creator.profileImage}
+                    alt={data.getAlbumContent.board.creator.profileImage}
+                  />
+                  <Link to={`/mypage/${data.getAlbumContent.board.creator.id}`}>
+                    {data.getAlbumContent.board.creator.nickName}
+                  </Link>
+                  <div style={{ marginTop: 15, marginBottom: 15 }}>
+                    {this.props.boards.content}
+                  </div>
+                </div>
+                <div>
+                  <Col span={25}>
+                    <LikeBTN boards={this.props.boards} />
+                    <span>
+                      <Mutation<getAddComm, postAddComm>
+                        mutation={ADD_COMMENT}
+                        variables={{
+                          boardId: this.props.boards.id,
+                          boardName: this.props.boards.boardName,
+                          content: this.state.comment,
                         }}
-                        addonAfter="+"
-                        onChange={this.handleComment}
-                      />
-                    )}
-                  </Mutation>
+                        refetchQueries={[
+                          {
+                            query: GET_CONTENT,
+                            variables: {
+                              id: this.props.boards.id,
+                              boardName: 'album',
+                            },
+                          },
+                        ]}
+                      >
+                        {addComment => (
+                          <Col span={18}>
+                            <Input
+                              placeholder="comment"
+                              onPressEnter={e => {
+                                this.updateComment(e, addComment);
+                              }}
+                              addonAfter="+"
+                              onChange={this.handleComment}
+                            />
+                          </Col>
+                        )}
+                      </Mutation>
+                    </span>
+                  </Col>
                 </div>
 
                 <div>comment</div>
-                <div>
-                  {/* ////////////// SHOW COMMENT ////////////// */}
+                <div className="demo-infinite-container">
                   {comments.map((comment: any, idx: number) => (
-                    <div>
+                    <div className="commentbox">
                       {console.log('comment :', comment)}
-                      <img
-                        className="profile"
-                        // src={this.props.boards.photo}
-                        // alt={this.props.boards.photo}
-                        src={comment.comment.creator.profileImage}
-                        alt={comment.comment.creator.profileImage}
-                      />
-                      <Link to={`/mypage/${comment.comment.creator.id}`}>
-                        {comment.comment.creator.nickName}
-                      </Link>
-                      {comment.comment.content}
-                      {/* <Mutation<getEditComm, postEditComm>
-                        mutation={EDIT_COMMENT}
-                        variables={{
-                          commentId: comment.comment.id,
-                          comment: ''
-                        }}
-                        refetchQueries={[
-                          {
-                            query: GET_CONTENT,
-                            variables: {
-                              id: this.props.boards.id,
-                              boardName: 'album',
+                      <div className="avatar">
+                        <Avatar src={comment.comment.creator.profileImage} />
+                      </div>
+                      <div className="eachcommentbox">
+                        <div className="commentinfobox">
+                          <div className="commentid">
+                            <Link to={`/mypage/${comment.comment.creator.id}`}>
+                              {comment.comment.creator.nickName}
+                            </Link>
+                          </div>
+                        </div>
+                        <div className="comment">{comment.comment.content}</div>
+                      </div>
+                      {data.getAlbumContent.isMe ? (
+                        <Mutation<getDelComm, postDelComm>
+                          mutation={DEL_COMMENT}
+                          variables={{
+                            commentId: comment.comment.id,
+                          }}
+                          refetchQueries={[
+                            {
+                              query: GET_CONTENT,
+                              variables: {
+                                id: this.props.boards.id,
+                                boardName: 'album',
+                              },
                             },
-                          },
-                        ]}
-                      >
-                        {delComment => (
-                          <>
-                          <Button
-                            onClick={e => {
-                              this.deleteComment(e, delComment);
-                            }}
-                          >
-                            edit
-                          </Button>
-                          add input space
-                          </>
-                        )}
-                      </Mutation> */}
-                      <Mutation<getDelComm, postDelComm>
-                        mutation={DEL_COMMENT}
-                        variables={{
-                          commentId: comment.comment.id,
-                        }}
-                        refetchQueries={[
-                          {
-                            query: GET_CONTENT,
-                            variables: {
-                              id: this.props.boards.id,
-                              boardName: 'album',
-                            },
-                          },
-                        ]}
-                      >
-                        {delComment => (
-                          <Button
-                            onClick={e => {
-                              this.deleteComment(e, delComment);
-                            }}
-                          >
-                            Del
-                          </Button>
-                        )}
-                      </Mutation>
+                          ]}
+                        >
+                          {delComment => (
+                            <Button
+                              onClick={e => {
+                                this.deleteComment(e, delComment);
+                              }}
+                            >
+                              Del
+                            </Button>
+                          )}
+                        </Mutation>
+                      ) : (
+                        ''
+                      )}
                     </div>
                   ))}
                 </div>
@@ -247,11 +232,3 @@ export default class SingleContent extends React.Component<Props, State> {
     );
   }
 }
-
-// mutate({
-//     mutation: ADD_COMMENT,
-//     variables: {
-//       ...values
-//     },
-//     refetchQueries: [`getContent`]
-//   })

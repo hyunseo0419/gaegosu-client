@@ -1,9 +1,4 @@
-// form of login === https://ant.design/components/form/
-// auto complete === https://ant.design/components/auto-complete/
-// if want modal === https://ant.design/components/modal/
-
 import React from 'react';
-// import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import './signin.css';
 import { Link, Redirect } from 'react-router-dom';
@@ -14,7 +9,6 @@ import { FormComponentProps } from 'antd/lib/form';
 import Headbar from '../../Shared/Headbar';
 import Footbar from '../../Shared/Footbar';
 import client from '../../../apolloClient';
-// import { GET_ME } from '../../Shared/QuariesShared';
 
 const { Content } = Layout;
 
@@ -149,7 +143,6 @@ class Signin extends React.Component<{} & FormComponentProps> {
                             KAKAO Login
                           </Button>
                         </a>
-                        {/* <a href="/signup">SignUp</a> */}
                         <Link to={`/signup`}>signup</Link>
                       </Form.Item>
                     </Form>

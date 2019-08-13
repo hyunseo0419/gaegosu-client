@@ -13,6 +13,9 @@ import {
   Breadcrumb,
   Divider,
   Modal,
+  Upload,
+  message,
+  Avatar,
 } from 'antd';
 import { Redirect } from 'react-router-dom';
 import { FormComponentProps } from 'antd/lib/form';
@@ -73,7 +76,7 @@ class Signup extends Component<{} & FormComponentProps> {
           values.pets[i].profileImage = '';
         }
         values.admin = false;
-        values.profileImage = '';
+        values.profileImage = this.state.values.profileImage;
         values.provider = 'local';
         this.setState(
           {
@@ -218,6 +221,8 @@ class Signup extends Component<{} & FormComponentProps> {
   };
 
   render() {
+    console.log('this.state--->', this.state);
+
     const { values, val, authWord } = this.state;
     const { getFieldDecorator, getFieldValue } = this.props.form;
 
@@ -314,6 +319,73 @@ class Signup extends Component<{} & FormComponentProps> {
         ) : null}
       </Form.Item>
     ));
+
+    const signProps = {
+      name: 'file',
+      action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+      signIMG: '',
+
+      onChange(info: any) {
+        if (info.file.status !== 'uploading') {
+          console.log('--->', info.file, 'list-->', info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+          let formData = new FormData();
+
+          formData.append('photo', info.fileList[0].originFileObj);
+          console.log('@@@@', info.file.originFileObj);
+
+          fetch('http://localhost:4000/photo', {
+            method: 'POST',
+            body: formData,
+            // headers: {
+            //   'content-type': 'multipart/form-data',
+            // },
+          })
+            .then(res => res.json())
+            .then(json => (signProps.signIMG = json))
+            // .then(json => Mypage.urlSetter(json))
+            .catch(err => console.error('Caught error: ', err));
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
+
+    const petSignProps = {
+      name: 'file',
+      action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+      petIMG: '',
+
+      onChange(info: any) {
+        if (info.file.status !== 'uploading') {
+          console.log('--->', info.file, 'list-->', info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+          let formData = new FormData();
+
+          formData.append('photo', info.fileList[0].originFileObj);
+          console.log('@@@@', info.file.originFileObj);
+
+          fetch('http://localhost:4000/photo', {
+            method: 'POST',
+            body: formData,
+            // headers: {
+            //   'content-type': 'multipart/form-data',
+            // },
+          })
+            .then(res => res.json())
+            .then(json => (petSignProps.petIMG = json))
+            // .then(json => Mypage.urlSetter(json))
+            .catch(err => console.error('Caught error: ', err));
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
+
     return (
       <>
         {this.state.online === true ? (
@@ -469,8 +541,44 @@ class Signup extends Component<{} & FormComponentProps> {
                           },
                         ],
                       })(<Input style={{ width: '62%', marginRight: 8 }} />)}
+                      <Divider />
+                      <div>프로필 사진등록</div>
+
+                      <div
+                        style={{
+                          textAlign: 'center',
+                          display: 'flex',
+                          marginBottom: 10,
+                        }}
+                      >
+                        <Avatar
+                          shape="square"
+                          size={150}
+                          icon="user"
+                          src={values.profileImage}
+                        />
+                      </div>
+
+                      <Upload {...signProps} multiple={false}>
+                        <Button type="default">
+                          <Icon type="upload" />
+                          upload / change
+                        </Button>
+                      </Upload>
+                      <Button
+                        style={{ marginTop: '2%' }}
+                        onClick={() => {
+                          this.setState({
+                            values: {
+                              profileImage: signProps.signIMG,
+                            },
+                          });
+                        }}
+                      >
+                        확인
+                      </Button>
                     </Form.Item>
-                    <div className="container">
+                    <div className="petcontainer">
                       <Divider orientation="left" className="first">
                         애완동물 정보 기입 [선택사항]
                       </Divider>

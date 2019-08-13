@@ -3,8 +3,10 @@ import 'antd/dist/antd.css';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import EmailSignup from './Email-Signup';
 import SocialSignup from './Social-Signup';
+import Headbar from '../../Shared/Headbar';
+import Footbar from '../../Shared/Footbar';
 
-const { Header, Content, Footer } = Layout;
+const { Content } = Layout;
 
 class CommmonSignup extends Component {
   state = {
@@ -29,9 +31,7 @@ class CommmonSignup extends Component {
   render() {
     return (
       <Layout>
-        <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
-          <div className="logo" />
-        </Header>
+        <Headbar />
         <Content style={{ padding: '0 50px', marginTop: 64 }}>
           <Breadcrumb style={{ margin: '16px 0' }}></Breadcrumb>
 
@@ -44,19 +44,13 @@ class CommmonSignup extends Component {
               <Icon type="mail" />
               Email 회원가입
             </Menu.Item>
-            <Menu.Item key="social">
-              <Icon type="appstore" />
-              Social 회원가입
-            </Menu.Item>
           </Menu>
 
           <div style={{ background: '#fff', padding: 24, minHeight: 380 }}>
             {this.selectSingup()}
           </div>
         </Content>
-        <Footer style={{ textAlign: 'center' }}>
-          Ant Design ©2018 Created by Ant UED
-        </Footer>
+        <Footbar />
       </Layout>
     );
   }

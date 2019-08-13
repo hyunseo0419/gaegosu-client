@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-import { Input, Icon, Button } from 'antd';
+import { Icon, Button } from 'antd';
 import './InfoDetail.css';
 import './KakaoMap.css';
 import InfoComment from './InfoComment';
@@ -24,7 +24,7 @@ export default class InfoDetail extends Component<
 > {
   constructor(props: any) {
     super(props);
-    console.log('----->', this.props.item);
+
     this.state = {};
   }
 
