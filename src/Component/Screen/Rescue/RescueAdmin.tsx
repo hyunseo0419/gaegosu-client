@@ -80,12 +80,11 @@ export default class RescueAdmin extends Component<{}> {
                                 동물 : {item.content.split(',')[0]}
                               </div>
                             }
-                            description={`상태 : ${
+                            description={`구조상태 : 🔴
+                            ㅤ ㅤ            상태 : ${
                               item.content.split(',')[1]
-                            }➖상세위치 : ${
-                              item.content.split(',')[2]
-                            }➖신고자 :${item.creator.nickName}➖🔴구조상태 : ${
-                              item.status
+                            }ㅤㅤㅤ ㅤ            신고자 :${
+                              item.creator.nickName
                             }`}
                           />
                         ) : (
@@ -106,12 +105,11 @@ export default class RescueAdmin extends Component<{}> {
                                 동물 : {item.content.split(',')[0]}
                               </div>
                             }
-                            description={`상태 : ${
+                            description={`구조상태 : 🔵
+                            ㅤ ㅤ            상태 : ${
                               item.content.split(',')[1]
-                            }➖상세위치 : ${
-                              item.content.split(',')[2]
-                            }➖신고자 :${item.creator.nickName}➖🔵구조상태 : ${
-                              item.status
+                            }ㅤㅤㅤ ㅤ            신고자 :${
+                              item.creator.nickName
                             }`}
                           />
                         )}

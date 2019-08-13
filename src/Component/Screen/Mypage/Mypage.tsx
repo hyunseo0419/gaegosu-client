@@ -272,7 +272,6 @@ class Mypage extends Component<MyProps> {
               <Headbar />
 
               <Layout>
-                <Breadcrumb style={{ margin: '30px 0' }} />
                 <Content
                   style={{
                     padding: '0 50px',
@@ -282,6 +281,24 @@ class Mypage extends Component<MyProps> {
                     marginRight: '20%',
                   }}
                 >
+                  <img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSK696pWeUIrrgHW6sS6YuFg4RzOYue-RhleaIn3Pyh7WZuBQ6J"
+                    style={{
+                      width: '91.83%',
+                      height: 150,
+                      textAlign: 'center',
+                    }}
+                  />
+                  <div style={{ textAlign: 'center', fontSize: '325%' }}>
+                    <img
+                      src="https://gaegosu.s3.amazonaws.com/photo/9c2762563d335d44a24cfba4c55b6755"
+                      style={{
+                        width: '50%',
+                        marginTop: '5%',
+                        marginBottom: '5%',
+                      }}
+                    />
+                  </div>
                   <div
                     style={{
                       marginLeft: '10%',
@@ -336,7 +353,10 @@ class Mypage extends Component<MyProps> {
                             >
                               {postIMG => (
                                 <Button
-                                  style={{ marginTop: '2%' }}
+                                  style={{
+                                    marginTop: '2%',
+                                    backgroundColor: '#FBE233',
+                                  }}
                                   onClick={() => {
                                     this.userSetIMG(userProps.userIMG, postIMG);
                                   }}
@@ -377,14 +397,14 @@ class Mypage extends Component<MyProps> {
                             <div style={{ marginTop: '20%' }}>
                               <div>
                                 <Button
+                                  // style={{ backgroundColor: '#FBE233' }}
                                   type="default"
                                   size="large"
                                   onClick={this.showModal}
                                 >
                                   edit
                                 </Button>
-
-                                <Button
+                                {/* <Button
                                   type="default"
                                   size="large"
                                   onClick={() => {
@@ -395,7 +415,7 @@ class Mypage extends Component<MyProps> {
                                   }}
                                 >
                                   exit
-                                </Button>
+                                </Button> */}
                               </div>
                               <Modal
                                 title="Change info"
@@ -493,7 +513,7 @@ class Mypage extends Component<MyProps> {
                                       <Button
                                         type="default"
                                         size="large"
-                                        style={{ marginBottom: '8%' }}
+                                        style={{ marginBottom: '5%' }}
                                       >
                                         <Icon type="upload" />
                                         upload / change
@@ -516,7 +536,10 @@ class Mypage extends Component<MyProps> {
                                     >
                                       {postIMG => (
                                         <Button
-                                          style={{ marginTop: '2%' }}
+                                          style={{
+                                            marginTop: '2%',
+                                            backgroundColor: '#FBE233',
+                                          }}
                                           onClick={() => {
                                             this.petSetIMG(
                                               petProps.petIMG,

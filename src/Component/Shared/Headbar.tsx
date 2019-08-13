@@ -36,24 +36,35 @@ class Headbar extends Component {
           }
 
           return (
-            <Header style={{ position: 'fixed', zIndex: 2, width: '100%' }}>
-              <div className="logo">
+            <Header
+              style={{
+                position: 'fixed',
+                zIndex: 2,
+                width: '100%',
+                backgroundColor: '#FBE233',
+              }}
+            >
+              <span className="logo" style={{}}>
                 <a href={`/`}>
-                  <Button
-                    type="default"
-                    htmlType="button"
-                    className="login-form-kakao"
-                  >
-                    Gaego
-                  </Button>
+                  <img
+                    src="https://gaegosu.s3.ap-northeast-2.amazonaws.com/photo/ff5ce581c0c958e27f2e35ee29caa65e"
+                    style={{
+                      width: '8%',
+                      // marginTop: '-9%',
+                      marginLeft: '-5%',
+                    }}
+                  />
                 </a>
-              </div>
-              {console.log(
-                '==============!!!!===========',
-                data.getMe.err, // token expire 에러가 나왔음
-                '/',
-                data.getMe.user
-              )}
+                <img
+                  src="https://gaegosu.s3.ap-northeast-2.amazonaws.com/photo/8f7e5311c495a22cf15d6883d82aa38f"
+                  style={{
+                    width: '23%',
+
+                    marginLeft: '63%',
+                  }}
+                />
+              </span>
+
               {data.getMe.err === null && data.getMe.user ? (
                 <Menu
                   theme="light"
