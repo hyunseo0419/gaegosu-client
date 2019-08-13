@@ -33,9 +33,9 @@ export default class SingleIMG extends Component<Props, State> {
   render() {
     const { modal2_vis } = this.state;
     return (
-      <span key={this.props.idx * -1}>
+      <div className="thumb-wrapper" key={this.props.idx * -1}>
         <img
-          className="thumb1"
+          className="thumb"
           key={this.props.idx * -1}
           src={this.props.col.photo}
           alt={this.props.col}
@@ -47,10 +47,12 @@ export default class SingleIMG extends Component<Props, State> {
           onCancel={this.handleCancel2}
           centered
           footer={[]}
+          width={'80%'}
+          bodyStyle={{ height: 400 }}
         >
           <SingleContent boards={this.props.col} />
         </Modal>
-      </span>
+      </div>
     );
   }
 }

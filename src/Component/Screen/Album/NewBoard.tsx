@@ -31,11 +31,9 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
   };
 
   handleSubmit = (e: any, createBoard: any, img: string) => {
-    console.log('+++++++++++', img);
     e.preventDefault();
     this.props.form.validateFields((err: any | null, values: any | null) => {
       if (!err) {
-        console.log('Received values of form: ', values);
         this.setState(
           {
             title: values.title,
@@ -44,7 +42,6 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
             imageUrl: img,
           },
           async () => {
-            console.log('()()()()()()', this.state);
             if (this.state.imageUrl !== '') {
               const response = await createBoard();
               console.log('response---->', response);
@@ -52,7 +49,6 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
                 submit: true,
               });
             }
-            console.log('this is state for last submit!!!!!-->', this.state);
           }
         );
       }
@@ -60,9 +56,6 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
   };
 
   render() {
-    console.log('11111----->', this.state.imageUrl);
-    console.log('22222----->', this.state);
-
     const { getFieldDecorator } = this.props.form;
 
     const albumProps = {
@@ -79,7 +72,6 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
           let formData = new FormData();
 
           formData.append('photo', info.file.originFileObj);
-          console.log('@@@@', info.file.originFileObj);
 
           fetch('http://localhost:4000/photo', {
             method: 'POST',
@@ -87,9 +79,6 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
           })
             .then(res => res.json())
             .then(json => (albumProps.albumIMG = json))
-            .then(json =>
-              console.log('***************', json, '=', albumProps.albumIMG)
-            )
             .catch(err => console.error('Caught error: ', err));
         } else if (info.file.status === 'error') {
           message.error(`${info.file.name} file upload failed.`);

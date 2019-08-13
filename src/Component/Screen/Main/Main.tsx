@@ -12,7 +12,6 @@ import Footbar from '../../Shared/Footbar';
 import './main.css';
 import Album from '../Album/Album';
 import Info from '../Info/Info';
-import Search from '../Album/Search';
 import Rescue from '../Rescue/Rescue';
 import RescueAdmin from '../Rescue/RescueAdmin';
 import { Query } from 'react-apollo';
@@ -83,7 +82,6 @@ class Main extends Component {
                         )}
                       </TabPane>
                       <TabPane tab="Album" key="2">
-                        <Search />
                         <Album />
                       </TabPane>
                       <TabPane tab="Info" key="3">

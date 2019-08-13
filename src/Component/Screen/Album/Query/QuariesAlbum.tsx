@@ -94,6 +94,13 @@ export const GET_CONTENT = gql`
       err
       isMe
       isLogin
+      board {
+        creator {
+          id
+          nickName
+          profileImage
+        }
+      }
     }
     getComments(id: $id, boardName: $boardName) {
       success
