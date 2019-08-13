@@ -1,13 +1,10 @@
 import React from 'react';
-import {
-  GET_CONTENT,
-  ADD_COMMENT,
-  DEL_COMMENT,
-  LIKE,
-} from './Query/QuariesAlbum';
-import { Input, Button, Icon } from 'antd';
+import { Link } from 'react-router-dom';
+import { GET_CONTENT, ADD_COMMENT, DEL_COMMENT } from './Query/QuariesAlbum';
+import { Input, Button } from 'antd';
 import { Query, Mutation } from 'react-apollo';
 import { Loading, Err } from '../../Shared/loading';
+import LikeBTN from './LikeBTN';
 import './Album.css';
 
 interface Data {
@@ -34,22 +31,6 @@ interface Data {
       };
     };
   };
-  getLikes: {
-    isLike: boolean;
-    likesCount: number;
-    err: string;
-  };
-}
-
-interface getLike {
-  success: boolean;
-  err: string;
-  isLogin: boolean;
-}
-
-interface postLike {
-  board: number;
-  boardName: string;
 }
 
 interface getAddComm {
@@ -89,47 +70,31 @@ export default class SingleContent extends React.Component<Props, State> {
   state = {
     comment: '',
     toggle: false,
-    like: false,
-  };
-
-  switchLike = async (e: any, mufu: any) => {
-    let result: any = await mufu();
-
-    console.log('click Like result :', result);
-    // if (result)
-    this.setState({
-      like: this.state.like ? false : true,
-    });
-    console.log('clicked Like');
   };
 
   updateComment = async (e: any, mufn: any) => {
     let result: any = await mufn();
-
+    console.log(result);
     this.setState({
       toggle: this.state.toggle ? false : true,
     });
-    console.log('create Comment :', this.state.toggle, result);
   };
 
   deleteComment = async (e: any, mufn: any) => {
     let result: any = await mufn();
-
+    console.log(result);
     this.setState({
       toggle: this.state.toggle ? false : true,
     });
-    console.log('delete Comment :', this.state.toggle, result);
   };
 
   handleComment = async (e: any) => {
     await this.setState({
       comment: e.target.value,
     });
-    console.log("!!'", this.state.comment);
   };
 
   render() {
-    console.log('Received Data', this.props.boards);
     return (
       <Query<Data, Variables>
         query={GET_CONTENT}
@@ -139,7 +104,6 @@ export default class SingleContent extends React.Component<Props, State> {
           if (loading) return <Loading />;
           if (error) return <Err />;
           const comments: any = data.getComments.comments;
-          console.log('received comments :', comments);
 
           return (
             <div className="container">
@@ -152,41 +116,8 @@ export default class SingleContent extends React.Component<Props, State> {
                 <div>photo title : {this.props.boards.title}</div>
                 <div>content : {this.props.boards.content}</div>
                 <div>
-                  <Mutation<getLike, postLike>
-                    mutation={LIKE}
-                    variables={{
-                      board: this.props.boards.id,
-                      boardName: this.props.boards.boardName,
-                    }}
-                    refetchQueries={[
-                      {
-                        query: GET_CONTENT,
-                        variables: {
-                          id: this.props.boards.id,
-                          boardName: 'album',
-                        },
-                      },
-                    ]}
-                  >
-                    {toggleLike => (
-                      <Button onClick={e => this.switchLike(e, toggleLike)}>
-                        {this.state.like ? (
-                          <Icon
-                            type="heart"
-                            theme="twoTone"
-                            twoToneColor="#ff0000"
-                          />
-                        ) : (
-                          <Icon type="heart" />
-                        )}
-                      </Button>
-                    )}
-                  </Mutation>
-                  {data.getLikes.likesCount}
-                  {console.log(
-                    'where is like count ... ',
-                    data.getLikes.likesCount
-                  )}
+                  <LikeBTN boards={this.props.boards} />
+
                   <Mutation<getAddComm, postAddComm>
                     mutation={ADD_COMMENT}
                     variables={{
@@ -224,15 +155,14 @@ export default class SingleContent extends React.Component<Props, State> {
                       {console.log('comment :', comment)}
                       <img
                         className="profile"
-                        src={this.props.boards.photo}
-                        alt={this.props.boards.photo}
-                        // src={comment.comment.creator.profileImage}
-                        // alt={comment.comment.creator.profileImage}
+                        src={comment.comment.creator.profileImage}
+                        alt={comment.comment.creator.profileImage}
                       />
-                      <a href={`/mypage/${comment.comment.creator.id}`}>
+                      <Link to={`/mypage/${comment.comment.creator.id}`}>
                         {comment.comment.creator.nickName}
-                      </a>
+                      </Link>
                       {comment.comment.content}
+
                       <Mutation<getDelComm, postDelComm>
                         mutation={DEL_COMMENT}
                         variables={{
@@ -254,7 +184,7 @@ export default class SingleContent extends React.Component<Props, State> {
                               this.deleteComment(e, delComment);
                             }}
                           >
-                            Delete
+                            Del
                           </Button>
                         )}
                       </Mutation>
@@ -269,11 +199,3 @@ export default class SingleContent extends React.Component<Props, State> {
     );
   }
 }
-
-// mutate({
-//     mutation: ADD_COMMENT,
-//     variables: {
-//       ...values
-//     },
-//     refetchQueries: [`getContent`]
-//   })

@@ -24,7 +24,7 @@ export default class InfoDetail extends Component<
 > {
   constructor(props: any) {
     super(props);
-    console.log('----->', this.props.item);
+
     this.state = {};
   }
 

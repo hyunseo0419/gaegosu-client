@@ -1,15 +1,19 @@
-// form of login === https://ant.design/components/form/
-// auto complete === https://ant.design/components/auto-complete/
-// if want modal === https://ant.design/components/modal/
-
 import React from 'react';
-// import ReactDOM from 'react-dom';
 import 'antd/dist/antd.css';
 import './Album.css';
 import { Redirect } from 'react-router-dom';
 import { Mutation } from 'react-apollo';
 import { FIRST_ALBUM, NEW_BOARD } from './Query/QuariesAlbum';
-import { Form, Input, Button, Layout, Breadcrumb } from 'antd';
+import {
+  Form,
+  Input,
+  Button,
+  Layout,
+  Breadcrumb,
+  Upload,
+  message,
+  Icon,
+} from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import Headbar from '../../Shared/Headbar';
 import Footbar from '../../Shared/Footbar';
@@ -21,11 +25,13 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
     title: '',
     content: '',
     boardName: 'album',
-    photo: '',
+    imageUrl: '',
     submit: false,
+    loading: false,
   };
 
-  handleSubmit = (e: any, createBoard: any) => {
+  handleSubmit = (e: any, createBoard: any, img: string) => {
+    console.log('+++++++++++', img);
     e.preventDefault();
     this.props.form.validateFields((err: any | null, values: any | null) => {
       if (!err) {
@@ -35,15 +41,18 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
             title: values.title,
             content: values.content,
             boardName: this.state.boardName,
-            photo: values.photo,
+            imageUrl: img,
           },
           async () => {
-            const response = await createBoard();
-
-            console.log('create New Board :', response);
-            this.setState({
-              submit: true,
-            });
+            console.log('()()()()()()', this.state);
+            if (this.state.imageUrl !== '') {
+              const response = await createBoard();
+              console.log('response---->', response);
+              this.setState({
+                submit: true,
+              });
+            }
+            console.log('this is state for last submit!!!!!-->', this.state);
           }
         );
       }
@@ -51,7 +60,43 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
   };
 
   render() {
+    console.log('11111----->', this.state.imageUrl);
+    console.log('22222----->', this.state);
+
     const { getFieldDecorator } = this.props.form;
+
+    const albumProps = {
+      name: 'file',
+      action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+      albumIMG: '',
+
+      onChange(info: any) {
+        if (info.file.status !== 'uploading') {
+          console.log('--->', info.file, 'list-->', info.fileList);
+        }
+        if (info.file.status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully`);
+          let formData = new FormData();
+
+          formData.append('photo', info.file.originFileObj);
+          console.log('@@@@', info.file.originFileObj);
+
+          fetch('http://localhost:4000/photo', {
+            method: 'POST',
+            body: formData,
+          })
+            .then(res => res.json())
+            .then(json => (albumProps.albumIMG = json))
+            .then(json =>
+              console.log('***************', json, '=', albumProps.albumIMG)
+            )
+            .catch(err => console.error('Caught error: ', err));
+        } else if (info.file.status === 'error') {
+          message.error(`${info.file.name} file upload failed.`);
+        }
+      },
+    };
+
     return (
       <React.Fragment>
         {this.state.submit === true ? (
@@ -68,7 +113,7 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
                     title: this.state.title,
                     content: this.state.content,
                     boardName: this.state.boardName,
-                    photo: this.state.photo,
+                    photo: this.state.imageUrl,
                   }}
                   refetchQueries={[
                     {
@@ -80,7 +125,7 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
                   {(createBoard: any) => (
                     <Form
                       onSubmit={e => {
-                        this.handleSubmit(e, createBoard);
+                        this.handleSubmit(e, createBoard, albumProps.albumIMG);
                       }}
                       className="login-form"
                     >
@@ -112,7 +157,23 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
                               message: 'Photo cannot be NULL !',
                             },
                           ],
-                        })(<Input placeholder="Photo" />)}
+                        })(
+                          <div
+                            style={{
+                              textAlign: 'center',
+                            }}
+                          >
+                            <Upload
+                              {...albumProps}
+                              onChange={data => albumProps.onChange(data)}
+                            >
+                              <Button type="default" size="large">
+                                <Icon type="upload" />
+                                upload / change
+                              </Button>
+                            </Upload>
+                          </div>
+                        )}
                       </Form.Item>
                       <Form.Item>
                         <Button
