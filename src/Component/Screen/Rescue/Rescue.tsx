@@ -219,7 +219,7 @@ class Rescue extends Component<{} & FormComponentProps> {
       return (
         <div>
           <div>요청이 완료되었습니다.</div>
-          <a href="http://localhost:3000">
+          <a href="http://gaegosu-client.s3-website.ap-northeast-2.amazonaws.com">
             <Button>확인</Button>
           </a>
         </div>
