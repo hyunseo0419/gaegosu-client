@@ -122,6 +122,58 @@ class Rescue extends Component<{} & FormComponentProps> {
         });
       });
     }
+    var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+      mapOption = {
+        center: new kakao.maps.LatLng(37.503286044998404, 127.0498633976286), // 지도의 중심좌표
+        level: 3, // 지도의 확대 레벨
+      };
+    initLat = 37.503286044998404;
+    initLang = 127.0498633976286;
+    this.setState({
+      lat: initLat,
+      lang: initLang,
+    });
+    var map = new kakao.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
+    var marker = new kakao.maps.Marker({
+      // 지도 중심좌표에 마커를 생성합니다
+      position: map.getCenter(),
+    });
+    // 지도에 마커를 표시합니다
+    marker.setMap(map);
+
+    // 지도에 클릭 이벤트를 등록합니다
+    // 지도를 클릭하면 마지막 파라미터로 넘어온 함수를 호출합니다
+    kakao.maps.event.addListener(map, 'click', function(mouseEvent: any) {
+      // 클릭한 위도, 경도 정보를 가져옵니다
+      var latlng = mouseEvent.latLng;
+
+      // 마커 위치를 클릭한 위치로 옮깁니다
+      marker.setPosition(latlng);
+
+      var message =
+        '클릭한 위치의 위도는 ' +
+        latlng
+          .getLat()
+          .toString()
+          .slice(0, 10) +
+        ' 이고, ';
+      message +=
+        '경도는 ' +
+        latlng
+          .getLng()
+          .toString()
+          .slice(0, 10) +
+        ' 입니다';
+
+      currLat = latlng.getLat();
+      currLang = latlng.getLng();
+      console.log('이츠 좌표쓰-->', currLat, currLang);
+
+      var resultDiv = document.getElementById('clickLatlng');
+      if (resultDiv !== null) {
+        resultDiv.innerHTML = message;
+      }
+    });
   };
 
   render() {
@@ -167,7 +219,7 @@ class Rescue extends Component<{} & FormComponentProps> {
       return (
         <div>
           <div>요청이 완료되었습니다.</div>
-          <a href="http://localhost:3000">
+          <a href="http://gaegosu-client.s3-website.ap-northeast-2.amazonaws.com">
             <Button>확인</Button>
           </a>
         </div>
