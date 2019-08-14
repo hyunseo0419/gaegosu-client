@@ -13,6 +13,7 @@ import {
 import { FormComponentProps } from 'antd/lib/form';
 import { Mutation } from 'react-apollo';
 import { POSTSOS, POST_RESCUE, POSTVALUES } from './Mutation/MuRescue';
+import { Redirect } from 'react-router';
 
 const { TabPane } = Tabs;
 
@@ -219,9 +220,9 @@ class Rescue extends Component<{} & FormComponentProps> {
       return (
         <div>
           <div>요청이 완료되었습니다.</div>
-          <a href="http://gaegosu-client.s3-website.ap-northeast-2.amazonaws.com/#/">
+          <Redirect to="/">
             <Button>확인</Button>
-          </a>
+          </Redirect>
         </div>
       );
     }

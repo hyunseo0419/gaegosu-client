@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Icon, Button, Avatar, Divider } from 'antd';
 import { Mutation } from 'react-apollo';
 import { RESCUE_COM, COMSOS } from './Mutation/MuRescue';
+import { Redirect } from 'react-router';
 // import { Redirect } from 'react-router';
 
 declare var kakao: any;
@@ -63,9 +64,9 @@ export default class RescueDetail extends Component<Props> {
       return (
         <div>
           <div>구조 확인이 완료되었습니다.</div>
-          <a href="http://gaegosu-client.s3-website.ap-northeast-2.amazonaws.com/#/">
+          <Redirect to="/">
             <Button>확인</Button>
-          </a>
+          </Redirect>
         </div>
       );
     }
