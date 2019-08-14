@@ -214,7 +214,7 @@ class Mypage extends Component<MyProps> {
 
                 formData.append('photo', info.fileList[0].originFileObj);
                 console.log('@@@@', info.file.originFileObj);
-                fetch('http://localhost:4000/photo', {
+                fetch('http://15.164.212.171:4000/photo', {
                   method: 'POST',
                   body: formData,
                   // headers: {
@@ -246,7 +246,7 @@ class Mypage extends Component<MyProps> {
                 formData.append('photo', info.fileList[0].originFileObj);
                 console.log('@@@@', info.file.originFileObj);
 
-                fetch('http://localhost:4000/photo', {
+                fetch('http://15.164.212.171:4000/photo', {
                   method: 'POST',
                   body: formData,
                   // headers: {

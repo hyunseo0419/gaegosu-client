@@ -134,7 +134,7 @@ class Signin extends React.Component<{} & FormComponentProps> {
                         >
                           Log in
                         </Button>
-                        <a href="http://localhost:4000/kakao">
+                        <a href="http://15.164.212.171:4000/kakao">
                           <Button
                             type="default"
                             htmlType="button"
