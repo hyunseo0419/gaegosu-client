@@ -133,7 +133,7 @@ export default class Album extends Component {
           if (loading) return <Loading />;
           if (error) return <Err />;
 
-          if (this.state.lastId === 0 && this.state.search === false) {
+          if (this.state.lastId === 0 && this.state.search === false && data.getFirstAlbum.boards.length !== 0) {
             this.setState({
               lastId:
                 data.getFirstAlbum.boards[data.getFirstAlbum.boards.length - 1]

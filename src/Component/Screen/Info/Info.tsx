@@ -51,10 +51,10 @@ class Info extends Component<{}> {
           // );
           this.setState({
             locate: {
-              // locationX: position.coords.longitude, //내위치 없어서 임의로 아래 것 넣음
-              // locationY: position.coords.latitude,
-              locationX: 126.870856565175,
-              locationY: 37.5444197827755,
+              locationX: position.coords.longitude, //내위치 없어서 임의로 아래 것 넣음
+              locationY: position.coords.latitude,
+              // locationX: 126.870856565175,
+              // locationY: 37.5444197827755,
             },
           });
         },
@@ -129,7 +129,7 @@ class Info extends Component<{}> {
                       }}
                     />
                   </div> */}
-                  자신의 위치에서 반경 2KM이내에 동물병원을 자동 검색 - 내 위치
+                  자신의 위치에서 반경 4KM이내에 동물병원을 자동 검색 - 내 위치
                   미 허용시 선릉역 위워크 기준
                   <div>
                     <List

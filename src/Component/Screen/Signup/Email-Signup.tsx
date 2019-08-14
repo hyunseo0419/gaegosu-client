@@ -391,7 +391,12 @@ class Signup extends Component<{} & FormComponentProps> {
         {this.state.online === true ? (
           <Redirect to={'/login'} />
         ) : (
-          <Content style={{ padding: '0 50px', marginTop: 64 }}>
+          <Content
+            style={{
+              padding: '0 50px',
+              marginTop: 64,
+            }}
+          >
             <Breadcrumb style={{ margin: '16px 0' }}></Breadcrumb>
             <div style={{ background: '#fff', padding: 24, minHeight: 380 }}>
               <Mutation<Data, MVariables>
