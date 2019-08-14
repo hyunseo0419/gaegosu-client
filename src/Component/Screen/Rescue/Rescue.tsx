@@ -19,7 +19,7 @@ const { TabPane } = Tabs;
 declare var kakao: any;
 
 function callback(key: any) {
-  console.log(key);
+  //console.log(key);
 }
 let currLat: any = null;
 let currLang: any = null;
@@ -37,7 +37,7 @@ class Rescue extends Component<{} & FormComponentProps> {
 
   postSOSgo = async (e: any, mufn: any) => {
     let result = await mufn();
-    console.log(result);
+    //console.log(result);
     if (result.data.createRescue.success === true) {
       alert('구조 요청이 완료되었습니다.');
       this.setState({
@@ -50,12 +50,12 @@ class Rescue extends Component<{} & FormComponentProps> {
     e.preventDefault();
     this.props.form.validateFields(async (err, values) => {
       if (!err) {
-        console.log(Object.values(values).join(','));
+        //console.log(Object.values(values).join(','));
         let detail = Object.values(values).join(',');
         await this.setState({
           detail: detail,
         });
-        console.log('$$$$$$$$', this.state);
+        //console.log('$$$$$$$$', this.state);
       }
     });
   };
@@ -113,7 +113,7 @@ class Rescue extends Component<{} & FormComponentProps> {
 
           currLat = latlng.getLat();
           currLang = latlng.getLng();
-          console.log('이츠 좌표쓰-->', currLat, currLang);
+          //console.log('이츠 좌표쓰-->', currLat, currLang);
 
           var resultDiv = document.getElementById('clickLatlng');
           if (resultDiv !== null) {
@@ -167,7 +167,7 @@ class Rescue extends Component<{} & FormComponentProps> {
 
       currLat = latlng.getLat();
       currLang = latlng.getLng();
-      console.log('이츠 좌표쓰-->', currLat, currLang);
+      //console.log('이츠 좌표쓰-->', currLat, currLang);
 
       var resultDiv = document.getElementById('clickLatlng');
       if (resultDiv !== null) {
@@ -183,14 +183,14 @@ class Rescue extends Component<{} & FormComponentProps> {
       animalIMG: '',
       onChange(info: any) {
         if (info.file.status !== 'uploading') {
-          console.log('--->', info.file, 'list-->', info.fileList);
+          //console.log('--->', info.file, 'list-->', info.fileList);
         }
         if (info.file.status === 'done') {
           message.success(`${info.file.name} file uploaded successfully`);
           let formData = new FormData();
 
           formData.append('photo', info.file.originFileObj);
-          console.log('@@@@', info.file.originFileObj);
+          //console.log('@@@@', info.file.originFileObj);
           fetch('http://15.164.212.171:4000/photo', {
             method: 'POST',
             body: formData,
@@ -244,13 +244,13 @@ class Rescue extends Component<{} & FormComponentProps> {
                       lat: initLat,
                       lang: initLang,
                     });
-                    console.log('init this is states--->', this.state);
+                    //console.log('init this is states--->', this.state);
                   }
                   await this.setState({
                     lat: currLat,
                     lang: currLang,
                   });
-                  console.log('this is states--->', this.state);
+                  //console.log('this is states--->', this.state);
                 }}
               >
                 위치확인 완료

@@ -16,14 +16,14 @@ export default class SingleIMG extends Component<Props, State> {
   };
 
   handleCancel2 = () => {
-    console.log('close a image');
+    //console.log('close a image');
     this.setState({
       modal2_vis: false,
     });
   };
 
   ClickPhoto = (data: any) => {
-    console.log('open a image');
+    //console.log('open a image');
 
     this.setState({
       modal2_vis: true,

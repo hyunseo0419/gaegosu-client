@@ -44,7 +44,7 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
           async () => {
             if (this.state.imageUrl !== '') {
               const response = await createBoard();
-              console.log('response---->', response);
+              //console.log('response---->', response);
               this.setState({
                 submit: true,
               });
@@ -65,7 +65,7 @@ class NewBoard extends React.Component<{} & FormComponentProps> {
 
       onChange(info: any) {
         if (info.file.status !== 'uploading') {
-          console.log('--->', info.file, 'list-->', info.fileList);
+          //console.log('--->', info.file, 'list-->', info.fileList);
         }
         if (info.file.status === 'done') {
           message.success(`${info.file.name} file uploaded successfully`);

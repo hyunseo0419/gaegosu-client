@@ -110,7 +110,7 @@ export default class Album extends Component {
     const resSearchAlbum = await searchAlbum();
 
     let newData = Array.from(this.state.data);
-    console.log('newData--->', newData);
+    //console.log('newData--->', newData);
     if (resSearchAlbum.data.searchAlbum.boards.length !== 0) {
       newData = newData.concat(resSearchAlbum.data.searchAlbum.boards);
       this.setState({

@@ -41,7 +41,7 @@ export default class LikeBTN extends React.Component<Props, State> {
   };
 
   setLike = (like: any) => {
-    console.log('after complete Query :', like);
+    //console.log('after complete Query :', like);
     this.setState({
       like: like.isLike,
       count: like.likesCount,
@@ -51,9 +51,9 @@ export default class LikeBTN extends React.Component<Props, State> {
   switchLike = async (e: any, mufu: any) => {
     let result: any = await mufu();
 
-    console.log('Like result :', result);
+    //console.log('Like result :', result);
     if (result.data.toggleLike.success === true) {
-      console.log('clicked Like');
+      //console.log('clicked Like');
     } else {
       alert('login please');
     }
@@ -69,7 +69,7 @@ export default class LikeBTN extends React.Component<Props, State> {
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) return <Err />;
-          console.log('query successful :', data);
+          //console.log('query successful :', data);
 
           return (
             <span>

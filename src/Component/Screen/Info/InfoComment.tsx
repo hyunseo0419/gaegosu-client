@@ -51,7 +51,7 @@ export default class InfoComment extends Component<
 
   replyWrite = (e: any) => {
     reply = e.target.value;
-    console.log('reply-->', reply);
+    //console.log('reply-->', reply);
     this.setState({
       writeReply: reply,
     });
@@ -73,7 +73,7 @@ export default class InfoComment extends Component<
 
   deleteMyComment = async (e: any, deleteComment: any) => {
     const resDeleteData = await deleteComment();
-    console.log('resDeleteData--->', resDeleteData);
+    //console.log('resDeleteData--->', resDeleteData);
     if (resDeleteData.data.deleteComment.isLogin === false) {
       alert('로그아웃 후 재로그인');
     }

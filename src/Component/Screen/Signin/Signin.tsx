@@ -23,7 +23,7 @@ class Signin extends React.Component<{} & FormComponentProps> {
     e.preventDefault();
     this.props.form.validateFields((err: any | null, values: any | null) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        //console.log('Received values of form: ', values);
         this.setState(
           {
             username: values.username,
@@ -31,7 +31,7 @@ class Signin extends React.Component<{} & FormComponentProps> {
           },
           async () => {
             const response = await localLogin();
-            console.log('login response ======== ', response);
+            //console.log('login response ======== ', response);
             if (response.data.localLogin.isLogin === false) {
               alert(response.data.localLogin.err);
               this.setState({
