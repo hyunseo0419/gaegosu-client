@@ -55,6 +55,7 @@ class Headbar extends Component {
                     }}
                   />
                 </a>
+
                 <img
                   src="https://gaegosu.s3.ap-northeast-2.amazonaws.com/photo/8f7e5311c495a22cf15d6883d82aa38f"
                   style={{
@@ -69,7 +70,12 @@ class Headbar extends Component {
                 <Menu
                   theme="light"
                   mode="horizontal"
-                  style={{ position: 'fixed', right: 0, lineHeight: '64px' }}
+                  style={{
+                    position: 'fixed',
+                    left: '87.3%',
+                    right: 0,
+                    lineHeight: '455%',
+                  }}
                 >
                   <Menu.Item key="1" onClick={this.logoutClick}>
                     <a href="/">logout</a>
@@ -84,7 +90,7 @@ class Headbar extends Component {
                 <Menu
                   theme="light"
                   mode="horizontal"
-                  style={{ position: 'fixed', right: 0, lineHeight: '64px' }}
+                  style={{ position: 'fixed', right: 0, lineHeight: '455%' }}
                 >
                   <Menu.Item key="2">
                     Login

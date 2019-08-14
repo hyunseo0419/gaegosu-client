@@ -95,7 +95,7 @@ export default class InfoDetail extends Component<
           </div>
           <div>
             <div className="maparea">
-              <div className="kakaomap" id="staticMap" />
+              <div className="kakaomapinfo" id="staticMap" />
             </div>
             <ul className="roadlist">
               <li className="roadAddress">

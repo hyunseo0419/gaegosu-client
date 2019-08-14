@@ -7,7 +7,7 @@ const { Footer } = Layout;
 class Footbar extends Component {
   render() {
     return (
-      <Footer style={{ textAlign: 'center', bottom: 0 }}>
+      <Footer style={{ textAlign: 'center', bottom: '0%' }}>
         corp. Gaegosoo ©2019 Created by Gaegosaeng
       </Footer>
     );
