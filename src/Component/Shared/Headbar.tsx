@@ -55,6 +55,7 @@ class Headbar extends Component {
                     }}
                   />
                 </a>
+
                 <img
                   src="https://gaegosu.s3.ap-northeast-2.amazonaws.com/photo/8f7e5311c495a22cf15d6883d82aa38f"
                   style={{

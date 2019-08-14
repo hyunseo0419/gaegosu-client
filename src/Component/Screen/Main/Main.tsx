@@ -72,7 +72,7 @@ class Main extends Component {
                   style={{
                     padding: '0 6% 0 12%',
                     marginTop: '4%',
-                    minHeight: 570,
+                    minHeight: '200%',
                   }}
                 >
                   <img
