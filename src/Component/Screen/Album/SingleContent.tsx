@@ -124,10 +124,8 @@ export default class SingleContent extends React.Component<Props, State> {
               <div className="box-center" />
               <div className="box-right">
                 <div>
-                  <img
-                    className="profile"
+                  <Avatar
                     src={data.getAlbumContent.board.creator.profileImage}
-                    alt={data.getAlbumContent.board.creator.profileImage}
                   />
                   <Link to={`/mypage/${data.getAlbumContent.board.creator.id}`}>
                     {data.getAlbumContent.board.creator.nickName}
@@ -192,7 +190,7 @@ export default class SingleContent extends React.Component<Props, State> {
                         </div>
                         <div className="comment">{comment.comment.content}</div>
                       </div>
-                      {data.getAlbumContent.isMe ? (
+                      {comment.isMe ? (
                         <Mutation<getDelComm, postDelComm>
                           mutation={DEL_COMMENT}
                           variables={{

@@ -88,7 +88,7 @@ export default class LikeBTN extends React.Component<Props, State> {
                     },
                   },
                 ]}
-                awaitRefetchQueries={false}
+                awaitRefetchQueries={true}
               >
                 {toggleLike => (
                   <Button onClick={e => this.switchLike(e, toggleLike)}>
