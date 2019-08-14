@@ -60,10 +60,10 @@ class Main extends Component {
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) {
-            console.log(error);
+            //console.log(error);
             return <Err />;
           }
-          console.log('getMe--->', data);
+          //console.log('getMe--->', data);
           return (
             <Layout>
               <Headbar />

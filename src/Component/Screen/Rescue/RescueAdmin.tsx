@@ -27,7 +27,7 @@ export default class RescueAdmin extends Component<{}> {
     list: {},
   };
   changeDetailView = async (item: any) => {
-    console.log('item---->', item);
+    //console.log('item---->', item);
     await this.setState({
       mode: true,
       list: item,
@@ -46,9 +46,9 @@ export default class RescueAdmin extends Component<{}> {
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) return <Err />;
-          console.log('data--->', data);
+          //console.log('data--->', data);
           SOSDatas = data.getRescueList.rescueList;
-          console.log('DATA@!!@!!@', SOSDatas);
+          //console.log('DATA@!!@!!@', SOSDatas);
           return (
             <>
               {this.state.mode ? (
@@ -70,7 +70,7 @@ export default class RescueAdmin extends Component<{}> {
                               <div>
                                 <Button
                                   onClick={() => {
-                                    console.log(item);
+                                    //console.log(item);
                                     this.changeDetailView(item);
                                   }}
                                   style={{ marginRight: '3%' }}
@@ -95,7 +95,7 @@ export default class RescueAdmin extends Component<{}> {
                               <div>
                                 <Button
                                   onClick={() => {
-                                    console.log(item);
+                                    //console.log(item);
                                     this.changeDetailView(item);
                                   }}
                                   style={{ marginRight: '3%' }}

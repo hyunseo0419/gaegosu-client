@@ -53,13 +53,13 @@ class Info extends Component<{}> {
             locate: {
               locationX: position.coords.longitude, //내위치 없어서 임의로 아래 것 넣음
               locationY: position.coords.latitude,
-              // locationX: 126.870856565175,
-              // locationY: 37.5444197827755,
+              //locationX: 126.870856565175,
+              //locationY: 37.5444197827755,
             },
           });
         },
         error => {
-          console.error(error);
+          //console.error(error);
           this.setState({
             locate: {
               locationX: 127.0498633976286, //좌표값 거부하면 선릉역 위워크 기준
@@ -75,7 +75,7 @@ class Info extends Component<{}> {
       );
     } else {
       alert('GPS를 지원하지 않습니다');
-      console.log('gps 거부');
+      //console.log('gps 거부');
     }
   };
 

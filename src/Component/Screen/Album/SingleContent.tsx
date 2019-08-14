@@ -81,7 +81,7 @@ export default class SingleContent extends React.Component<Props, State> {
 
   updateComment = async (e: any, mufn: any) => {
     let result: any = await mufn();
-    console.log(result);
+    //console.log(result);
     this.setState({
       toggle: this.state.toggle ? false : true,
     });
@@ -89,7 +89,7 @@ export default class SingleContent extends React.Component<Props, State> {
 
   deleteComment = async (e: any, mufn: any) => {
     let result: any = await mufn();
-    console.log(result);
+    //console.log(result);
     this.setState({
       toggle: this.state.toggle ? false : true,
     });

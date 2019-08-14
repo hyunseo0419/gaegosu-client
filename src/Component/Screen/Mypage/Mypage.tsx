@@ -96,8 +96,8 @@ const { Content } = Layout;
 class Mypage extends Component<MyProps> {
   constructor(props: any) {
     super(props);
-    console.log('this is props!!!!!!!!!', props.match.params.id);
-    console.log('this is props!!!!!!!!!', props);
+    //console.log('this is props!!!!!!!!!', props.match.params.id);
+    //console.log('this is props!!!!!!!!!', props);
   }
 
   state = {
@@ -136,13 +136,13 @@ class Mypage extends Component<MyProps> {
     await this.setState({
       newPW: e.target.value,
     });
-    console.log("!!'", this.state.newPW);
+    //console.log("!!'", this.state.newPW);
   };
 
   updatePassword = async (e: any, mufn: any) => {
     let result: any = await mufn();
 
-    console.log(result);
+    //console.log(result);
     if (result.data.changePassWord.success) {
       return alert('비밀번호 변경이 완료되었습니다.');
     }
@@ -153,7 +153,7 @@ class Mypage extends Component<MyProps> {
     await this.setState({
       newNN: e.target.value,
     });
-    console.log(this.state.newNN);
+    //console.log(this.state.newNN);
   };
 
   updateNickName = async (e: any, mufn: any) => {
@@ -169,7 +169,7 @@ class Mypage extends Component<MyProps> {
       userPhoto: user,
     });
     let result = muFn();
-    console.log('result====>', result);
+    //console.log('result====>', result);
   };
 
   petSetIMG = async (pet: string, muFn: any) => {
@@ -177,7 +177,7 @@ class Mypage extends Component<MyProps> {
       petPhoto: pet,
     });
     let result = muFn();
-    console.log('result====>', result);
+    //console.log('result====>', result);
   };
 
   // changeUserIMG = (user: string, mufn) => {
@@ -188,14 +188,14 @@ class Mypage extends Component<MyProps> {
 
   // =====================================================================================
   render() {
-    console.log(Number(this.props.match.params.id));
+    //console.log(Number(this.props.match.params.id));
     const personalId = Number(this.props.match.params.id);
     return (
       <Query<Data, Variables> query={MY_PROFILE} variables={{ id: personalId }}>
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) return <Err />;
-          console.log(data);
+          //console.log(data);
 
           // =====================file uploead part==============================
 
@@ -206,14 +206,14 @@ class Mypage extends Component<MyProps> {
 
             onChange(info: any) {
               if (info.file.status !== 'uploading') {
-                console.log('--->', info.file, 'list-->', info.fileList);
+                //console.log('--->', info.file, 'list-->', info.fileList);
               }
               if (info.file.status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully`);
                 let formData = new FormData();
 
                 formData.append('photo', info.fileList[0].originFileObj);
-                console.log('@@@@', info.file.originFileObj);
+                //console.log('@@@@', info.file.originFileObj);
                 fetch('http://15.164.212.171:4000/photo', {
                   method: 'POST',
                   body: formData,
@@ -237,14 +237,14 @@ class Mypage extends Component<MyProps> {
 
             onChange(info: any) {
               if (info.file.status !== 'uploading') {
-                console.log('--->', info.file, 'list-->', info.fileList);
+                //console.log('--->', info.file, 'list-->', info.fileList);
               }
               if (info.file.status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully`);
                 let formData = new FormData();
 
                 formData.append('photo', info.fileList[0].originFileObj);
-                console.log('@@@@', info.file.originFileObj);
+                //console.log('@@@@', info.file.originFileObj);
 
                 fetch('http://15.164.212.171:4000/photo', {
                   method: 'POST',

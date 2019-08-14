@@ -14,7 +14,7 @@ class CommmonSignup extends Component {
   };
 
   handleClick = (e: any) => {
-    console.log('click ', e);
+    //console.log('click ', e);
     this.setState({
       current: e.key,
     });

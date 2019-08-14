@@ -69,12 +69,14 @@ export default class Infostarpoint extends Component<
           return (
             <div className="stararea">
               <div className="average">
+                <div>동물병원 평점</div>
                 <Rate disabled value={data.getRate.rate} />
               </div>
               {data.getRate.isLogin === false ? (
                 <div></div>
               ) : (
-                <div>
+                <div style={{ marginTop: 30 }}>
+                  <div>동물병원을 평가해주세요!!</div>
                   <span>
                     <Rate
                       tooltips={desc}
@@ -108,7 +110,6 @@ export default class Infostarpoint extends Component<
                       )}
                     </Mutation>
                   </span>
-                  <p>동물병원을 평가해주세요!!</p>
                 </div>
               )}
             </div>

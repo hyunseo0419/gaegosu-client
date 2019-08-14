@@ -26,7 +26,7 @@ class SocialSignup extends Component<{} & FormComponentProps> {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        //console.log('Received values of form: ', values);
       }
     });
   };
@@ -55,7 +55,7 @@ class SocialSignup extends Component<{} & FormComponentProps> {
     const { form } = this.props;
     // can use data-binding to get
     const keys = form.getFieldValue('keys');
-    console.log('keys--->', keys);
+    //console.log('keys--->', keys);
     const nextKeys = keys.concat(id++);
     // can use data-binding to set
     // important! notify form to detect changes
@@ -96,7 +96,7 @@ class SocialSignup extends Component<{} & FormComponentProps> {
     };
     getFieldDecorator('keys', { initialValue: [] });
     const keys = getFieldValue('keys');
-    console.log('keys--->', keys);
+    //console.log('keys--->', keys);
     const formItems = keys.map((k: any, index: any) => (
       <Form.Item
         {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}

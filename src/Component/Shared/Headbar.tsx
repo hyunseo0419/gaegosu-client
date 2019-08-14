@@ -31,7 +31,7 @@ class Headbar extends Component {
         {({ loading, error, data }: any) => {
           if (loading) return <Loading />;
           if (error) {
-            console.log(error);
+            //console.log(error);
             return <Err />;
           }
 

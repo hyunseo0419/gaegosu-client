@@ -61,11 +61,11 @@ class Signup extends Component<{} & FormComponentProps> {
 
   handleSubmit = (e: any, localsignUp: any) => {
     e.preventDefault();
-    console.log('handelSubmit');
+    //console.log('handelSubmit');
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log(err);
+      //console.log(err);
       if (!err) {
-        console.log('Received values of form: ', values);
+        //console.log('Received values of form: ', values);
 
         values.pets = [];
         for (var i = 0; i < values.keys.length; i++) {
@@ -85,7 +85,7 @@ class Signup extends Component<{} & FormComponentProps> {
           async () => {
             if (this.state.auth && this.state.send) {
               const response = await localsignUp();
-              console.log('response---->', response);
+              //console.log('response---->', response);
               this.setState({
                 online: true,
               });
@@ -196,7 +196,7 @@ class Signup extends Component<{} & FormComponentProps> {
 
   checkEmail = async (e: any, emailSend: any) => {
     const rescheckData = await emailSend();
-    console.log('rescheckData--->', rescheckData.data.emailSend);
+    //console.log('rescheckData--->', rescheckData.data.emailSend);
     this.setState({
       send: rescheckData.data.emailSend,
     });
@@ -209,7 +209,7 @@ class Signup extends Component<{} & FormComponentProps> {
 
   authSend = async (e: any, emailAuth: any) => {
     const resauthData = await emailAuth();
-    console.log('resauthData---->', resauthData.data.emailAuth);
+    //console.log('resauthData---->', resauthData.data.emailAuth);
     this.setState({
       auth: resauthData.data.emailAuth,
     });
@@ -221,7 +221,7 @@ class Signup extends Component<{} & FormComponentProps> {
   };
 
   render() {
-    console.log('this.state--->', this.state);
+    //console.log('this.state--->', this.state);
 
     const { values, val, authWord } = this.state;
     const { getFieldDecorator, getFieldValue } = this.props.form;
@@ -327,14 +327,14 @@ class Signup extends Component<{} & FormComponentProps> {
 
       onChange(info: any) {
         if (info.file.status !== 'uploading') {
-          console.log('--->', info.file, 'list-->', info.fileList);
+          //console.log('--->', info.file, 'list-->', info.fileList);
         }
         if (info.file.status === 'done') {
           message.success(`${info.file.name} file uploaded successfully`);
           let formData = new FormData();
 
           formData.append('photo', info.fileList[0].originFileObj);
-          console.log('@@@@', info.file.originFileObj);
+          //console.log('@@@@', info.file.originFileObj);
 
           fetch('http://15.164.212.171:4000/photo', {
             method: 'POST',
@@ -360,15 +360,15 @@ class Signup extends Component<{} & FormComponentProps> {
 
       onChange(info: any) {
         if (info.file.status !== 'uploading') {
-          console.log('--->', info.file, 'list-->', info.fileList);
+          //console.log('--->', info.file, 'list-->', info.fileList);
         }
         if (info.file.status === 'done') {
           message.success(`${info.file.name} file uploaded successfully`);
           let formData = new FormData();
 
           formData.append('photo', info.fileList[0].originFileObj);
-          console.log('@@@@', info.file.originFileObj);
-
+          //console.log('@@@@', info.file.originFileObj);
+          //'http://15.164.212.171:4000/photo
           fetch('http://15.164.212.171:4000/photo', {
             method: 'POST',
             body: formData,
