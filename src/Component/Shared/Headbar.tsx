@@ -69,7 +69,12 @@ class Headbar extends Component {
                 <Menu
                   theme="light"
                   mode="horizontal"
-                  style={{ position: 'fixed', right: 0, lineHeight: '64px' }}
+                  style={{
+                    position: 'fixed',
+                    left: '87.3%',
+                    right: 0,
+                    lineHeight: '455%',
+                  }}
                 >
                   <Menu.Item key="1" onClick={this.logoutClick}>
                     <a href="/">logout</a>
@@ -84,7 +89,7 @@ class Headbar extends Component {
                 <Menu
                   theme="light"
                   mode="horizontal"
-                  style={{ position: 'fixed', right: 0, lineHeight: '64px' }}
+                  style={{ position: 'fixed', right: 0, lineHeight: '455%' }}
                 >
                   <Menu.Item key="2">
                     Login
