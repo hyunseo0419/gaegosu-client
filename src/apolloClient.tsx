@@ -1,6 +1,6 @@
 import ApolloClient from 'apollo-boost';
 const client = new ApolloClient({
-  uri: 'http://15.164.212.171:4000:4000/',
+  uri: 'http://15.164.212.171:4000/',
   // cache,
 
   request: async operation => {
