@@ -7,6 +7,7 @@
 
 ### Project log
 
+조금 더 선명한 시연 화면을 보고 싶으시다면 [이 곳](https://analogcoding.tistory.com/173)을 참고해 주세요.
 프로젝트 진행 로그는 [이 곳](https://www.notion.so/Project-Team-Notion-Page-b7ceac21407c41ac852740b478bb7283)을 참고해 주세요.
 
 <br/>
@@ -53,14 +54,40 @@
 
 <img src='https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FpHtrr%2FbtqzYDcRiou%2FXCwjeHxdRea5nVarH3jTh0%2Fimg.gif' width='600' height='400' />
 
+<br/>
 
+### `마이페이지`
 
-<img src='' width='600' height='400' />
-<img src='' width='600' height='400' />
-<img src='' width='600' height='400' />
-<img src='' width='600' height='400' />
-<img src='' width='600' height='400' />
-<img src='' width='600' height='400' />
-<img src='' width='600' height='400' />
-<img src='' width='600' height='400' />
-<img src='' width='600' height='400' />
+유저 정보 , 프로필 사진을 변경할 수 있는 마이페이지입니다. 토큰을 확인해서 정보 변경이 가능합니다.
+
+<img src='https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FnW3O2%2FbtqzZcr5f50%2FzF7h6jqQ6kkC43xkg4orOk%2Fimg.gif' width='600' height='400' />
+
+<br/>
+
+### `동물병원 정보 확인 및 리뷰 , 평점`
+
+동물병원 위치와 평점
+
+<img src='https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FVBypO%2FbtqzYMHqVNC%2FfwGEs57jeBn1jLNl9OJte1%2Fimg.gif' width='600' height='400' />
+
+동물병원 리뷰
+
+<img src='https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FbPovYv%2FbtqzZKPD58P%2FPqcnFzEtaU4NaGT0E1aew0%2Fimg.gif' width='600' height='400' />
+
+<br/>
+
+### `유기동물 구조요청 , 확인`
+
+<img src='https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FcTDt5R%2FbtqzYLV1uh9%2FkybXbNdnuGSzVjHQqGgLk1%2Fimg.gif' width='600' height='400' />
+
+관리자는 요청된 정보를 확인하고 구조 유무로 완료를 처리할 수 있습니다.
+
+<img src='https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fk.kakaocdn.net%2Fdn%2FI0lW3%2FbtqzYLodOGH%2FqCHkebRmo54CJyKytmwugk%2Fimg.gif' width='600' height='400' />
+
+## `Start`
+
+```
+npm install
+npm start
+
+```
